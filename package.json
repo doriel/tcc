@@ -1,0 +1,29 @@
+{
+  "name": "jobz",
+  "version": "1.0.0",
+  "description": "Um pequeno portal de empregos voltado para o profissionais de TI, Design e Marketing Digital",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flowck/tcc.git"
+  },
+  "keywords": [
+    "Portal",
+    "empregos",
+    "nodejs",
+    "mysql",
+    "tcc"
+  ],
+  "author": "Firmino Changani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flowck/tcc/issues"
+  },
+  "homepage": "https://github.com/flowck/tcc#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
