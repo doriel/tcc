@@ -2,12 +2,16 @@
 * Todas as rotas da aplicação web estão definidas aqui
 */
 
-// Dependências
-const express = require('express');
 
-// Iniciar o Router do express
-let router = express.Router();
+// Exporta o script
+module.exports = (app) => {
 
-router.get('/login', (req, res) => {
-	res.send('Login form');
-});
+	app.get('/', (req, res) => {
+		res.send('Base do meu TCC');
+	});
+
+	app.get('/login', (req, res) => {
+		res.render('login');
+	});
+
+}

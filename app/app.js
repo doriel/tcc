@@ -4,6 +4,7 @@
 
 // Dependências do projecto
 const express = require('express');
+//const pug = require('pug');
 const router = require('./routes');
 
 // Iniciar o express
@@ -14,10 +15,8 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 app.use(express.static(`${__dirname}/public`));
 
-// Rotas
-app.get('/', (req, res) => {
-	res.send('Olá Mundo');
-});
+// Iniciar o script das rotas
+router(app);
 
 // Escutar o servidor de aplicação numa porta
 const port = 3000;

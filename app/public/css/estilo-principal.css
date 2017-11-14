@@ -1,0 +1,85 @@
+/* Reiniciar as proprieadades todas */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* Tipos de fontes */
+@font-face{
+	font-family: 'Roboto-Light';
+	src: url('../fonts/Roboto-Light.ttf');
+}
+
+@font-face{
+	font-family: 'Roboto-Regular';
+	src: url('../fonts/Roboto-Regular.ttf');
+}
+
+@font-face{
+	font-family: 'Roboto-Bold';
+	src: url('../fonts/Roboto-Bold.ttf');
+}
+
+body{
+	font-family: 'Roboto-Regular', 'sans-serif';
+}
+
+/* Titulos */
+h1, h2, h3, h4, h5, h6, b, strong{
+	font-family: 'Roboto-Bold', 'sans-serif';
+	font-weight: normal;
+}
+
+h1.j-title{
+	font-family: 'Roboto-Light', 'sans-serif';
+}
+
+/* Formulários */
+.j-inp{
+	width: 100%;
+}
+
+.j-inp label,
+.j-inp .input{
+	display: block;
+}
+
+/* Alinhamentos */
+.left-col{
+	float: left;
+}
+
+.right-col{
+	float: right;
+}
+
+.vertical-center{
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+}
+
+/*
+*	Login e Criar conta
+*/
+.painel-home{
+	width: 50%;
+	height: 100%;
+	position: relative;
+	padding: 0 20px;
+}
+
+.painel-home .vertical-center{
+	width: 90%;
+}
+
+.painel-msg{
+	color: #FFF;
+}
+
+.painel-login{
+	background-image: url('../img/login-img.jpg');
+	background-size: cover;
+}
