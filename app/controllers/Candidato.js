@@ -45,9 +45,11 @@ module.exports.criarConta = (req, res) => {
 					`
 				});
 
-				res.json({
+				/*res.json({
 					message: "A sua conta foi criada com sucesso"
-				});
+				});*/
+				// Redireciona para a página de confirmar conta
+				res.redirect('/confirmarconta');
 			});
 
 		} else {
@@ -57,7 +59,36 @@ module.exports.criarConta = (req, res) => {
 		}
 	});
 
-	// Enviar Mail de Confirmação
+}
 
+/*
+*	Confirmar a conta com o código de confirmação
+*/
+module.exports.confirmarConta = (req, res) => {
+
+	let { codigoDeConfirmacao } = req.body;
+	
+	let sql = `SELECT codigo_de_confirmacao, email FROM candidato WHERE codigo_de_confirmacao = '${codigoDeConfirmacao}'`;
+	db.query(sql, (err, resultado) => {
+
+		// Comparar os códigos de confirmações 
+		if (resultado[0].codigo_de_confirmacao === codigoDeConfirmacao) {
+
+			let emailDB = resultado[0].email;
+
+			// Actualizar o campo codigo_de_confirmacao na base de dados
+			let sqlConfirmacao = `UPDATE candidato SET codigo_de_confirmacao = '0' WHERE email = '${emailDB}'`;
+			db.query(sqlConfirmacao, (err, resultado) => {
+				if(err) throw err;
+			});
+
+		} else {
+			// Caso o código não for semelhante então mostrar o form para 
+			// 
+			res.redirect('/reenviarcodigo');
+		}
+
+		res.send(resultado);
+	});
 
 }

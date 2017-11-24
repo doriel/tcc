@@ -14,6 +14,28 @@ html
 					input(type="text" name="ultimoNome" required placeholder="Último nome" class="jbz-inp")
 
 			.form-inp
+				.col-left
+					label Data de nascimento
+					input(type="date" name="dataDeNascimento" required placeholder="Data de nascimento" class="jbz-inp")
+				.col-left
+					label Nacionalidade
+					include ./include/paises
+
+			.form-inp
+				.col-left
+					label Naturalidade
+					input(type="text" name="naturalidade" required placeholder="Naturalidade" class="jbz-inp")
+				.col-left
+					label Genero
+					select(name="genero")
+						option(value="Masculino") Masculino
+						option(value="Feminino") Feminino
+
+			.form-inp
+				label Província onde reside
+				input(type="text" name="provinciaOndeReside" required placeholder="Província onde reside" class="jbz-inp")
+
+			.form-inp
 				label Email
 				input(type="email" required name="email" placeholder="Email" class="jbz-inp")
 
