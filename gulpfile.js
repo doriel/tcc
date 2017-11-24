@@ -22,15 +22,14 @@ gulp.task('stylus', () => {
 });
 
 gulp.task('eslint', () => {
-	return gulp.src(['app/**/*.js', 'app/*.js'])
+	return gulp.src(['app/public/**/*.js', 'app/public/*.js'])
 		.pipe(eslint())
 		.pipe(eslint.format())
 		.pipe(eslint.failAfterError());
 });
 
 gulp.task('watch', () => {
-	//watch(filesToWatch, ['stylus']);
-	watch('app/app.js', 'eslint');
+	watch('app/public/styl/*.styl', ['stylus']);
 });
 
 // Tarefa padrão
