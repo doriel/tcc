@@ -1,0 +1,30 @@
+html
+	head
+		meta(charset="utf-8")
+		title Criar conta - Jobz
+	body
+		h1 Criar conta
+		form(action="/criarconta" method="post")
+			.form-inp
+				.col-left
+					label Primeiro nome
+					input(type="text" name="primeiroNome" required placeholder="Primeiro nome" class="jbz-inp")
+				.col-left
+					label Último nome
+					input(type="text" name="ultimoNome" required placeholder="Último nome" class="jbz-inp")
+
+			.form-inp
+				label Email
+				input(type="email" required name="email" placeholder="Email" class="jbz-inp")
+
+			.form-inp
+				.col-left
+					label Password
+					input(type="password" required name="password" placeholder="*********" class="jbz-inp")
+
+				.col-left
+					label Repetir a password
+					input(type="password" required name="password-two" placeholder="*********" class="jbz-inp")
+
+			.form-inp
+				button CRIAR CONTA
