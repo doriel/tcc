@@ -1,10 +1,18 @@
-html
-	head
-		title Confirmação da conta - Jobz
+extends ./layout-secundario
 
-	body
+block title
+	title Confirmação da conta - Jobz
 
+block descricao
+	h1 Agora só precisa confirmar a sua conta para poder avançar.
+
+block form
 		form(action="/confirmarconta" method="post")
-			label Código de  confirmação
-			input(type="number" required name="codigoDeConfirmacao" placeholder="000000")
-			button Confirmar conta
+			.form-title
+				h1 Confirmação da conta
+				p Insira o código que lhe foi enviado no seu email para confirmar a conta e prosseguir.
+			.form-inp
+				label Código de  confirmação
+				input(type="number" required name="codigoDeConfirmacao" placeholder="000000")
+			.form-inp
+				button Confirmar conta

@@ -1,8 +1,12 @@
-html
-	head
-		meta(charset="utf-8")
-		title Criar conta - Jobz
-	body
+extends ./layout-secundario
+
+block title
+	title Criar conta - Jobz	
+
+block descricao
+	h1 Crie a sua conta para ter acesso aos melhores empregos de TI, Design e Marketing Digital
+
+block form
 		h1 Criar conta
 		form(action="/criarconta" method="post")
 			.form-inp
@@ -18,22 +22,40 @@ html
 					label Data de nascimento
 					input(type="date" name="dataDeNascimento" required placeholder="Data de nascimento" class="jbz-inp")
 				.col-left
-					label Nacionalidade
-					include ./include/paises
-
-			.form-inp
-				.col-left
-					label Naturalidade
-					input(type="text" name="naturalidade" required placeholder="Naturalidade" class="jbz-inp")
-				.col-left
 					label Genero
 					select(name="genero")
 						option(value="Masculino") Masculino
 						option(value="Feminino") Feminino
+				
+			.form-inp
+				.col-left
+					label Nacionalidade
+					include ./include/paises
+
+				.col-left
+					label Naturalidade
+					input(type="text" name="naturalidade" required placeholder="Naturalidade" class="jbz-inp")
+				
+			.form-inp
+				.col-left
+					label Província onde reside
+					input(type="text" name="provinciaOndeReside" required placeholder="Província onde reside" class="jbz-inp")
+
+				.col-left
+					label Morada
+					input(type="text" name="morada" required placeholder="Morada")
+
+			.form-title
+				h2 Informações de contacto
 
 			.form-inp
-				label Província onde reside
-				input(type="text" name="provinciaOndeReside" required placeholder="Província onde reside" class="jbz-inp")
+				.col-left
+					label Telefone
+					input(type="text" name="telefone" placeholder="Telefone")
+
+				.col-left
+					label Telefone alternativo
+					input(type="text" name="telefoneAlternativo" placeholder="Telefone alternativo")
 
 			.form-inp
 				label Email

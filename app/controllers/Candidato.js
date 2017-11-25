@@ -1,6 +1,7 @@
 // Dependências
 const db = require('../models/database');
 const EnviarMail = require('./EnviarMail');
+const moment = require('moment');
 
 /*
 *	CriaConta: É responsável por criar uma nova conta de
@@ -9,7 +10,23 @@ const EnviarMail = require('./EnviarMail');
 module.exports.criarConta = (req, res) => {
 
 	// Obter dados do front-end
-	let { primeiroNome, ultimoNome, email, password } = req.body;
+	let { primeiroNome,
+		ultimoNome,
+		email,
+		password,
+		dataDeNascimento,
+		genero,
+		nacionalidade,
+		naturalidade,
+		provinciaOndeReside,
+		morada,
+		telefone,
+		telefoneAlternativo
+	} = req.body;
+
+	console.log(dataDeNascimento);
+	dataDeNascimento = moment(dataDeNascimento).format('YYYY-MM-DD');
+	console.log(dataDeNascimento);
 
 	// Gerar código de confirmação aleatório segundo o MDN 
 	let codConfirmacao = Math.floor(Math.random() * (999999 - 0) + 0);
@@ -22,9 +39,12 @@ module.exports.criarConta = (req, res) => {
 
 			// Salvar os dados do novo candidato na base de dados
 			let sql = `INSERT INTO candidato
-				(primeiro_nome, ultimo_nome, email, password, codigo_de_confirmacao, data_de_registo)
+				(primeiro_nome, ultimo_nome, email, password, codigo_de_confirmacao, data_de_registo,
+				data_de_nascimento, genero, nacionalidade, naturalidade, provincia_onde_reside, morada,
+				telefone, telefone_alternativo)
 				VALUES ('${primeiroNome}', '${ultimoNome}', '${email}', '${password}',
-				'${codConfirmacao}', CURDATE())`;
+				'${codConfirmacao}', CURDATE(), '${dataDeNascimento}', '${genero}', '${nacionalidade}',
+				'${naturalidade}', '${provinciaOndeReside}', '${morada}', '${telefone}', '${telefoneAlternativo}')`;
 
 			// Inser os dados do utilizador na base de dados
 			db.query(sql, (err, resultado) => {
@@ -80,6 +100,8 @@ module.exports.confirmarConta = (req, res) => {
 			let sqlConfirmacao = `UPDATE candidato SET codigo_de_confirmacao = '0' WHERE email = '${emailDB}'`;
 			db.query(sqlConfirmacao, (err, resultado) => {
 				if(err) throw err;
+
+				// Redireciona para a 
 			});
 
 		} else {

@@ -10,26 +10,19 @@ const eslint = require('gulp-eslint');
 
 // Configs
 let filesToWatch = [
-	'app/styl/*.styl',
-	'app/styl/**/*.styl'
-]
+	'app/public/styl/*.styl',
+	'app/public/styl/**/*.styl'
+];
 
 // Tarefas
-gulp.task('stylus', () => {
-	return gulp.src('app/styl/*.js')
-		.pipe(stylus())
+gulp.task('stylus', (cb) => {
+	gulp.src('./app/public/styl/*.styl')
+		.pipe(stylus({compress: true}))
 		.pipe(gulp.dest('app/css'));
 });
 
-gulp.task('eslint', () => {
-	return gulp.src(['app/public/**/*.js', 'app/public/*.js'])
-		.pipe(eslint())
-		.pipe(eslint.format())
-		.pipe(eslint.failAfterError());
-});
-
 gulp.task('watch', () => {
-	watch('app/public/styl/*.styl', ['stylus']);
+	watch(filesToWatch, ['stylus']);
 });
 
 // Tarefa padrão
