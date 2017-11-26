@@ -1,37 +1,24 @@
-html(lang="pt")
-	head
-		meta(charset="utf-8")
-		title Login - Jobz
-		// CSS
-		link( rel="stylesheet" href="/css/estilo-principal.css")
+extends ./layout-secundario
 
-	// Corpo
-	body
+block title
+	title Login - Jobz	
 
-		// Esquera com a imagem e o texto
-		.left-col.painel-home.painel-login.painel-msg
-			.vertical-center
-				h1 Faça o login para ter acesso aos melhores <br> empregos de TI, Design e Marketing Digital em Angola.
+block descricao
+	h1 Faça o login para ter acesso aos melhores <br> empregos de TI, Design e Marketing Digital em Angola.
 
-		// Direita com os formulários
-		.right-col.painel-home
-			// Logotipo
-			.logotipo
-				img(src="/img/logotipo.png" alt="Jobz")
+block erro
+	if erro
+		.erro #{erro}
 
-			// Formulário
-			.form-box
-				h1.j-title Login
-				p Entre com os seus dados no formulário abaixo.
-				form(action="/login" method="post")
-					.j-inp
-						label E-mail
-						input(type="text" required name="jnome" placeholder="E-mail" class="input")
+block form
+	form(action="/login" method="post")
+		.form-inp
+			label Email
+			input(name="email" type="email" required placeholder="Email")
 
-					.j-inp
-						label Password
-						input(type="password" required name="jpassword" placeholder="********")
+		.form-inp
+			label Password
+			input(type="password" required placeholder="********")
 
-					.j-inp
-						button ENTRAR
-
+		.form-inp
+			button Entrar
