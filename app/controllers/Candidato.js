@@ -73,9 +73,10 @@ module.exports.criarConta = (req, res) => {
 			});
 
 		} else {
-			res.json({
+			/*res.json({
 				message: 'Já existe um candidato registrado com esta conta de email'
-			});
+			});*/
+			res.render('criarconta', {erro: `Já existe um candidato registrado com esta conta de email: ${email}.`});
 		}
 	});
 
@@ -91,8 +92,12 @@ module.exports.confirmarConta = (req, res) => {
 	let sql = `SELECT codigo_de_confirmacao, email FROM candidato WHERE codigo_de_confirmacao = '${codigoDeConfirmacao}'`;
 	db.query(sql, (err, resultado) => {
 
+		console.log(resultado[0].codigo_de_confirmacao);
+		console.log(codigoDeConfirmacao);
+		console.log(resultado[0].codigo_de_confirmacao === codigoDeConfirmacao);
+
 		// Comparar os códigos de confirmações 
-		if (resultado[0].codigo_de_confirmacao === codigoDeConfirmacao) {
+		if (resultado[0].codigo_de_confirmacao == codigoDeConfirmacao) {
 
 			let emailDB = resultado[0].email;
 
@@ -101,7 +106,8 @@ module.exports.confirmarConta = (req, res) => {
 			db.query(sqlConfirmacao, (err, resultado) => {
 				if(err) throw err;
 
-				// Redireciona para a 
+				// Redireciona para a página de login
+				res.redirect('/login');
 			});
 
 		} else {
@@ -110,7 +116,7 @@ module.exports.confirmarConta = (req, res) => {
 			res.redirect('/reenviarcodigo');
 		}
 
-		res.send(resultado);
+		//res.send(resultado);
 	});
 
 }

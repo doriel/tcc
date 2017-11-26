@@ -6,6 +6,10 @@ block title
 block descricao
 	h1 Crie a sua conta para ter acesso aos melhores empregos de TI, Design e Marketing Digital
 
+block erro
+	if erro
+		.erro #{erro}
+
 block form
 		h1 Criar conta
 		form(action="/criarconta" method="post")
