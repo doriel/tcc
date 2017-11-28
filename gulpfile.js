@@ -7,6 +7,8 @@ const gulp = require('gulp');
 const stylus = require('gulp-stylus');
 const watch = require('gulp-watch');
 const eslint = require('gulp-eslint');
+const nodemon = require('gulp-nodemon');
+const browserSync = require('browser-sync');
 
 // Configs
 let filesToWatch = [
@@ -16,14 +18,41 @@ let filesToWatch = [
 
 // Tarefas
 gulp.task('stylus', (cb) => {
-	gulp.src('./app/public/styl/*.styl')
+	return gulp.src(filesToWatch)
 		.pipe(stylus({compress: true}))
-		.pipe(gulp.dest('app/css'));
+		.pipe(gulp.dest('app/public/css/'));
 });
 
 gulp.task('watch', () => {
-	watch(filesToWatch, ['stylus']);
+	gulp.watch(filesToWatch, ['stylus']);
+	gulp.watch(['app/views/**/*.pug', 'app/views/*.pug'], ['stylus']);
+});
+
+// Browser Sync
+gulp.task('browserSync', ['nodemon', 'watch'], () => {
+	browserSync.init(null, {
+		proxy: 'http://localhost:3000',
+		files: filesToWatch,
+		browser: 'google chrome',
+		port: 3005
+	});
+});
+
+// Nodemon
+gulp.task('nodemon', (cb) => {
+
+	let started = false;
+
+	return nodemon({
+		script: 'app/app.js'
+	}).on('start', () => {
+		if(!started) {
+			cb();
+			started = true;
+		}
+	});
+
 });
 
 // Tarefa padrão
-gulp.task('default', ['watch']);
+gulp.task('default', ['browserSync']);
