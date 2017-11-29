@@ -69,7 +69,8 @@ module.exports.criarConta = (req, res) => {
 					message: "A sua conta foi criada com sucesso"
 				});*/
 				// Redireciona para a página de confirmar conta
-				res.redirect('/confirmarconta');
+				//res.redirect('/confirmarconta');
+				res.redirect('/login');
 			});
 
 		} else {

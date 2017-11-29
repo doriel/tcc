@@ -1,0 +1,56 @@
+extends ./layout-secundario
+
+block title
+	title Criar conta Empresa - Jobz
+
+block descricao
+	h1 Crie a sua Empresa para poder públicar <b>novas vagas</b> e fazer procura de candidatos.
+
+block erro
+	if formCriarContaErro
+		.erro #{formCriarContaErro}
+		.jb-space.single
+
+block form
+	h1 Criar conta Empregador
+	.jb-space.single
+	form(action="/empregadorcriarconta" method="post")
+		.form-inp
+			.col-left
+				label Nome da empresa
+				input(type="text" name="nome" required placeholder="Nome da empresa")
+			.col-left
+				label Nome do responsável
+				input(type="text" name="nomeDoResponsavel" required placeholder="Nome do responsável")
+		.form-inp
+			.col-left
+				label Ano de fundação
+				- var ano = 1970;
+				- var anoCorrente = new Date().getFullYear();
+				select(name="anoDeFundacao" required)
+					while anoCorrente > ano
+						option(value=anoCorrente) #{anoCorrente}
+						- anoCorrente--;
+			.col-left
+				label Área de actuação
+				select(name="areaDeActuacao")
+					option(value="Tecnológias de Informação") Tecnológias de Informação
+					option(value="Comunicação e Marketing") Comunicação e Marketing
+					option(value="Telecomunicações") Telecomunicações
+					option(value="Banca") Banca
+					option(value="Recursos Humanos") Recursos Humanos
+					option(value="Indústria Petrolífera") Indústria Petrolífera
+					option(value="Construção Cívil") Construção Cívil
+					option(value="Saúde") Saúde
+					option(value="Ensino e Formação") Ensino e Formação
+					option(value="Finanças") Finanças
+
+		.form-inp
+			.col-left
+				label Email
+				input(type="email" name="email" required placeholder="Email")
+			.col-left
+				label Password
+				input(type="password" name="password" required placeholder="*********")
+		.form-inp
+			button Criar conta
