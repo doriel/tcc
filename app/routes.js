@@ -24,7 +24,15 @@ module.exports = (app) => {
 
 	app.get('/criarconta/candidato', (req, res) => { res.render('criarconta/candidato'); });
 	app.post('/criarconta/candidato', Validation(fields.criarConta), Candidato.criarConta);
-	app.get('/criarconta/sucesso', (req, res) => { res.render('criarconta/sucesso'); });
+
+	app.get('/criarconta/sucesso', (req, res) => {
+		if (req.session.email) {
+			res.render('criarconta/sucesso');
+		} else {
+			res.redirect('/');
+		}
+	});
+
 	app.get('/confirmarconta', (req, res) => { res.render('criarconta/confirmarconta'); });
 	app.post('/confirmarconta', Candidato.confirmarConta);
 	app.get('/login/candidato', (req, res) => { res.render('login/candidato'); });
@@ -64,6 +72,6 @@ module.exports = (app) => {
 	});
 
 	// 404
-	//app.get('*', (req, res) => { res.redirect('/'); });
+	app.get('*', (req, res) => { res.redirect('/'); });
 
 }
