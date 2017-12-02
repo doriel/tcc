@@ -10,3 +10,21 @@ module.exports.criarConta = {
 		password: Joi.string().required()
 	}
 }
+
+module.exports.empresaCriarConta = {
+	body: {
+		nome: Joi.string().required(),
+		nomeDoResponsavel: Joi.string().required(),
+		areaDeActuacao: Joi.string().required(),
+		anoDeFundacao: Joi.string().required(),
+		email: Joi.string().email().required(),
+		password: Joi.string().required()
+	}
+}
+
+module.exports.login = {
+	body: {
+		email: Joi.string().email().required(),
+		password: Joi.string().required()
+	}
+}
