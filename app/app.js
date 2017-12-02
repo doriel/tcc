@@ -8,6 +8,8 @@ const conexaoBD = require('./models/database.js');
 const router = require('./routes');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const session = require('express-session');
+const controloDeAcesso = require('./middlewares/controloDeAcesso');
 
 // Iniciar o express
 const app = express();
@@ -21,6 +23,11 @@ app.set('view engine', 'pug');
 app.use(express.static(`${__dirname}/public`));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({
+	secret: "tcc-ugs-2017engENHAria_informatica"
+}));
+app.use('/candidato', controloDeAcesso);
+app.use('/empregador', controloDeAcesso);
 
 // Iniciar o script das rotas
 router(app);
