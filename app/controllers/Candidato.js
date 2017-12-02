@@ -32,13 +32,13 @@ module.exports.criarConta = (req, res) => {
 	let codConfirmacao = Math.floor(Math.random() * (999999 - 0) + 0);
 
 	// Consultar se já existe um utilizador na base de dados
-	sqlEmail = `SELECT email FROM candidato WHERE email = '${email}'`;
+	sqlEmail = `SELECT email FROM Candidato WHERE email = '${email}'`;
 	db.query(sqlEmail, (err, resultado) => {
 
 		if(resultado.length === 0){
 
-			// Salvar os dados do novo candidato na base de dados
-			let sql = `INSERT INTO candidato
+			// Salvar os dados do novo Candidato na base de dados
+			let sql = `INSERT INTO Candidato
 				(primeiro_nome, ultimo_nome, email, password, codigo_de_confirmacao, data_de_registo,
 				data_de_nascimento, genero, nacionalidade, naturalidade, provincia_onde_reside, morada,
 				telefone, telefone_alternativo)
@@ -73,7 +73,8 @@ module.exports.criarConta = (req, res) => {
 				// Salva os dados da sessão
 				req.session.email = email;
 				req.session.primeiroNome = primeiroNome;
-				res.redirect('/candidato');
+				req.session.tipoUtilizador = 'candidato';
+				res.redirect('/criarconta/sucesso');
 			});
 
 		} else {
@@ -93,7 +94,7 @@ module.exports.confirmarConta = (req, res) => {
 
 	let { codigoDeConfirmacao } = req.body;
 	
-	let sql = `SELECT codigo_de_confirmacao, email FROM candidato WHERE codigo_de_confirmacao = '${codigoDeConfirmacao}'`;
+	let sql = `SELECT codigo_de_confirmacao, email FROM Candidato WHERE codigo_de_confirmacao = '${codigoDeConfirmacao}'`;
 	db.query(sql, (err, resultado) => {
 
 		// Comparar os códigos de confirmações 
@@ -102,7 +103,7 @@ module.exports.confirmarConta = (req, res) => {
 			let emailDB = resultado[0].email;
 
 			// Actualizar o campo codigo_de_confirmacao na base de dados
-			let sqlConfirmacao = `UPDATE candidato SET codigo_de_confirmacao = '0' WHERE email = '${emailDB}'`;
+			let sqlConfirmacao = `UPDATE Candidato SET codigo_de_confirmacao = '0' WHERE email = '${emailDB}'`;
 			db.query(sqlConfirmacao, (err, resultado) => {
 				if(err) throw err;
 
@@ -131,7 +132,7 @@ module.exports.login = (req, res) => {
 
 	let { email, password } = req.body;
 
-	let sql = `SELECT email, password, primeiro_nome FROM candidato WHERE email = '${email}'`;
+	let sql = `SELECT email, password, primeiro_nome FROM Candidato WHERE email = '${email}'`;
 	db.query(sql, (err, resultado) => {
 	
 		console.log(resultado[0]);
@@ -142,15 +143,16 @@ module.exports.login = (req, res) => {
 			if(resultado[0].password == password) {
 
 				req.session.email = email;
-				req.session.primeiroNome = resultado[0].primeiro_nome;
+				req.session.nome = resultado[0].primeiro_nome;
+				req.session.tipoUtilizador = 'candidato';
 				res.redirect('/candidato');
 
 			} else {
 				//req.session.
-				res.redirect('/login');
+				res.render('login/candidato', {formError: 'A password não está correcta!'});
 			}
 		} else {
-			res.redirect('/login');
+			res.render('login/candidato', {formError: 'Lamentamos, mas esta conta não existe! Crie uma conta para poder fazer login.'});
 		}
 
 		//res.send(resultado);

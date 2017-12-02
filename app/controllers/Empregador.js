@@ -52,6 +52,7 @@ module.exports.empregadorCriarConta = (req, res)=>{
 				//req.session.formLogin = "Conta Empregador criada com sucesso!";
 				req.session.email = email;
 				req.session.nome = nomeDoResponsavel;
+				req.session.tipoUtilizador = 'empregador';
 				res.redirect('/empregador');
 			});
 		} else {
@@ -82,6 +83,7 @@ module.exports.empregadorLogin = (req, res) => {
 
 				req.session.email = email;
 				req.session.nome = resultado[0].nome_do_responsavel;
+				req.session.tipoUtilizador = 'empregador';
 				res.redirect('/empregador');
 
 			} else {
@@ -89,7 +91,7 @@ module.exports.empregadorLogin = (req, res) => {
 				res.render('login/empregador', {formError: 'A password não está correcta!'});
 			}
 		} else {
-			res.render('login/empregador', {formError: 'Lamentamos, mas esta conta não existe! Crie uma conta para poder fazer login. '});
+			res.render('login/empregador', {formError: 'Lamentamos, mas esta conta não existe! Crie uma conta para poder fazer login.'});
 		}
 
 		//res.send(resultado);
