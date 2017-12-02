@@ -70,7 +70,10 @@ module.exports.criarConta = (req, res) => {
 				});*/
 				// Redireciona para a página de confirmar conta
 				//res.redirect('/confirmarconta');
-				res.redirect('/login');
+				// Salva os dados da sessão
+				req.session.email = email;
+				req.session.primeiroNome = primeiroNome;
+				res.redirect('/candidato');
 			});
 
 		} else {
@@ -93,10 +96,6 @@ module.exports.confirmarConta = (req, res) => {
 	let sql = `SELECT codigo_de_confirmacao, email FROM candidato WHERE codigo_de_confirmacao = '${codigoDeConfirmacao}'`;
 	db.query(sql, (err, resultado) => {
 
-		console.log(resultado[0].codigo_de_confirmacao);
-		console.log(codigoDeConfirmacao);
-		console.log(resultado[0].codigo_de_confirmacao === codigoDeConfirmacao);
-
 		// Comparar os códigos de confirmações 
 		if (resultado[0].codigo_de_confirmacao == codigoDeConfirmacao) {
 
@@ -108,6 +107,8 @@ module.exports.confirmarConta = (req, res) => {
 				if(err) throw err;
 
 				// Redireciona para a página de login
+				req.session.email = email;
+				req.session.primeiroNome = resultado[0].primeiro_nome;
 				res.redirect('/login');
 			});
 
@@ -120,4 +121,48 @@ module.exports.confirmarConta = (req, res) => {
 		//res.send(resultado);
 	});
 
+}
+
+/*
+*	Login: Esta função é responsável por realizar o login 
+*/
+
+module.exports.login = (req, res) => {
+
+	let { email, password } = req.body;
+
+	let sql = `SELECT email, password, primeiro_nome FROM candidato WHERE email = '${email}'`;
+	db.query(sql, (err, resultado) => {
+	
+		console.log(resultado[0]);
+
+		// Verifica se a bd retornou alguma linha
+		if(resultado.length > 0){
+			console.log('Comparar password');
+			if(resultado[0].password == password) {
+
+				req.session.email = email;
+				req.session.primeiroNome = resultado[0].primeiro_nome;
+				res.redirect('/candidato');
+
+			} else {
+				//req.session.
+				res.redirect('/login');
+			}
+		} else {
+			res.redirect('/login');
+		}
+
+		//res.send(resultado);
+	});
+
+}
+
+/*
+*	Logout: Esta função é responsável por realizar o logout no sistema
+*/
+
+module.exports.logout = (req, res) => {
+	req.session.destroy();
+	res.redirect('/');
 }
