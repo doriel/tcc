@@ -27,12 +27,19 @@ body{
 
 /* Titulos */
 h1, h2, h3, h4, h5, h6, b, strong{
-	font-family: 'Roboto-Bold', 'sans-serif';
 	font-weight: normal;
 }
 
 h1.j-title{
 	font-family: 'Roboto-Light', 'sans-serif';
+}
+
+.logotipo{
+	width: 60px;
+}
+
+.logotipo img{
+	width: 100%;
 }
 
 /* Formulários */
@@ -100,7 +107,7 @@ h1.j-title{
 .vertical-center{
 	position: absolute;
 	top: 50%;
-	right: 0;
+	right: 30px;
 	transform: translateY(-50%);
 }
 
@@ -112,6 +119,14 @@ h1.j-title{
 	height: 100%;
 	position: relative;
 	padding: 0 20px;
+}
+
+.erro{
+	background-color: red;
+	color: #FFF;
+	width: 100%;
+	padding: 20px 10px;
+	border-radius: 3px;
 }
 
 .painel-home .vertical-center{
