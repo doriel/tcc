@@ -26,8 +26,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({
 	secret: "tcc-ugs-2017engENHAria_informatica"
 }));
-app.use('/candidato', controloDeAcesso);
-app.use('/empregador', controloDeAcesso);
+app.use('/candidato', controloDeAcesso.Candidatos);
+app.use('/empregador', controloDeAcesso.Empregadores);
 
 // Iniciar o script das rotas
 router(app);
