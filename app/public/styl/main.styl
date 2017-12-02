@@ -1,2 +1,212 @@
+ORANGE = #F15A24
+BLACK = #2D2A32
+
+@import './includes/forms'
+
+*
+	margin 0
+	padding 0
+	box-sizing border-box
+	
+// Tipos de fontes
+@font-face
+	font-family 'Roboto-Light'
+	src url('../fonts/Roboto-Light.ttf')
+
+@font-face
+	font-family 'Roboto-Regular'
+	src url('../fonts/Roboto-Regular.ttf')
+
+@font-face
+	font-family 'Roboto-Bold'
+	src url('../fonts/Roboto-Bold.ttf')
+
 body
-	background-color red
+	font-family 'Roboto-Regular', 'sans-serif'
+	color #444
+
+// Titulo
+h1, h2, h3, h4, h5, h6, b, strong
+	font-weight normal
+	
+// Titulo das secções
+.title
+	color BLACK
+	font-family 'Roboto-Bold', 'sans-serif'
+	
+a
+	text-decoration none
+	transition color .3s
+
+// Espaçamento
+.jb-space
+	width 100%
+	height 40px
+	
+.jb-space.single
+	height 10px
+
+// Centralizar layout
+.wrap
+	width 900px
+	margin 0 auto
+		
+// Alinhar a esquerda e direita
+.col-left
+	float left
+
+.col-right
+	float right
+
+// Cabeçalho
+.main-header
+	width 100%
+	//border 1px solid red
+	box-shadow 0px 1px 1px rgba(0, 0, 0, .1)
+	height 60px
+	
+.main-header .logotipo
+	width 30px
+	margin-top 6px
+	
+.main-header .logotipo img
+	width 100%
+	
+.menu ul li
+	list-style none
+	float left
+	height 60px
+	
+.menu ul li:hover
+	background-color ORANGE
+	
+.menu ul li:hover a
+	color #FFF
+	
+.menu ul li a
+	font-size 12px
+	color #666
+	text-decoration none
+	display block
+	height 60px
+	width 100%
+	padding 23px 10px
+	
+// Rodapé
+.main-footer
+	width 100%
+	height 50px
+	background-color BLACK
+	color #FFF
+	font-size 12px
+	padding 17px 0
+
+.main-footer .menu-footer ul li
+	float left
+	margin-left 10px
+	list-style none
+	
+.main-footer .menu-footer ul li a
+	color #FFF
+	
+.main-footer .menu-footer ul li a:hover
+	color ORANGE
+	
+// PAGINA HOME
+.home-destaque
+	width 100%
+	height 320px
+	color #FFF
+	background-color BLACK
+	display flex
+	align-items center
+	
+.home-vagas
+	width 100%
+	overflow auto
+	padding 50px 0
+	background-color #eaeaea
+	
+.home-vagas .procura
+	width 100%
+	overflow auto
+
+.home-vagas .procura input,
+.home-vagas .procura select
+	background-color #FFF
+	
+.home-vagas .procura .col-left:nth-child(1)
+	width 59%
+	
+.home-vagas .procura .col-left:nth-child(2)
+	width 25%
+
+.home-vagas .procura .col-right
+	width 15%
+	
+.home-vagas .procura .col-right button
+	width 100%
+	height 40px
+
+.vagas
+	width 49%
+	height 120px
+	margin-bottom 18px
+	float left
+	background-color #FFF
+	//border 1px solid red
+		
+.vagas:nth-child(2n)
+	margin-left 2%
+	
+.vagas hr
+	width 100%
+	height 1px
+	border none
+	margin 5px 0
+	background-color #EEE
+
+.vagas .logo-empresa
+	width 30%
+	height inherit
+	display flex
+	align-items center
+	justify-content center
+	//border 1px solid blue
+	
+.vagas .logo-empresa img
+	width 50px
+
+.vagas .descricao-vaga
+	width 70%
+	height inherit
+	display flex
+	align-items center
+	padding-right 10px
+	
+.vagas .descricao-vaga .meta-dados
+	width 100%
+	
+.vagas .descricao-vaga h1
+	font-size 16px
+	color BLACK
+	font-family 'Roboto-Bold', 'sans-serif'
+
+.vagas .meta-dados .empresa
+	font-size 14px
+	
+.vagas .meta-dados .data-location
+	color #999
+	font-size 14px
+	
+// PAINEL PAGES
+.painel-form
+	height 100%
+	display flex
+	align-items center
+	
+.painel-form h1
+	font-family 'Roboto-Light', 'sans-serif'
+
+.painel-form .content
+	width 100%
