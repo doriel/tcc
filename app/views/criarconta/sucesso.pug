@@ -12,5 +12,10 @@ block notificacao
 
 block form
 	.form-inp
-		a(href="/candidato")
-			button Ir para o meu perfil.
+		if tipoUtilizador == 'candidato'
+			a(href="/candidato")
+				button Ir para o Perfil pessoal
+
+		if tipoUtilizador == 'empregador'
+			a(href="/empregador")
+				button Ir para o Perfil da empresa
