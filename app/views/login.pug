@@ -11,6 +11,8 @@ block erro
 		.erro #{erro}
 
 block form
+	h1 Login Candidato
+	.jb-space.single
 	form(action="/login" method="post")
 		.form-inp
 			label Email
@@ -18,7 +20,7 @@ block form
 
 		.form-inp
 			label Password
-			input(type="password" required placeholder="********")
+			input(type="password" required placeholder="********" name="password")
 
 		.form-inp
 			button Entrar
