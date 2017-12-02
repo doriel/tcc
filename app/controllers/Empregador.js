@@ -22,7 +22,7 @@ module.exports.empregadorCriarConta = (req, res)=>{
 	} = req.body;
 
 	// Verificar se já existe uma conta empresa com o email provido pelo utilizador
-	let sqlEmail = `SELECT email_do_responsavel FROM empregador WHERE email_do_responsavel = '${email}'`;
+	let sqlEmail = `SELECT email_do_responsavel FROM Empregador WHERE email_do_responsavel = '${email}'`;
 	db.query(sqlEmail, (err, resultado) => {
 
 		if (err) throw err;
@@ -30,7 +30,7 @@ module.exports.empregadorCriarConta = (req, res)=>{
 		if (resultado.length === 0) {
 
 			// Salvar os dados do novo candidato na base de dados
-			let sql = `INSERT INTO empregador
+			let sql = `INSERT INTO Empregador
 			(nome, nome_do_responsavel, area_de_actuacao, ano_de_fundacao, email_do_responsavel, password)
 			VALUES ('${nome}', '${nomeDoResponsavel}', '${areaDeActuacao}', '${anoDeFundacao}', '${email}', '${password}')`;
 
@@ -55,8 +55,9 @@ module.exports.empregadorCriarConta = (req, res)=>{
 				res.redirect('/empregador');
 			});
 		} else {
-			req.session.formCriarContaErro = `Já existe um Empregador registrado com esta conta de email: ${email}.`;
-			res.redirect('empregadorcriarconta');
+			res.render('criarconta/empregador', {
+				formError: 'Já existe uma conta Empregador registrado com este endereço de email: ${email}.'
+			});
 		}
 	});
 }
@@ -69,14 +70,14 @@ module.exports.empregadorLogin = (req, res) => {
 
 	let { email, password } = req.body;
 
-	let sql = `SELECT email_do_responsavel, password, nome FROM empregador WHERE email_do_responsavel = '${email}'`;
+	let sql = `SELECT email_do_responsavel, password, nome FROM Empregador WHERE email_do_responsavel = '${email}'`;
 	db.query(sql, (err, resultado) => {
 		
 		console.log(resultado);
 
 		// Verifica se a bd retornou alguma linha
 		if(resultado.length > 0){
-			console.log('Comparar password');
+
 			if(resultado[0].password == password) {
 
 				req.session.email = email;
@@ -85,10 +86,10 @@ module.exports.empregadorLogin = (req, res) => {
 
 			} else {
 				//req.session.
-				res.redirect('/empregadorlogin');
+				res.render('login/empregador', {formError: 'A password não está correcta!'});
 			}
 		} else {
-			res.redirect('/empregadorlogin');
+			res.render('login/empregador', {formError: 'Lamentamos, mas esta conta não existe! Crie uma conta para poder fazer login. '});
 		}
 
 		//res.send(resultado);
