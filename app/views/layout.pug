@@ -1,0 +1,44 @@
+html(lang="pt")
+	head
+		meta(charset="utf-8")
+		title Jobz - Os melhores empregos em TI, Design e Marketing Digital
+		link(href="/css/main.css" rel="stylesheet")
+		link(href="/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet")
+
+	body
+
+		// Cabeçalho
+		header.main-header
+			.wrap
+				.logotipo.col-left
+					a(href="/" alt="Jobz")
+						img(src="/img/logotipo.png" alt="Jobz")
+
+				nav.menu.col-right
+					ul
+						li
+							a(href="/vagas") VAGAS
+						li
+							a(href="/empregadorlogin") EMPREGADOR
+						li
+							a(href="/login") LOGIN
+						li.a-btn
+							a(href="/criarconta") CRIAR CONTA
+
+		.content-area
+			block content
+
+		// Rodapé
+		footer.main-footer
+			.wrap
+				.copyright.col-left
+					p Jobz - Todos os direitos reservados
+
+				.menu-footer.col-right
+					ul
+						li
+							a(href="/") Início
+						li
+							a(href="Sobre nós") Sobre nós
+						li
+							a(href="Contactos") Contactos

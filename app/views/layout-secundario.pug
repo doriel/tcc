@@ -2,9 +2,10 @@ html(lang="pt")
 	head
 		meta(charset="utf-8")
 		block title
-			title login - Jobz
+			title Login - Jobz
 		// CSS
 		link( rel="stylesheet" href="/css/estilo-principal.css")
+		link( rel="stylesheet" href="/css/main.css")
 
 	// Corpo
 	body
@@ -13,12 +14,18 @@ html(lang="pt")
 		.left-col.painel-home.painel-login.painel-msg
 			.vertical-center
 				block descricao
-					h1 Faça o login para ter acesso aos melhores <br> empregos de TI, Design e Marketing Digital em Angola.
-
+					
 		// Direita com os formulários
 		.right-col.painel-home.painel-form
-			// Logotipo
-			.logotipo
-				img(src="/img/logotipo.png" alt="Jobz")
+			.content
+				// Logotipo
+				.logotipo
+					a(href="/")
+						img(src="/img/logotipo.png" alt="Jobz")
+				.jb-space
 
-			block form
+				block erro
+
+				block notificacao
+
+				block form

@@ -1,7 +1,7 @@
 extends ./layout-secundario
 
 block title
-	title Criar conta - Jobz	
+	title Criar conta - Jobz
 
 block descricao
 	h1 Crie a sua conta para ter acesso aos melhores empregos de TI, Design e Marketing Digital
@@ -11,68 +11,63 @@ block erro
 		.erro #{erro}
 
 block form
-		h1 Criar conta
-		form(action="/criarconta" method="post")
-			.form-inp
-				.col-left
-					label Primeiro nome
-					input(type="text" name="primeiroNome" required placeholder="Primeiro nome" class="jbz-inp")
-				.col-left
-					label Último nome
-					input(type="text" name="ultimoNome" required placeholder="Último nome" class="jbz-inp")
+	h1 Criar conta
+	form(action="/criarconta" method="post")
+		.form-inp
+			.col-left
+				label Primeiro nome
+				input(type="text" name="primeiroNome" required placeholder="Primeiro nome" class="jbz-inp")
+			.col-left
+				label Último nome
+				input(type="text" name="ultimoNome" required placeholder="Último nome" class="jbz-inp")
 
-			.form-inp
-				.col-left
-					label Data de nascimento
-					input(type="date" name="dataDeNascimento" required placeholder="Data de nascimento" class="jbz-inp")
-				.col-left
-					label Genero
-					select(name="genero")
-						option(value="Masculino") Masculino
-						option(value="Feminino") Feminino
+		.form-inp
+			.col-left
+				label Data de nascimento
+				input(type="date" name="dataDeNascimento" required placeholder="Data de nascimento" class="jbz-inp")
+			.col-left
+				label Genero
+				select(name="genero")
+					option(value="Masculino") Masculino
+					option(value="Feminino") Feminino
+			
+		.form-inp
+			.col-left
+				label Nacionalidade
+				include ./include/paises
+
+			.col-left
+				label Naturalidade
+				input(type="text" name="naturalidade" required placeholder="Naturalidade" class="jbz-inp")
+			
+		.form-inp
+			.col-left
+				label Província onde reside
+				input(type="text" name="provinciaOndeReside" required placeholder="Província onde reside" class="jbz-inp")
+
+			.col-left
+				label Morada
+				input(type="text" name="morada" required placeholder="Morada")
+
+		.form-title
+			h2 Informações de contacto
+
+		.form-inp
+			.col-left
+				label Telefone
+				input(type="number" name="telefone" placeholder="Telefone")
+
+			.col-left
+				label Telefone alternativo
+				input(type="number" name="telefoneAlternativo" placeholder="Telefone alternativo")
+
+		.form-inp
+			label Email
+			input(type="email" required name="email" placeholder="Email" class="jbz-inp")
+
+		.form-inp
+			label Password
+			input(type="password" required name="password" placeholder="*********" class="jbz-inp")
 				
-			.form-inp
-				.col-left
-					label Nacionalidade
-					include ./include/paises
-
-				.col-left
-					label Naturalidade
-					input(type="text" name="naturalidade" required placeholder="Naturalidade" class="jbz-inp")
-				
-			.form-inp
-				.col-left
-					label Província onde reside
-					input(type="text" name="provinciaOndeReside" required placeholder="Província onde reside" class="jbz-inp")
-
-				.col-left
-					label Morada
-					input(type="text" name="morada" required placeholder="Morada")
-
-			.form-title
-				h2 Informações de contacto
-
-			.form-inp
-				.col-left
-					label Telefone
-					input(type="text" name="telefone" placeholder="Telefone")
-
-				.col-left
-					label Telefone alternativo
-					input(type="text" name="telefoneAlternativo" placeholder="Telefone alternativo")
-
-			.form-inp
-				label Email
-				input(type="email" required name="email" placeholder="Email" class="jbz-inp")
-
-			.form-inp
-				.col-left
-					label Password
-					input(type="password" required name="password" placeholder="*********" class="jbz-inp")
-
-				.col-left
-					label Repetir a password
-					input(type="password" required name="password-two" placeholder="*********" class="jbz-inp")
-
-			.form-inp
-				button CRIAR CONTA
+		.form-inp
+			button CRIAR CONTA
