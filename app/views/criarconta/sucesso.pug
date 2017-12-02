@@ -1,0 +1,16 @@
+extends ../layout-secundario
+
+block title
+	title Conta criada com sucesso - Jobz
+
+block descricao
+	h1 Seja bem vindo ao Portal Jobz!
+
+block notificacao
+	div.notificacao Parabéns #{nome}, a sua conta foi criada com sucesso!
+	.jb-space
+
+block form
+	.form-inp
+		a(href="/candidato")
+			button Ir para o meu perfil.
