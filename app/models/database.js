@@ -10,6 +10,7 @@ let connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
 	password: 'tosh',
+	port: 3306,
 	database: 'jobz_portal_de_empregos'
 });
 
@@ -23,8 +24,10 @@ module.exports.init = () => {
 	connection.connect((error)=>{
 		if (error) {
 			console.log('Erro ao se conectar com o servidor de base de dados');
+			console.log(error);
 		} else {
 			console.log('Base de dados conectada com sucesso');
 		}
 	});
+
 }
