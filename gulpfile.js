@@ -18,7 +18,7 @@ let filesToWatch = [
 
 // Tarefas
 gulp.task('stylus', (cb) => {
-	return gulp.src(filesToWatch)
+	return gulp.src('app/public/styl/*.styl')
 		.pipe(stylus({compress: true}))
 		.pipe(gulp.dest('app/public/css/'));
 });
