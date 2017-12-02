@@ -1,0 +1,37 @@
+extends ./layout
+
+block content
+	.home-destaque
+		.wrap
+			h1 Vagas de emprego em <b>TI</b>, <b>Design</b> <br> e <b>Marketing Digital</b>
+			p Está a procura de uma nova oportunidade de emprego? Ou deseja encontrar o candidato <br> perfeito para uma vaga? Use o nosso portal.
+
+	.home-vagas
+		.wrap
+			.procura
+				div.title PROCURAR VAGAS
+				.jb-space.single
+				form(action="/procura" method="post")
+					.form-inp
+						.col-left
+							input(type="text" required name="procura" placeholder="Programador Java")
+						.col-left
+							include ./include/provincias
+						.col-right
+							button PROCURAR
+		.jb-space
+		.row.wrap
+			div.title ÚLTIMAS VAGAS
+			.jb-space.single
+			each val in [1, 2, 3, 4, 5, 6, 7, 8]
+				article.vagas
+					.logo-empresa.col-left
+						img(src="/img/default.jpg")
+					.descricao-vaga.col-right
+						.meta-dados
+							h1 Programador Front-End
+							hr
+							p.empresa <i class="fa fa-users" aria-hidden="true"></i> Jupiter Angola
+							.jb-space.single
+							p.data-location <i class="fa fa-map-marker" aria-hidden="true"></i> Luanda &nbsp; | &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i> 28/11/2017
+
