@@ -7,6 +7,7 @@ const CTRL = './controllers';
 
 // Dependências: Importa controllers
 const Candidato = require(`${CTRL}/Candidato.js`);
+const Empregador = require(`${CTRL}/Empregador.js`);
 
 // Outras dependências
 const Validation = require('express-validation');
@@ -17,13 +18,48 @@ const fields = require('./fields');
 // Exporta as rotas da API do portal
 module.exports = (app) => {
 
+	app.get('/', (req, res) => { res.render('index'); });
+
+	// Candidato
+
 	app.get('/criarconta', (req, res) => { res.render('criarconta'); });
 	app.post('/criarconta', Validation(fields.criarConta), Candidato.criarConta);
 	app.get('/confirmarconta', (req, res) => { res.render('confirmarconta'); });
 	app.post('/confirmarconta', Candidato.confirmarConta);
+	app.get('/login', (req, res) => { res.render('login'); });
+	app.post('/login', Validation(fields.login), Candidato.login);
+	app.get('/logout', Candidato.logout);
 
-	app.get('/login', (req, res) => {
-		res.render('login');
+	// Área privada Candidato
+	app.get('/candidato', (req, res) => { 
+
+		console.log(req.session.primeiroNome);
+
+		res.render('candidato/candidato-home', {
+			nome: req.session.primeiroNome
+		});
+	});
+
+	// Empresas
+	app.get('/empregadorcriarconta', (req, res) => {
+		let formCriarContaErro = req.session.formCriarContaErro;
+		res.render('empregadorcriarconta', {formCriarContaErro});
+	});
+	app.get('/empregador', (req, res) => {
+		res.render('empregador/empregador-home', {
+			nome: req.session.nome
+		});
+	});
+
+	app.post('/empregadorcriarconta', Validation(fields.empresaCriarConta), Empregador.empregadorCriarConta );
+	app.get('/empregadorlogin', (req, res) => { 
+		let formLogin = req.session.formLogin;
+		res.render('empregadorlogin', {formLogin});
+	});
+	app.post('/empregadorlogin', Validation(fields.login), Empregador.empregadorLogin);
+	app.get('/empregador', (req, res) => {
+		let nome = req.session.nome;
+		res.render('empregador/empregador-home', {nome: nome});
 	});
 
 }
