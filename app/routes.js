@@ -22,12 +22,13 @@ module.exports = (app) => {
 
 	// Candidato
 
-	app.get('/criarconta', (req, res) => { res.render('criarconta'); });
-	app.post('/criarconta', Validation(fields.criarConta), Candidato.criarConta);
-	app.get('/confirmarconta', (req, res) => { res.render('confirmarconta'); });
+	app.get('/criarconta/candidato', (req, res) => { res.render('criarconta/candidato'); });
+	app.post('/criarconta/candidato', Validation(fields.criarConta), Candidato.criarConta);
+	app.get('/criarconta/sucesso', (req, res) => { res.render('criarconta/sucesso'); });
+	app.get('/confirmarconta', (req, res) => { res.render('criarconta/confirmarconta'); });
 	app.post('/confirmarconta', Candidato.confirmarConta);
-	app.get('/login', (req, res) => { res.render('login'); });
-	app.post('/login', Validation(fields.login), Candidato.login);
+	app.get('/login/candidato', (req, res) => { res.render('login/candidato'); });
+	app.post('/login/candidato', Validation(fields.login), Candidato.login);
 	app.get('/logout', Candidato.logout);
 
 	// Área privada Candidato
@@ -41,9 +42,9 @@ module.exports = (app) => {
 	});
 
 	// Empresas
-	app.get('/empregadorcriarconta', (req, res) => {
+	app.get('/criarconta/empregador', (req, res) => {
 		let formCriarContaErro = req.session.formCriarContaErro;
-		res.render('empregadorcriarconta', {formCriarContaErro});
+		res.render('criarconta/empregador', {formCriarContaErro});
 	});
 	app.get('/empregador', (req, res) => {
 		res.render('empregador/empregador-home', {
@@ -51,15 +52,18 @@ module.exports = (app) => {
 		});
 	});
 
-	app.post('/empregadorcriarconta', Validation(fields.empresaCriarConta), Empregador.empregadorCriarConta );
-	app.get('/empregadorlogin', (req, res) => { 
+	app.post('/criarconta/empregador', Validation(fields.empresaCriarConta), Empregador.empregadorCriarConta );
+	app.get('/login/empregador', (req, res) => { 
 		let formLogin = req.session.formLogin;
-		res.render('empregadorlogin', {formLogin});
+		res.render('login/empregador', {formLogin});
 	});
-	app.post('/empregadorlogin', Validation(fields.login), Empregador.empregadorLogin);
+	app.post('/login/empregador', Validation(fields.login), Empregador.empregadorLogin);
 	app.get('/empregador', (req, res) => {
 		let nome = req.session.nome;
 		res.render('empregador/empregador-home', {nome: nome});
 	});
+
+	// 404
+	//app.get('*', (req, res) => { res.redirect('/'); });
 
 }

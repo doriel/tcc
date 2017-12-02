@@ -1,4 +1,4 @@
-extends ./layout-secundario
+extends ../layout-secundario
 
 block title
 	title Criar conta Empresa - Jobz
@@ -14,7 +14,7 @@ block erro
 block form
 	h1 Criar conta Empregador
 	.jb-space.single
-	form(action="/empregadorcriarconta" method="post")
+	form(action="/criarconta/empregador" method="post")
 		.form-inp
 			.col-left
 				label Nome da empresa

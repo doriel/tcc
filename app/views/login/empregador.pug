@@ -1,4 +1,4 @@
-extends ./layout-secundario
+extends ../layout-secundario
 
 block title
 	title Login Empregador - Jobz
@@ -11,18 +11,23 @@ block notificacao
 		div.notificacao #{ formLogin }
 		.jb-space.single
 
+block erro
+	if formError
+		div.erro #{ formError }
+		.jb-space.single
+
 block form
 	h1 Login Empregador
 	.jb-space.single
-	form(action="/empregadorlogin" method="post")
+	form(action="/login/empregador" method="post")
 		.form-inp
 			label Email
-			input(type="email" name="email" placeholder="Email")
+			input(type="email" name="email" placeholder="Email" required)
 		.form-inp
 			label Password
-			input(type="password" name="password" placeholder="*********")
+			input(type="password" name="password" placeholder="*********" required)
 		.form-inp
 			.col-left
 				button Entrar
 			.col-left
-				a(href="/empregadorcriarconta" alt="Criar conta Empregador" class="btn") Criar conta Empregador
+				a(href="/criarconta/empregador" alt="Criar conta Empregador" class="btn") Criar conta Empregador

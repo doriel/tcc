@@ -1,4 +1,4 @@
-extends ./layout-secundario
+extends ../layout-secundario
 
 block title
 	title Login - Jobz	
@@ -13,7 +13,7 @@ block erro
 block form
 	h1 Login Candidato
 	.jb-space.single
-	form(action="/login" method="post")
+	form(action="/login/candidato" method="post")
 		.form-inp
 			label Email
 			input(name="email" type="email" required placeholder="Email")
