@@ -31,7 +31,7 @@ gulp.task('watch', () => {
 // Browser Sync
 gulp.task('browserSync', ['nodemon', 'watch'], () => {
 	browserSync.init(null, {
-		proxy: 'http://localhost:3000',
+		proxy: 'http://localhost:3009',
 		files: filesToWatch,
 		browser: 'google chrome',
 		port: 3005
