@@ -71,6 +71,7 @@ module.exports = (app) => {
 		res.render('empregador/empregador-home', {nome: nome});
 	});
 	app.get('/empregador/publicar-vaga', (req, res) => { res.render('empregador/publicar-vaga'); })
+	app.post('/empregador/publicar-vaga', Empregador.publicarVaga);
 
 	// 404
 	app.get('*', (req, res) => { res.redirect('/'); });
