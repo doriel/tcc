@@ -12,10 +12,10 @@ block notificacao
 
 block form
 	.form-inp
-		if tipoUtilizador == 'candidato'
+		if (tipoUtilizador == 'candidato')
 			a(href="/candidato")
 				button Ir para o Perfil pessoal
 
-		if tipoUtilizador == 'empregador'
+		if (tipoUtilizador == 'empregador')
 			a(href="/empregador")
 				button Ir para o Perfil da empresa
