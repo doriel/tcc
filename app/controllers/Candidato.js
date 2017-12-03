@@ -23,16 +23,16 @@ module.exports.criarConta = (req, res) => {
 		telefone,
 		telefoneAlternativo
 	} = req.body;
-
-	console.log(dataDeNascimento);
+	
 	dataDeNascimento = moment(dataDeNascimento).format('YYYY-MM-DD');
-	console.log(dataDeNascimento);
 
 	// Gerar código de confirmação aleatório segundo o MDN 
 	let codConfirmacao = Math.floor(Math.random() * (999999 - 0) + 0);
 
 	// Consultar se já existe um utilizador na base de dados
-	sqlEmail = `SELECT email FROM Candidato WHERE email = '${email}'`;
+	let sqlEmail = `SELECT email FROM Candidato WHERE email = ?`;
+	let campos = [email];
+	sqlEmail = db.format(sqlEmail, campos);
 	db.query(sqlEmail, (err, resultado) => {
 
 		if(resultado.length === 0){
@@ -41,11 +41,13 @@ module.exports.criarConta = (req, res) => {
 			let sql = `INSERT INTO Candidato
 				(primeiro_nome, ultimo_nome, email, password, codigo_de_confirmacao, data_de_registo,
 				data_de_nascimento, genero, nacionalidade, naturalidade, provincia_onde_reside, morada,
-				telefone, telefone_alternativo)
-				VALUES ('${primeiroNome}', '${ultimoNome}', '${email}', '${password}',
-				'${codConfirmacao}', CURDATE(), '${dataDeNascimento}', '${genero}', '${nacionalidade}',
-				'${naturalidade}', '${provinciaOndeReside}', '${morada}', '${telefone}', '${telefoneAlternativo}')`;
-
+				telefone, telefone_alternativo) VALUES (?, ?, ?, ?, ?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?)`;
+			let camposInsert = [primeiroNome, ultimoNome, email,
+			password, codConfirmacao, dataDeNascimento, genero,
+			nacionalidade, naturalidade, provinciaOndeReside,
+			morada, telefone, telefoneAlternativo]
+			// Formatar os campos e preparar devidamente a query
+			sql = db.format(sql, camposInsert);
 			// Inser os dados do utilizador na base de dados
 			db.query(sql, (err, resultado) => {
 				if(err) throw err;
@@ -65,11 +67,6 @@ module.exports.criarConta = (req, res) => {
 					`
 				});
 
-				/*res.json({
-					message: "A sua conta foi criada com sucesso"
-				});*/
-				// Redireciona para a página de confirmar conta
-				//res.redirect('/confirmarconta');
 				// Salva os dados da sessão
 				req.session.email = email;
 				req.session.primeiroNome = primeiroNome;
@@ -130,9 +127,14 @@ module.exports.confirmarConta = (req, res) => {
 
 module.exports.login = (req, res) => {
 
+	// Obter os campos da requisição
 	let { email, password } = req.body;
 
-	let sql = `SELECT email, password, primeiro_nome FROM Candidato WHERE email = '${email}'`;
+	// Prepara a query sql
+	let sql = `SELECT email, password, primeiro_nome FROM Candidato WHERE email = ?`;
+	let campos = [email, password];
+	// Formatar os campos e preparar devidamente a query
+	sql = db.format(sql, campos);
 	db.query(sql, (err, resultado) => {
 	
 		console.log(resultado[0]);

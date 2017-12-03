@@ -8,10 +8,6 @@ const moment = require('moment');
 */
 module.exports.empregadorCriarConta = (req, res)=>{
 
-	// Limpa os erros da sessão
-	req.session.formCriarContaErro = "";
-	req.session.formLogin = "";
-
 	let {
 		nome,
 		nomeDoResponsavel,
@@ -21,8 +17,10 @@ module.exports.empregadorCriarConta = (req, res)=>{
 		password
 	} = req.body;
 
+	let campoSelect = [email];
 	// Verificar se já existe uma conta empresa com o email provido pelo utilizador
-	let sqlEmail = `SELECT email_do_responsavel FROM Empregador WHERE email_do_responsavel = '${email}'`;
+	let sqlEmail = `SELECT email_do_responsavel FROM Empregador WHERE email_do_responsavel = ?`;
+	sqlEmail = db.format(sqlEmail, campoSelect);
 	db.query(sqlEmail, (err, resultado) => {
 
 		if (err) throw err;
@@ -30,9 +28,13 @@ module.exports.empregadorCriarConta = (req, res)=>{
 		if (resultado.length === 0) {
 
 			// Salvar os dados do novo candidato na base de dados
+			let campos = [nome, nome_do_responsavel, area_de_actuacao,
+			ano_de_fundacao, email_do_responsavel, password];
 			let sql = `INSERT INTO Empregador
 			(nome, nome_do_responsavel, area_de_actuacao, ano_de_fundacao, email_do_responsavel, password)
-			VALUES ('${nome}', '${nomeDoResponsavel}', '${areaDeActuacao}', '${anoDeFundacao}', '${email}', '${password}')`;
+			VALUES (?, ?, ?, ?, ?, ?)`;
+			// Formatar os campos e preparar devidamente a query
+			sql = db.format(sql, campos);
 
 			db.query(sql, (err, resultado) => {
 				if (err) throw err;
@@ -71,7 +73,9 @@ module.exports.empregadorLogin = (req, res) => {
 
 	let { email, password } = req.body;
 
-	let sql = `SELECT email_do_responsavel, password, nome FROM Empregador WHERE email_do_responsavel = '${email}'`;
+	let sql = `SELECT email_do_responsavel, password, nome FROM Empregador WHERE email_do_responsavel = ?`;
+	let campos = [email, password];
+	sql = db.format(sql, campos);
 	db.query(sql, (err, resultado) => {
 		
 		console.log(resultado);
