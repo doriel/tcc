@@ -3,8 +3,9 @@ const db = require('../models/database');
 const EnviarMail = require('./EnviarMail');
 const moment = require('moment');
 
-/* EmpresaCriarConta: Esta função é responsável por criar uma nova conta de
-* utilizador do tipo empresa
+/*
+*	empregadorCriarConta: Esta função é responsável por criar uma nova conta de
+*	utilizador do tipo empresa
 */
 module.exports.empregadorCriarConta = (req, res)=>{
 
@@ -66,14 +67,14 @@ module.exports.empregadorCriarConta = (req, res)=>{
 }
 
 /*
-* empresaLogin: Esta função é responsável por realizar o login para os
-* utilizadores do tipo Empregador
+*	empregadorLogin: Esta função é responsável por realizar o login para os
+*	utilizadores do tipo Empregador
 */
 module.exports.empregadorLogin = (req, res) => {
 
 	let { email, password } = req.body;
 
-	let sql = `SELECT email_do_responsavel, password, nome FROM Empregador WHERE email_do_responsavel = ?`;
+	let sql = `SELECT email_do_responsavel, password, nome, idEmpregador FROM Empregador WHERE email_do_responsavel = ?`;
 	let campos = [email, password];
 	sql = db.format(sql, campos);
 	db.query(sql, (err, resultado) => {
@@ -87,6 +88,7 @@ module.exports.empregadorLogin = (req, res) => {
 
 				req.session.email = email;
 				req.session.nome = resultado[0].nome_do_responsavel;
+				req.session.ID = resultado[0].idEmpregador;
 				req.session.tipoUtilizador = 'empregador';
 				res.redirect('/empregador');
 
@@ -104,10 +106,44 @@ module.exports.empregadorLogin = (req, res) => {
 }
 
 /*
-*	Logout: Esta função é responsável por realizar o logout no sistema
+*	logout: Esta função é responsável por realizar o logout no sistema
 */
 
 module.exports.logout = (req, res) => {
 	req.session.destroy();
 	res.redirect('/');
+}
+
+/*
+*	publicarVaga: Esta função é responsável por públicar vagas
+*/
+
+module.exports.publicarVaga = (req, res) => {
+
+	// Campos do formulário
+	let { cargo, tipoDeContrato, anosDeExperiencia,
+		salario, areaDeActuacao, provincias, descricao,
+		habilidadesNecessarias, quantidadeDeVagas, dataLimite,
+		idiomas
+	} = req.body;
+
+	let campos = [req.session.ID, cargo, tipoDeContrato, anosDeExperiencia,
+		salario, areaDeActuacao, provincias, descricao,
+		habilidadesNecessarias, quantidadeDeVagas, dataLimite,
+		idiomas];
+
+	// Query
+	let sql = `INSERT INTO Vaga (Empregador_idEmpregador, cargo, tipo_de_contrato,
+	anos_de_experiencia, salario, area_de_actuacao, provincia, descricao, habilidades_necessarias,
+	quantidade_de_vagas, data_limite, idiomas, data_de_publicacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pt', CURDATE())`;
+
+	sql = db.format(sql, campos);
+
+	db.query(sql, (err, resultado) => {
+
+		if(err) throw err;
+
+		res.redirect('/empregador');
+	});
+
 }
