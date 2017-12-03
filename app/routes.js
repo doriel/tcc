@@ -49,7 +49,7 @@ module.exports = (app) => {
 		});
 	});
 
-	// Empresas
+	// Empregador
 	app.get('/criarconta/empregador', (req, res) => {
 		let formCriarContaErro = req.session.formCriarContaErro;
 		res.render('criarconta/empregador', {formCriarContaErro});
@@ -70,6 +70,7 @@ module.exports = (app) => {
 		let nome = req.session.nome;
 		res.render('empregador/empregador-home', {nome: nome});
 	});
+	app.get('/empregador/publicar-vaga', (req, res) => { res.render('empregador/publicar-vaga'); })
 
 	// 404
 	app.get('*', (req, res) => { res.redirect('/'); });
