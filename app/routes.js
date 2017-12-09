@@ -8,6 +8,7 @@ const CTRL = './controllers';
 // Dependências: Importa controllers
 const Candidato = require(`${CTRL}/Candidato.js`);
 const Empregador = require(`${CTRL}/Empregador.js`);
+const Vagas = require(`${CTRL}/Vagas.js`);
 
 // Outras dependências
 const Validation = require('express-validation');
@@ -54,11 +55,7 @@ module.exports = (app) => {
 		let formCriarContaErro = req.session.formCriarContaErro;
 		res.render('criarconta/empregador', {formCriarContaErro});
 	});
-	app.get('/empregador', (req, res) => {
-		res.render('empregador/empregador-home', {
-			nome: req.session.nome
-		});
-	});
+	app.get('/empregador', Vagas.listarVagas);
 
 	app.post('/criarconta/empregador', Validation(fields.empresaCriarConta), Empregador.empregadorCriarConta );
 	app.get('/login/empregador', (req, res) => { 
