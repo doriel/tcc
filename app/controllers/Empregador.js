@@ -52,7 +52,7 @@ module.exports.empregadorCriarConta = (req, res)=>{
 					`
 				});
 
-				//req.session.formLogin = "Conta Empregador criada com sucesso!";
+				// Gravar os dados na sessão
 				req.session.email = email;
 				req.session.nome = nomeDoResponsavel;
 				req.session.tipoUtilizador = 'empregador';
@@ -86,6 +86,7 @@ module.exports.empregadorLogin = (req, res) => {
 
 			if(resultado[0].password == password) {
 
+				// Gravar os dados na sessão
 				req.session.email = email;
 				req.session.nome = resultado[0].nome_do_responsavel;
 				req.session.ID = resultado[0].idEmpregador;
@@ -137,12 +138,14 @@ module.exports.publicarVaga = (req, res) => {
 	anos_de_experiencia, salario, area_de_actuacao, provincia, descricao, habilidades_necessarias,
 	quantidade_de_vagas, data_limite, idiomas, data_de_publicacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pt', CURDATE())`;
 
+	// Preparar os campos para previnir injeção SQL
 	sql = db.format(sql, campos);
 
 	db.query(sql, (err, resultado) => {
 
 		if(err) throw err;
 
+		// Redireciona para a rota empregador
 		res.redirect('/empregador');
 	});
 
