@@ -25,10 +25,24 @@ block content
 						td Data de publicação
 						td Total candidaturas
 						td Dias restantes
+						td Estado
 						td Opções
 
 				tbody
-					tr
-						td
+					each vaga, i in Vagas
+						tr
+							td #{i+1}
+							td 
+								a(href!="/empregador/vagas/" + vaga.ID) #{vaga.cargo}
+							td #{vaga.dataDePublicacao}
+							td
+							td #{vaga.diasRestantes}
+							td
+							td 
+								a(href!="/empregador/vagas/editar/" + vaga.ID) Editar
+								span &nbsp; | &nbsp;
+								a(href!="/empregador/vagas/remover/" + vaga.ID) Remover
+
+
 	
 
