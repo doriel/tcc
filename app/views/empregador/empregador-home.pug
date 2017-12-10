@@ -23,7 +23,6 @@ block content
 						td #
 						td Cargo
 						td Data de publicação
-						td Total candidaturas
 						td Dias restantes
 						td Estado
 						td Opções
@@ -35,9 +34,8 @@ block content
 							td 
 								a(href!="/empregador/vagas/" + vaga.ID) #{vaga.cargo}
 							td #{vaga.dataDePublicacao}
-							td
 							td #{vaga.diasRestantes}
-							td
+							td #{vaga.estado}
 							td 
 								a(href!="/empregador/vagas/editar/" + vaga.ID) Editar
 								span &nbsp; | &nbsp;
