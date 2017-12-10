@@ -136,7 +136,7 @@ module.exports.publicarVaga = (req, res) => {
 	// Query
 	let sql = `INSERT INTO Vaga (Empregador_idEmpregador, cargo, tipo_de_contrato,
 	anos_de_experiencia, salario, area_de_actuacao, provincia, descricao, habilidades_necessarias,
-	quantidade_de_vagas, data_limite, idiomas, data_de_publicacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pt', CURDATE())`;
+	quantidade_de_vagas, data_limite, idiomas, estado, data_de_publicacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pt', 'Activo', CURDATE())`;
 
 	// Preparar os campos para previnir injeção SQL
 	sql = db.format(sql, campos);

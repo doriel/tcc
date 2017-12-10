@@ -31,7 +31,7 @@ module.exports.listarVagas = (req, res) => {
 					ID: vaga.idVaga,
 					cargo: vaga.cargo,
 					dataDePublicacao: moment(vaga.data_de_publicacao).format('DD-MM-YYYY'),
-					/*totalDeCandidaturas: vaga.total_de_candidaturas*/
+					estado: vaga.estado,
 					diasRestantes: diasRestantes
 				}
 			});
