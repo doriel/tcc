@@ -14,9 +14,9 @@ block menu
 
 block content
 	.pages.wrap
-		h1 As suas vagas
-
-		.vagas-listing
+		if Vagas
+			h1 As suas vagas
+			.vagas-listing
 			table
 				thead
 					tr
@@ -37,9 +37,13 @@ block content
 							td #{vaga.diasRestantes}
 							td #{vaga.estado}
 							td 
-								a(href!="/empregador/vagas/editar/" + vaga.ID) Editar
+								a(href!="/empregador/editar-vaga/" + vaga.ID) Editar
 								span &nbsp; | &nbsp;
-								a(href!="/empregador/vagas/remover/" + vaga.ID) Remover
+								a(href!="/empregador/remover-vaga/" + vaga.ID) Remover
+		else
+			h1 Nenhuma vaga publicada.
+			a(href="/empregador/publicar-vaga")
+				button.btn PUBLICAR VAGA
 
 
 	

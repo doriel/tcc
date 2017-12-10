@@ -39,8 +39,26 @@ module.exports.listarVagas = (req, res) => {
 			res.render('empregador/empregador-home', {Vagas});
 
 		} else {
-			return "";
+			res.render('empregador/empregador-home', {Vagas});
 		}
+	});
+
+}
+
+module.exports.removerVaga = (req, res) => {
+
+	// Id da vaga
+	let campos = [req.params.id]
+
+	// Query para remover a vaga na tabela
+	let sql = `DELETE FROM Vaga WHERE idVaga = ?`;
+	// Prepara devidamente a query
+	sql = db.format(sql, campos);
+	// Executa a query
+	db.query(sql, (err, resultado) => {
+		if(err) throw err;
+
+		res.redirect('/empregador');
 	});
 
 }
