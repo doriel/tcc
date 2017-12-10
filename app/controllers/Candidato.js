@@ -170,3 +170,18 @@ module.exports.logout = (req, res) => {
 	req.session.destroy();
 	res.redirect('/');
 }
+
+/*
+*	ListarCandidatos: Este módulo é responsável por listar todos os candidatos
+*/
+
+module.exports.listarCandidatos = (req, res) => {
+
+	let sql = `SELECT * FROM Candidato`;
+	db.query(sql, (err, resultado) => {
+		if(err) throw err;
+
+		res.render('empregador/pesquisar-candidatos', {Candidatos: resultado});
+	});
+
+}

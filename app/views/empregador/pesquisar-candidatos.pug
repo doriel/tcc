@@ -1,0 +1,42 @@
+extends ../layout
+
+block menu
+	nav.menu.col-right
+		ul
+			li
+				a(href="/empregador/publicar-vaga") PUBLICAR VAGA
+			li
+				a(href="/empregador/pesquisar-candidatos") PESQUISAR CANDIDATOS
+			li
+				a(href="/empregador/minha-conta") MINHA CONTA
+			li.a-btn
+				a(href="/logout") TERMINAR SESSÃO
+
+block content
+	.pages.wrap
+		if Candidatos
+			h1 Pesquisa de Candidatos
+			.vagas-listing
+				table
+					thead
+						tr
+							td #
+							td Nome
+							td Nacionalidade
+							td Província onde reside
+							td Email
+							td Telefone
+
+					tbody
+						each candidato, i in Candidatos
+							tr
+								td #{i+1}
+								td 
+									a(href!="/empregador/candidatos/" + candidato.idCandidato) #{candidato.primeiro_nome} #{candidato.ultimo_nome}
+								td #{candidato.nacionalidade}
+								td #{candidato.provincia_onde_reside}
+								td #{candidato.email}
+								td #{candidato.telefone}
+
+		else
+			h1 Nenhum candidato encontrado.
