@@ -67,6 +67,9 @@ module.exports = (app) => {
 		let nome = req.session.nome;
 		res.render('empregador/empregador-home', {nome: nome});
 	});
+	app.get('/empregador/minha-conta', Empregador.minhaConta);
+
+	app.get('/empregador/pesquisar-candidatos', Candidato.listarCandidatos);
 
 	// Vagas
 	app.get('/empregador/publicar-vaga', (req, res) => { res.render('empregador/publicar-vaga'); })

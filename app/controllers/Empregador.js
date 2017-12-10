@@ -150,3 +150,24 @@ module.exports.publicarVaga = (req, res) => {
 	});
 
 }
+
+/*
+*	minhaConta: Este módulo é reponsável por mostrar os dados da
+*	conta empresa na página minha conta
+*/
+
+module.exports.minhaConta = (req, res) => {
+
+	let idEmpregador = req.session.ID;
+	let sql = `SELECT * FROM Empregador WHERE idEmpregador = ?`;
+	// Preparar devidamente a query
+	sql = db.format(sql, idEmpregador);
+	// Executar a query
+	db.query(sql, (err, resultado) => {
+
+		if(err) throw err;
+
+		res.render('empregador/minha-conta', {Empregador: resultado});
+	});
+
+}

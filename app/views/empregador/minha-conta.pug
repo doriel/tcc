@@ -1,0 +1,17 @@
+extends ../layout
+
+block menu
+	nav.menu.col-right
+		ul
+			li
+				a(href="/empregador/publicar-vaga") PUBLICAR VAGA
+			li
+				a(href="/empregador/pesquisar-candidatos") PESQUISAR CANDIDATOS
+			li
+				a(href="/empregador/minha-conta") MINHA CONTA
+			li.a-btn
+				a(href="/logout") TERMINAR SESSÃO
+
+block content
+	.pages.wrap
+		h1 Minha conta
