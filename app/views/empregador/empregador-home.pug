@@ -17,29 +17,29 @@ block content
 		if Vagas
 			h1 As suas vagas
 			.vagas-listing
-			table
-				thead
-					tr
-						td #
-						td Cargo
-						td Data de publicação
-						td Dias restantes
-						td Estado
-						td Opções
-
-				tbody
-					each vaga, i in Vagas
+				table
+					thead
 						tr
-							td #{i+1}
-							td 
-								a(href!="/empregador/vagas/" + vaga.ID) #{vaga.cargo}
-							td #{vaga.dataDePublicacao}
-							td #{vaga.diasRestantes}
-							td #{vaga.estado}
-							td 
-								a(href!="/empregador/editar-vaga/" + vaga.ID) Editar
-								span &nbsp; | &nbsp;
-								a(href!="/empregador/remover-vaga/" + vaga.ID) Remover
+							td #
+							td Cargo
+							td Data de publicação
+							td Dias restantes
+							td Estado
+							td Opções
+
+					tbody
+						each vaga, i in Vagas
+							tr
+								td #{i+1}
+								td 
+									a(href!="/empregador/vagas/" + vaga.ID) #{vaga.cargo}
+								td #{vaga.dataDePublicacao}
+								td #{vaga.diasRestantes}
+								td #{vaga.estado}
+								td 
+									a(href!="/empregador/editar-vaga/" + vaga.ID) Editar
+									span &nbsp; | &nbsp;
+									a(href!="/empregador/remover-vaga/" + vaga.ID) Remover
 		else
 			h1 Nenhuma vaga publicada.
 			a(href="/empregador/publicar-vaga")
