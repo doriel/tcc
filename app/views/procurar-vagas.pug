@@ -1,0 +1,20 @@
+extends ./layout
+
+block content
+	.pages.wrap
+		.jb-space.single
+		if !semVagas
+			h1 Resultados da pesquisa
+			each vaga, i in Vagas
+				article.vagas
+					.logo-empresa.col-left
+						img(src="/img/default.jpg")
+					.descricao-vaga.col-right
+						.meta-dados
+							h1 #{vaga.cargo}
+							hr
+							p.empresa <i class="fa fa-users" aria-hidden="true"></i> #{vaga.nome}
+							.jb-space.single
+							p.data-location <i class="fa fa-map-marker" aria-hidden="true"></i> #{vaga.provincia} &nbsp; | &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i> #{vaga.data_de_publicacao}
+		else
+			h1 Nenhum vaga foi encontrada
