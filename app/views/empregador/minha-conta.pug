@@ -15,3 +15,77 @@ block menu
 block content
 	.pages.wrap
 		h1 Minha conta
+		p Edite informações da sua conta.
+		.jb-space
+
+		form(action="" method="post")
+			.form-inp
+				.col-left
+					label Nome
+					input(type="text" name="nome" placeholder="Nome" value!=""+Empregador.nome required)
+
+				.col-left
+					label Ano de fundação
+					- var ano = 1970;
+					- var anoCorrente = new Date().getFullYear();
+					select(name="anoDeFundacao" required)
+						option(value!=""+Empregador.ano_de_fundacao) #{Empregador.ano_de_fundacao}
+						while anoCorrente > ano
+							option(value=anoCorrente) #{anoCorrente}
+							- anoCorrente--;
+			.form-inp
+				.col-left
+					label Número de funcionários
+					input(type="number" name="numeroDeFuncionarios" required min="0" value!=""+Empregador.numero_de_funcionarios)
+
+				.col-left
+					label Área de actuação
+					include ../include/areaDeActuacao
+
+			.form-inp
+				.col-left
+					label Nome do responsável
+					input(type="text" name="nomeDoResponsavel" required value!=""+Empregador.nome_do_responsavel)
+
+				.col-left
+					label Email do responsável
+					input(type="email" name="emailDoResponsavel" required value!=""+Empregador.email_do_responsavel)
+
+			.form-inp
+				.col-left
+					label Email da empresa
+					input(type="email" name="email" required value!=""+Empregador.email)
+
+				.col-left
+					label Contacto
+					input(type="number" name="contacto" required value!=""+Empregador.contacto)
+
+			.form-inp.links
+				.form-inp
+					.col-left
+						label Serviço
+						select(name="nomeDoServico")
+							option(value="Website") Website
+							option(value="Linkedin") Linkedin
+							option(value="Facebook") Facebook
+							option(value="Twitter") Twitter
+
+					.col-left
+						label Endereço
+						input(type="text" name="link" placeholder="Link")
+
+
+			.form-inp
+				label Biografia
+				textarea(name="biografia", cols="30", rows="10", maxlenght="300" value!=""+Empregador.biografia)
+
+			//.form-inp
+				.col-left
+					label Password actual
+					input(type="password" name="password" required placeholder="*********")
+
+				.col-left
+					label Password nova
+					input(type="password" name="novaPassword" placeholder="*********")
+			.form-inp
+				button Guardar alterações
