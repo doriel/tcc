@@ -158,16 +158,63 @@ module.exports.publicarVaga = (req, res) => {
 
 module.exports.minhaConta = (req, res) => {
 
-	let idEmpregador = req.session.ID;
+	let campos = req.session.ID;
 	let sql = `SELECT * FROM Empregador WHERE idEmpregador = ?`;
 	// Preparar devidamente a query
-	sql = db.format(sql, idEmpregador);
+	sql = db.format(sql, campos);
 	// Executar a query
 	db.query(sql, (err, resultado) => {
 
 		if(err) throw err;
 
-		res.render('empregador/minha-conta', {Empregador: resultado});
+		res.render('empregador/minha-conta', {Empregador: resultado[0]});
 	});
 
 }
+
+/*
+*	minhaConta: Este módulo é reponsável por mostrar os dados da
+*	conta empresa na página minha conta
+*/
+module.exports.actualizarInformacoesMinhaConta = (req, res) => {
+
+	// Campos do formulário
+	let {
+		nome, anoDeFundacao,
+		numeroDeFuncionarios, nomeDoResponsavel,
+		emailDoResponsavel, email,
+		contacto, biografia 
+	} = req.body;
+
+	let campos = [
+		nome, anoDeFundacao,
+		numeroDeFuncionarios, nomeDoResponsavel,
+		emailDoResponsavel, email,
+		contacto, biografia,
+		req.session.ID
+	];
+
+	// Preparar a query
+	let sql = `UPDATE Empregador SET nome = ?, ano_de_fundacao = ?, numero_de_funcionarios = ?,
+	nome_do_responsavel = ?, email_do_responsavel = ?, email = ?, contacto = ?, biografia = ?
+	WHERE idEmpregador = ?`;
+	sql = db.format(sql, campos);
+
+	db.query(sql, (err, resultado) => {
+		if(err) throw err;
+
+		res.redirect('/empregador');
+	});
+}
+
+/*
+*	editarMinhaConta: Este módulo é reponsável editar as informações da
+*	conta empregador
+*/
+
+module.exports.editarMinhaConta = (req, res) => {
+
+	
+
+}
+
