@@ -9,6 +9,7 @@ const CTRL = './controllers';
 const Candidato = require(`${CTRL}/Candidato.js`);
 const Empregador = require(`${CTRL}/Empregador.js`);
 const Vagas = require(`${CTRL}/Vagas.js`);
+const Paginas = require(`${CTRL}/Paginas.js`);
 
 // Outras dependências
 const Validation = require('express-validation');
@@ -19,7 +20,9 @@ const fields = require('./fields');
 // Exporta as rotas da API do portal
 module.exports = (app) => {
 
-	app.get('/', (req, res) => { res.render('index'); });
+	app.get('/', Paginas.homePage);
+
+	app.post('/procurar-vagas', Paginas.procurarVagas)
 
 	// Candidato
 
