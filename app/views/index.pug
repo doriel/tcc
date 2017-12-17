@@ -11,10 +11,10 @@ block content
 			.procura
 				div.title PROCURAR VAGAS
 				.jb-space.single
-				form(action="/procura" method="post")
+				form(action="/procurar-vagas" method="post")
 					.form-inp
 						.col-left
-							input(type="text" required name="procura" placeholder="Programador Java")
+							input(type="text" required name="pesquisa" placeholder="Programador Java")
 						.col-left
 							include ./include/provincias
 						.col-right
@@ -23,15 +23,16 @@ block content
 		.row.wrap
 			div.title ÚLTIMAS VAGAS
 			.jb-space.single
-			each val in [1, 2, 3, 4, 5, 6, 7, 8]
-				article.vagas
-					.logo-empresa.col-left
-						img(src="/img/default.jpg")
-					.descricao-vaga.col-right
-						.meta-dados
-							h1 Programador Front-End
-							hr
-							p.empresa <i class="fa fa-users" aria-hidden="true"></i> Jupiter Angola
-							.jb-space.single
-							p.data-location <i class="fa fa-map-marker" aria-hidden="true"></i> Luanda &nbsp; | &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i> 28/11/2017
+			if !semVagas
+				each vaga, i in Vagas
+					article.vagas
+						.logo-empresa.col-left
+							img(src="/img/default.jpg")
+						.descricao-vaga.col-right
+							.meta-dados
+								h1 #{vaga.cargo}
+								hr
+								p.empresa <i class="fa fa-users" aria-hidden="true"></i> #{vaga.nome}
+								.jb-space.single
+								p.data-location <i class="fa fa-map-marker" aria-hidden="true"></i> #{vaga.provincia} &nbsp; | &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i> #{vaga.data_de_publicacao}
 
