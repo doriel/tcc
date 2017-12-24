@@ -55,7 +55,6 @@ module.exports = (app) => {
 
 	// Empregador
 	app.get('/criarconta/empregador', (req, res) => {
-		let formCriarContaErro = req.session.formCriarContaErro;
 		res.render('criarconta/empregador', {formCriarContaErro});
 	});
 	app.get('/empregador', Vagas.listarVagas);
@@ -71,14 +70,15 @@ module.exports = (app) => {
 		res.render('empregador/empregador-home', {nome: nome});
 	});
 	app.get('/empregador/minha-conta', Empregador.minhaConta);
-
 	app.get('/empregador/pesquisar-candidatos', Candidato.listarCandidatos);
 
 	// Vagas
+	app.get('/vaga/:idVaga', Vagas.obterVaga)
 	app.get('/empregador/publicar-vaga', (req, res) => { res.render('empregador/publicar-vaga'); })
 	app.post('/empregador/publicar-vaga', Empregador.publicarVaga);
-
 	app.get('/empregador/remover-vaga/:id', Vagas.removerVaga);
+	app.get('/empregador/editar-vaga/:id', Vagas.viewEditarVaga);
+	app.get('/empregador/editar-vaga/', Vagas.editarVaga);
 
 	// 404
 	app.get('*', (req, res) => { res.redirect('/'); });
