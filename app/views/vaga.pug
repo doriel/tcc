@@ -1,0 +1,42 @@
+extends ./layout
+
+block content
+	.pages.wrap
+		.jb-space.single
+		if !semVagas
+			article.vagas.vaga-full
+				.logo-empresa.col-left
+					img(src="/img/default.jpg")
+				.descricao-vaga.col-right
+					.meta-dados
+						h1 
+							a(href!="/vaga/"+Vaga.ID) #{Vaga.cargo}
+						.jb-space.single
+						p.empresa <i class="fa fa-users" aria-hidden="true"></i> #{Vaga.nome}
+						.jb-space.single
+						p.data-location <i class="fa fa-map-marker" aria-hidden="true"></i> #{Vaga.provincia} &nbsp; | &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i> #{Vaga.dataDePublicacao}
+						.jb-space.single
+						hr
+						.jb-space.single
+
+						p Descrição: #{Vaga.descricao}
+						p Habilidade necessárias: #{Vaga.habilidadesNecessarias}
+						.jb-space.single
+
+						p Tipo de contrato: #{Vaga.tipoDeContrato}
+
+						p Anos de experiência: #{Vaga.anosDeExperiencia}
+
+						p Área de actuação: #{Vaga.areaDeActuacao}
+
+
+						p Salário: #{Vaga.salario}
+
+						p Quantidade de vagas disponíveis: #{Vaga.quantidadeDeVagas}
+						
+						.jb-space.single
+						a(href="/vaga/candidatura/" + Vaga.ID)
+							button.btn Enviar candidatura
+
+		else
+			h1 Nenhum vaga foi encontrada
