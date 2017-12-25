@@ -16,6 +16,7 @@ block content
 	.pages.wrap
 		if Vagas
 			h1 As suas vagas
+			.jb-space
 			.vagas-listing
 				table
 					thead
@@ -42,8 +43,9 @@ block content
 									a(href!="/empregador/remover-vaga/" + vaga.ID) Remover
 		else
 			h1 Nenhuma vaga publicada.
+			.jb-space.single
 			a(href="/empregador/publicar-vaga")
-				button.btn PUBLICAR VAGA
+				button.btn Publicar nova vaga
 
 
 	
