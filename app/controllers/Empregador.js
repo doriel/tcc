@@ -227,5 +227,48 @@ module.exports.actualizarMinhaConta = (req, res) => {
 */
 
 module.exports.viewAlterarPassword = (req, res) => {
+	res.render('empregador/alterar-password')
+}
 
+module.exports.alterarPassword = (req, res) => {
+	
+	// Campos do formulário
+	let { passwordActual, novaPassword } = req.body;
+	const ID = req.session.ID;
+
+	// Consulta para procurar o utilizador
+	let sqlUtilizador = `SELECT password FROM Empregador WHERE idEmpregador = ?`;
+	// Preparar a query
+	sqlUtilizador = db.format(sqlUtilizador, ID);
+	db.query(sqlUtilizador, (err, resultado) => {
+
+		if(resultado.length > 0){
+
+			// Compara a password
+			if(bcrypt.compareSync(passwordActual, resultado[0].password) == true) {
+
+				// Encripta e actualiza na base de dados
+				novaPassword = bcrypt.hashSync(novaPassword);
+				// Query para actualizar os campos
+				sqlActualizar = `UPDATE Empregador SET password = ? WHERE idEmpregador = ?`;
+				// Formatar a query
+				sqlActualizar = db.format(sqlActualizar, [novaPassword, ID]);
+				// Executar a query
+				db.query(sqlActualizar, (err, data) => {
+					if(err) throw err;
+
+					res.render('empregador/alterar-password', {notificacao: 'Password alterada com sucesso!'});
+				});
+
+			} else {
+				res.render('empregador/alterar-password', {
+					formError: 'A password actual não corresponde com a password desta conta. Tente novamente.'
+				});
+			}
+
+		} else {
+			res.redirect('/empregador');
+		}
+
+	});
 }
