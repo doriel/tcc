@@ -9,18 +9,20 @@ const moment = require('moment');
 module.exports.homePage = (req, res) => {
 
 	let sql = `SELECT idVaga, cargo, data_de_publicacao, provincia, nome
-	FROM Vaga, Empregador WHERE estado = 'Activo';`;
+	FROM Vaga, Empregador WHERE estado = 'Activo' AND Empregador_idEmpregador = idEmpregador
+	ORDER BY data_de_publicacao DESC`;
 
 	db.query(sql, (err, vagas) => {
 
 		if(err) throw err;
 
-		console.log(vagas);
+		// console.log(vagas);
 
 		if (vagas.length > 0){
 
 			vagas = vagas.map((v) => {
 				return {
+					ID: v.idVaga,
 					cargo: v.cargo,
 					data_de_publicacao: moment(v.data_de_publicacao).format('DD/MM/YYYY'),
 					nome: v.nome,
@@ -41,8 +43,10 @@ module.exports.procurarVagas = (req, res) => {
 
 	let pesquisa = '%' + req.body.pesquisa + '%';
 
+	// Consulta SQL para realizar a busca das vagas
 	let sql = `SELECT idVaga, cargo, data_de_publicacao, provincia, nome
-	FROM Vaga, Empregador WHERE cargo LIKE ? AND estado = 'Activo'`;
+	FROM Vaga, Empregador WHERE cargo LIKE ? AND estado = 'Activo'
+	AND Empregador_idEmpregador = idEmpregador`;
 
 	sql = db.format(sql, pesquisa);
 
@@ -54,6 +58,7 @@ module.exports.procurarVagas = (req, res) => {
 
 		vagas = vagas.map((v) => {
 			return {
+				ID: v.idVaga,
 				cargo: v.cargo,
 				data_de_publicacao: moment(v.data_de_publicacao).format('DD/MM/YYYY'),
 				nome: v.nome,
