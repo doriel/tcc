@@ -44,18 +44,11 @@ module.exports = (app) => {
 	app.get('/logout', Candidato.logout);
 
 	// Área privada Candidato
-	app.get('/candidato', (req, res) => { 
-
-		console.log(req.session.primeiroNome);
-
-		res.render('candidato/candidato-home', {
-			nome: req.session.primeiroNome
-		});
-	});
+	app.get('/candidato', Candidato.viewHomeAreaCandidato);
 
 	// Empregador
 	app.get('/criarconta/empregador', (req, res) => {
-		res.render('criarconta/empregador', {formCriarContaErro});
+		res.render('criarconta/empregador');
 	});
 	app.get('/empregador', Vagas.listarVagas);
 
@@ -70,6 +63,8 @@ module.exports = (app) => {
 		res.render('empregador/empregador-home', {nome: nome});
 	});
 	app.get('/empregador/minha-conta', Empregador.minhaConta);
+	app.post('/empregador/minha-conta', Empregador.actualizarMinhaConta);
+	app.get('/empregador/minha-conta/alterar-password', Empregador.viewAlterarPassword)
 	app.get('/empregador/pesquisar-candidatos', Candidato.listarCandidatos);
 
 	// Vagas
