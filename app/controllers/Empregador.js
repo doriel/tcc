@@ -125,18 +125,29 @@ module.exports.publicarVaga = (req, res) => {
 	let { cargo, tipoDeContrato, anosDeExperiencia,
 		salario, areaDeActuacao, provincias, descricao,
 		habilidadesNecessarias, quantidadeDeVagas, dataLimite,
-		idiomas
+		idiomas, nivelAcademico
 	} = req.body;
+
+	// Transforma o array com os idiomas numa string normal
+	let idiomasString = "";
+	for(var i = 0; i < idiomas.length; i++){
+		if(i == (idiomas.length - 1)){
+			idiomasString += idiomas[i];
+		} else {
+			idiomasString += `${idiomas[i]}, `;
+		}
+	}
 
 	let campos = [req.session.ID, cargo, tipoDeContrato, anosDeExperiencia,
 		salario, areaDeActuacao, provincias, descricao,
 		habilidadesNecessarias, quantidadeDeVagas, dataLimite,
-		idiomas];
+		idiomasString, nivelAcademico];
 
 	// Query
 	let sql = `INSERT INTO Vaga (Empregador_idEmpregador, cargo, tipo_de_contrato,
 	anos_de_experiencia, salario, area_de_actuacao, provincia, descricao, habilidades_necessarias,
-	quantidade_de_vagas, data_limite, idiomas, estado, data_de_publicacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pt', 'Activo', CURDATE())`;
+	quantidade_de_vagas, data_limite, idiomas, nivel_academico, estado, data_de_publicacao)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Activo', CURDATE())`;
 
 	// Preparar os campos para previnir injeção SQL
 	sql = db.format(sql, campos);

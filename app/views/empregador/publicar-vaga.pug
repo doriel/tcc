@@ -38,11 +38,11 @@ block content
 			.form-inp
 				.col-left 
 					label(for="") Descrição da função
-					textarea(name="descricao", cols="30", rows="10" placeholder="Descrição da função")
+					textarea(name="descricao", cols="30", rows="10" maxlength="1000" placeholder="Descrição da função")
 
 				.col-left 
 					label(for="") Habilidades necessárias
-					textarea(name="habilidadesNecessarias", cols="30", rows="10" required placeholder="Habilidades necessárias")
+					textarea(name="habilidadesNecessarias", maxlength="1000" cols="30", rows="10" required placeholder="Habilidades necessárias")
 
 			.form-inp
 				.col-left
@@ -52,9 +52,20 @@ block content
 					label(for="") Data limite
 					input(type="date" name="dataLimite" required)
 			.form-inp
-				label(for="") Idiomas
-				.jb-space.single
 				.col-left
+					label(for="") Nível académico
+					select(name="nivelAcademico" required)
+						option(value="") Escolha um nível académico
+						option(value="Ensino de base") Ensino de base
+						option(value="Técnico médio") Técnico médio
+						option(value="Frequência universitária") Frequência universitária
+						option(value="Licenciado") Licenciado
+						option(value="Mestre") Mestre
+						option(value="PhD") PhD
+
+				.col-left
+					label(for="") Idiomas
+					.jb-space.single
 					.col-left
 						span Português &nbsp;
 						input(type="checkbox" value="Português" name="idiomas")
