@@ -2,6 +2,7 @@
 const db = require('../models/database');
 const EnviarMail = require('./EnviarMail');
 const moment = require('moment');
+const bcrypt = require('bcrypt-nodejs');
 
 /*
 *	CriaConta: É responsável por criar uma nova conta de
@@ -36,6 +37,9 @@ module.exports.criarConta = (req, res) => {
 	db.query(sqlEmail, (err, resultado) => {
 
 		if(resultado.length === 0){
+
+			// Encriptar a password
+			password = bcrypt.hashSync(password);
 
 			// Salvar os dados do novo Candidato na base de dados
 			let sql = `INSERT INTO Candidato
@@ -147,12 +151,10 @@ module.exports.login = (req, res) => {
 	sql = db.format(sql, campos);
 	db.query(sql, (err, resultado) => {
 	
-		console.log(resultado[0]);
-
 		// Verifica se a bd retornou alguma linha
 		if(resultado.length > 0){
-			console.log('Comparar password');
-			if(resultado[0].password == password) {
+			// Comparar as password usando o método bcrypt.compareSync
+			if(bcrypt.compareSync(password, resultado[0].password) == true) {
 
 				req.session.email = email;
 				req.session.nome = resultado[0].primeiro_nome;
