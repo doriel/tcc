@@ -7,8 +7,8 @@ block descricao
 	h1 Crie a sua Empresa para poder públicar <b>novas vagas</b> e fazer procura de candidatos.
 
 block erro
-	if formCriarContaErro
-		.erro #{formCriarContaErro}
+	if formError
+		.erro #{formError}
 		.jb-space.single
 
 block form
@@ -38,7 +38,7 @@ block form
 		.form-inp
 			.col-left
 				label Email
-				input(type="email" name="email" required placeholder="Email")
+				input(type="email" name="emailDoResponsavel" required placeholder="Email")
 			.col-left
 				label Password
 				input(type="password" name="password" required placeholder="*********")

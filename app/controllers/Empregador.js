@@ -2,6 +2,7 @@
 const db = require('../models/database');
 const EnviarMail = require('./EnviarMail');
 const moment = require('moment');
+const bcrypt = require('bcrypt-nodejs');
 
 /*
 *	empregadorCriarConta: Esta função é responsável por criar uma nova conta de
@@ -14,23 +15,26 @@ module.exports.empregadorCriarConta = (req, res)=>{
 		nomeDoResponsavel,
 		anoDeFundacao,
 		areaDeActuacao,
-		email,
+		emailDoResponsavel,
 		password
 	} = req.body;
 
-	let campoSelect = [email];
 	// Verificar se já existe uma conta empresa com o email provido pelo utilizador
 	let sqlEmail = `SELECT email_do_responsavel FROM Empregador WHERE email_do_responsavel = ?`;
-	sqlEmail = db.format(sqlEmail, campoSelect);
+	sqlEmail = db.format(sqlEmail, emailDoResponsavel);
 	db.query(sqlEmail, (err, resultado) => {
 
 		if (err) throw err;
 
 		if (resultado.length === 0) {
 
+			// Encriptar a password
+			password = bcrypt.hashSync(password);
+			console.log(password);
+
 			// Salvar os dados do novo candidato na base de dados
-			let campos = [nome, nome_do_responsavel, area_de_actuacao,
-			ano_de_fundacao, email_do_responsavel, password];
+			let campos = [nome, nomeDoResponsavel, areaDeActuacao,
+			anoDeFundacao, emailDoResponsavel, password];
 			let sql = `INSERT INTO Empregador
 			(nome, nome_do_responsavel, area_de_actuacao, ano_de_fundacao, email_do_responsavel, password)
 			VALUES (?, ?, ?, ?, ?, ?)`;
@@ -41,7 +45,7 @@ module.exports.empregadorCriarConta = (req, res)=>{
 				if (err) throw err;
 
 				EnviarMail({
-					email: email,
+					email: emailDoResponsavel,
 					titulo: 'Código de confirmação da conta Empregador - Portal Jobz',
 					mensagem: `
 						Parabéns ${nomeDoResponsavel}, a conta da ${nome} criada com sucesso!
@@ -53,14 +57,14 @@ module.exports.empregadorCriarConta = (req, res)=>{
 				});
 
 				// Gravar os dados na sessão
-				req.session.email = email;
+				req.session.email = emailDoResponsavel;
 				req.session.nome = nomeDoResponsavel;
 				req.session.tipoUtilizador = 'empregador';
 				res.redirect('/empregador');
 			});
 		} else {
 			res.render('criarconta/empregador', {
-				formError: 'Já existe uma conta Empregador registrado com este endereço de email: ${email}.'
+				formError: `Já existe uma conta Empregador registrado com este endereço de email: ${emailDoResponsavel}.`
 			});
 		}
 	});
@@ -187,7 +191,7 @@ module.exports.minhaConta = (req, res) => {
 *	minhaConta: Este módulo é reponsável por mostrar os dados da
 *	conta empresa na página minha conta
 */
-module.exports.actualizarInformacoesMinhaConta = (req, res) => {
+module.exports.actualizarMinhaConta = (req, res) => {
 
 	// Campos do formulário
 	let {
@@ -214,18 +218,15 @@ module.exports.actualizarInformacoesMinhaConta = (req, res) => {
 	db.query(sql, (err, resultado) => {
 		if(err) throw err;
 
-		res.redirect('/empregador');
+		res.redirect('/empregador/minha-conta');
 	});
 }
 
 /*
-*	editarMinhaConta: Este módulo é reponsável editar as informações da
-*	conta empregador
+*	viewAlterarPassword: Este módulo é reponsável por renderizar o formulário para alteração 
+*	da password.
 */
 
-module.exports.editarMinhaConta = (req, res) => {
-
-	
+module.exports.viewAlterarPassword = (req, res) => {
 
 }
-
