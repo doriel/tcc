@@ -197,6 +197,7 @@ module.exports.actualizarMinhaConta = (req, res) => {
 		nome, anoDeFundacao,
 		numeroDeFuncionarios, nomeDoResponsavel,
 		emailDoResponsavel, email,
+		areaDeActuacao,
 		contacto, biografia 
 	} = req.body;
 
@@ -204,20 +205,34 @@ module.exports.actualizarMinhaConta = (req, res) => {
 		nome, anoDeFundacao,
 		numeroDeFuncionarios, nomeDoResponsavel,
 		emailDoResponsavel, email,
+		areaDeActuacao,
 		contacto, biografia,
 		req.session.ID
 	];
 
 	// Preparar a query
 	let sql = `UPDATE Empregador SET nome = ?, ano_de_fundacao = ?, numero_de_funcionarios = ?,
-	nome_do_responsavel = ?, email_do_responsavel = ?, email = ?, contacto = ?, biografia = ?
+	nome_do_responsavel = ?, email_do_responsavel = ?, email = ?, area_de_actuacao = ?, contacto = ?, biografia = ?
 	WHERE idEmpregador = ?`;
 	sql = db.format(sql, campos);
 
 	db.query(sql, (err, resultado) => {
 		if(err) throw err;
 
-		res.redirect('/empregador/minha-conta');
+		res.render('empregador/minha-conta', {
+			notificacao: 'Dados da conta actualizados com sucesso.',
+			Empregador: {
+				nome: nome,
+				ano_de_fundacao: anoDeFundacao,
+				numero_de_funcionarios: numeroDeFuncionarios,
+				nome_do_responsavel: nomeDoResponsavel,
+				email_do_responsavel: emailDoResponsavel,
+				email: email,
+				area_de_actuacao: areaDeActuacao,
+				contacto: contacto,
+				biografia: biografia
+			}
+		});
 	});
 }
 

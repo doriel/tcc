@@ -18,6 +18,16 @@ block content
 		p Edite informações da sua conta.
 		.jb-space
 
+		block erro
+			if formError
+				.erro #{formError}
+				.jb-space.single
+
+		block notificacao
+			if notificacao
+				div.notificacao #{notificacao}
+				.jb-space
+
 		form(action="/empregador/minha-conta" method="post")
 			.form-inp
 				.col-left
@@ -40,7 +50,18 @@ block content
 
 				.col-left
 					label Área de actuação
-					include ../include/areaDeActuacao
+					select(name="areaDeActuacao")
+						option(value=Empregador.area_de_actuacao) #{Empregador.area_de_actuacao} (Actual)
+						option(value="Tecnológias de Informação") Tecnológias de Informação
+						option(value="Comunicação e Marketing") Comunicação e Marketing
+						option(value="Telecomunicações") Telecomunicações
+						option(value="Banca") Banca
+						option(value="Recursos Humanos") Recursos Humanos
+						option(value="Indústria Petrolífera") Indústria Petrolífera
+						option(value="Construção Cívil") Construção Cívil
+						option(value="Saúde") Saúde
+						option(value="Ensino e Formação") Ensino e Formação
+						option(value="Finanças") Finanças
 
 			.form-inp
 				.col-left
