@@ -33,7 +33,7 @@ app.use('/empregador', controloDeAcesso.Empregadores);
 router(app);
 
 // Escutar o servidor de aplicação numa porta
-const port = 3009;
+const port = 3008;
 app.listen(port, () => {
 	console.log(`Servidor de Aplicação a correr na porta: ${port}`);
 });
