@@ -85,6 +85,16 @@ module.exports.criarConta = (req, res) => {
 }
 
 /*
+*	viewHomeAreaCandidato: Este módulo é responsável por renderizar a página
+* 	inicial da área do candidato.
+*/
+module.exports.viewHomeAreaCandidato = (req, res) => { 
+	res.render('candidato/candidato-home', {
+		nome: req.session.primeiroNome
+	});
+}
+
+/*
 *	Confirmar a conta com o código de confirmação
 */
 module.exports.confirmarConta = (req, res) => {
