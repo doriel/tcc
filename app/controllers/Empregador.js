@@ -83,12 +83,11 @@ module.exports.empregadorLogin = (req, res) => {
 	sql = db.format(sql, campos);
 	db.query(sql, (err, resultado) => {
 		
-		console.log(resultado);
-
 		// Verifica se a bd retornou alguma linha
 		if(resultado.length > 0){
 
-			if(resultado[0].password == password) {
+			// Usa o método bcrypt.compareSync para comprar as passwords encriptadas
+			if(bcrypt.compareSync(password, resultado[0].password) == true) {
 
 				// Gravar os dados na sessão
 				req.session.email = email;
