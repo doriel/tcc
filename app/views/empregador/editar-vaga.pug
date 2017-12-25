@@ -1,0 +1,73 @@
+extends ./empregador-home
+
+block content
+	.pages.wrap
+		h1 Detalhes sobre a vaga
+		p Use o formulário abaixo para públicar uma nova vaga de emprego.
+
+		.jb-space
+
+		form(action="/empregador/editar-vaga" method="post")
+			.form-inp
+				.col-left
+					label(for="") Cargo
+					input(type="text" name="cargo" value=Vaga.cargo required placeholder="Cargo")
+				.col-left
+					label(for="") Tipo de contrato
+					select(name="tipoDeContrato")
+						option(value="Estágio") Estágio
+						option(value="Tempo determinado") Tempo determinado
+						option(value="Tempo indeterminado") Tempo indeterminado
+						option(value="Prestação de serviços") Prestação de serviços
+			.form-inp
+				.col-left
+					label(for="") Anos de experiência
+					input(type="number" value=Vaga.anos_de_experiencia name="anosDeExperiencia" required placeholder="Anos de experiência")
+				.col-left
+					label(for="") Salário
+					input(type="number" name="salario" value=Vaga.salario placeholder="130.000 KZ")
+			.form-inp
+				.col-left
+					label(for="") Área de actuação
+					include ../include/areaDeActuacao
+
+				.col-left
+					label(for="") Província
+					include ../include/provincias
+
+			.form-inp
+				.col-left 
+					label(for="") Descrição da função
+					textarea(name="descricao", cols="30", rows="10" placeholder="Descrição da função") #{Vaga.descricao}
+
+				.col-left 
+					label(for="") Habilidades necessárias
+					textarea(name="habilidadesNecessarias", cols="30", rows="10" required placeholder="Habilidades necessárias") #{Vaga.habilidades_necessarias}
+
+			.form-inp
+				.col-left
+					label(for="") Quantidade de vagas disponíveis
+					input(type="number" disabled value=Vaga.quantidade_de_vagas name="quantidadeDeVagas" placeholder="1" min="1" max="100" required)
+				.col-left
+					label(for="") Data limite
+					input(type="date" name="dataLimite" required value=Vaga.data_limite)
+			.form-inp
+				.col-left
+					label(for="") Idiomas
+					input(type="text" value=Vaga.idiomas name="idiomas")
+					
+			.form-inp
+				.col-left
+					button Guardar
+
+				//.col-left
+					button Guardar como rascunho
+
+
+				//.col-left
+					label(for="") Idiomas
+					input(type="checkbox" value="Português" name="idiomas")
+					input(type="checkbox" value="Inglês" name="idiomas")
+					input(type="checkbox" value="Espanhol" name="idiomas")
+					input(type="checkbox" value="Francês" name="idiomas")
+					input(type="checkbox" value="Mandarin" name="idiomas")
