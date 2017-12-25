@@ -17,7 +17,7 @@ module.exports.empresaCriarConta = {
 		nomeDoResponsavel: Joi.string().required(),
 		areaDeActuacao: Joi.string().required(),
 		anoDeFundacao: Joi.string().required(),
-		email: Joi.string().email().required(),
+		emailDoResponsavel: Joi.string().email().required(),
 		password: Joi.string().required()
 	}
 }
