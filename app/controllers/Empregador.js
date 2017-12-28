@@ -26,6 +26,8 @@ module.exports.empregadorCriarConta = (req, res)=>{
 
 		if (err) throw err;
 
+		console.log(resultado.length);
+
 		if (resultado.length === 0) {
 
 			// Encriptar a password

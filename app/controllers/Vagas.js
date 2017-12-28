@@ -16,6 +16,7 @@ module.exports.listarVagas = (req, res) => {
 	let sql = `SELECT * FROM Vaga WHERE Empregador_idEmpregador = ?`;
 		sql = db.format(sql, ID);
 	db.query(sql, (err, resultado) => {
+
 		if(resultado.length > 0){
 
 			// Gerar um novo array com os dados da vaga
