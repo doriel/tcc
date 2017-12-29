@@ -56,8 +56,8 @@ module.exports.listarVagas = (req, res) => {
 function __obterVaga(ID) { // Query para obter uma vaga
 
 	let sql = `SELECT idVaga, cargo, descricao, data_de_publicacao, provincia, tipo_de_contrato,
-	anos_de_experiencia, Vaga.area_de_actuacao, habilidades_necessarias, salario, quantidade_de_vagas,
-	nome FROM Vaga, Empregador WHERE idVaga = ? AND Empregador_idEmpregador = idEmpregador`;
+	anos_de_experiencia, Vaga.area_de_actuacao, habilidades_necessarias, salario, quantidade_de_vagas, idiomas,
+	data_limite, nome FROM Vaga, Empregador WHERE idVaga = ? AND Empregador_idEmpregador = idEmpregador`;
 
 	// Preparar a query
 	sql = db.format(sql, ID);
@@ -68,8 +68,7 @@ function __obterVaga(ID) { // Query para obter uma vaga
 		db.query(sql, (err, vaga) => {
 
 			if(err) { reject(err); }
-			// Formatar campo salário e campo data de publicação
-			vaga[0].salario = vaga[0].salario.toLocaleString("pt-PT", {style: 'currency', currency: 'AOA'});
+			// Formatar campo data de publicação
 			vaga[0].data_de_publicacao = moment(vaga[0].data_de_publicacao).format('DD-MM-YYYY');
 			resolve(vaga[0]);
 
@@ -91,6 +90,8 @@ module.exports.obterVaga = (req, res) => {
 		__obterVaga(ID)
 		.then(
 			(Vaga) => {
+				// Formatar o número inteiro
+				Vaga.salario = Vaga.salario.toLocaleString("pt-PT", {style: 'currency', currency: 'AOA'});
 				res.render('vaga', {Vaga});
 			}
 		)
@@ -130,9 +131,13 @@ module.exports.viewEditarVaga = (req, res) => {
 	// ID da vaga
 	let ID = Number(req.params.id);
 
-	console.log(__obterVaga(ID));
-
-	res.send("Vagass");
+	__obterVaga(ID)
+	.then(
+		(Vaga) => {
+			Vaga.data_limite = moment(Vaga.data_limite).format('YYYY-MM-DD');
+			res.render('empregador/editar-vaga', {Vaga});
+		}
+	);
 
 	//res.render('empregador/editar-vaga', {Vaga});
 
