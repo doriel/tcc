@@ -4,8 +4,17 @@ block content
 	.pages.wrap
 		h1 Detalhes sobre a vaga
 		p Use o formulário abaixo para públicar uma nova vaga de emprego.
-
 		.jb-space
+
+		block erro
+			if formError
+				.erro #{formError}
+				.jb-space.single
+
+		block notificacao
+			if notificacao
+				div.notificacao #{notificacao}
+				.jb-space
 
 		form(action="/empregador/editar-vaga" method="post")
 			.form-inp
@@ -53,12 +62,23 @@ block content
 					input(type="date" name="dataLimite" required value=Vaga.data_limite)
 			.form-inp
 				.col-left
+					label(for="") Nível académico
+					select(name="nivelAcademico" required)
+						option(value=Vaga.nivel_academico) (Actual) #{Vaga.nivel_academico}
+						option(value="Ensino de base") Ensino de base
+						option(value="Técnico médio") Técnico médio
+						option(value="Frequência universitária") Frequência universitária
+						option(value="Licenciado") Licenciado
+						option(value="Mestre") Mestre
+						option(value="PhD") PhD
+				.col-left
 					label(for="") Idiomas
 					input(type="text" value=Vaga.idiomas name="idiomas")
 					
 			.form-inp
 				.col-left
 					button Guardar
+					input(type="hidden" name="ID" value=Vaga.idVaga)
 
 				//.col-left
 					button Guardar como rascunho
