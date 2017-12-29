@@ -49,8 +49,35 @@ module.exports.listarVagas = (req, res) => {
 }
 
 /*
-*	removerVaga: Esta função é responsável por obter uma vaga com base num id
+* removerVaga: Esta função é responsável por obter uma vaga com base num id
+* @params {Number} ID
 */
+
+function __obterVaga(ID) { // Query para obter uma vaga
+
+	let sql = `SELECT idVaga, cargo, descricao, data_de_publicacao, provincia, tipo_de_contrato,
+	anos_de_experiencia, Vaga.area_de_actuacao, habilidades_necessarias, salario, quantidade_de_vagas,
+	nome FROM Vaga, Empregador WHERE idVaga = ? AND Empregador_idEmpregador = idEmpregador`;
+
+	// Preparar a query
+	sql = db.format(sql, ID);
+
+	return new Promise((resolve, reject) => {
+
+		// Executar a query
+		db.query(sql, (err, vaga) => {
+
+			if(err) { reject(err); }
+			// Formatar campo salário e campo data de publicação
+			vaga[0].salario = vaga[0].salario.toLocaleString("pt-PT", {style: 'currency', currency: 'AOA'});
+			vaga[0].data_de_publicacao = moment(vaga[0].data_de_publicacao).format('DD-MM-YYYY');
+			resolve(vaga[0]);
+
+		});
+
+	});
+}
+
 module.exports.obterVaga = (req, res) => {
 	// Obter o id a partir da URL. Ex: /vaga/3
 	// e converter o id obtido da URL para o tipo de dados
@@ -59,42 +86,14 @@ module.exports.obterVaga = (req, res) => {
 
 	// Validação do id que é passado na URL, caso não for um número então é redirecionado para a home
 	if (typeof(ID) === 'number') {
-		// Query para obter uma vaga
-		let sql = `SELECT idVaga, cargo, descricao, data_de_publicacao, provincia, tipo_de_contrato,
-		anos_de_experiencia, Vaga.area_de_actuacao, habilidades_necessarias, salario, quantidade_de_vagas,
-		nome FROM Vaga, Empregador WHERE idVaga = ? AND Empregador_idEmpregador = idEmpregador`;
-
-		// Preparar a query
-		sql = db.format(sql, ID);
-
-		// Executar a query
-		db.query(sql, (err, vaga) => {
-
-			if(err) throw err;
-
-			vaga.ID = vaga.idVaga;
-			// Formatar a data
-		
-			vaga = vaga.map((v) => {
-				return {
-					ID: v.idVaga,
-					cargo: v.cargo,
-					nome: v.nome,
-					descricao: v.descricao,
-					dataDePublicacao: moment(v.data_de_publicacao).format('DD-MM-YYYY'),
-					provincia: v.provincia,
-					tipoDeContrato: v.tipo_de_contrato,
-					anosDeExperiencia: v.anos_de_experiencia,
-					areaDeActuacao: v.area_de_actuacao,
-					habilidadesNecessarias: v.habilidades_necessarias,
-					salario: v.salario.toLocaleString('de-DE', {style: 'currency', currency: 'EUR'}),
-					quantidadeDeVagas: v.quantidade_de_vagas
-				}
-			});
-
-			console.log(vaga[0]);
-			res.render('vaga', {Vaga: vaga[0]});
-		});
+		/* Invoca a função responsável por obter uma única vaga e armazena o retorno numa
+		variável */
+		__obterVaga(ID)
+		.then(
+			(Vaga) => {
+				res.render('vaga', {Vaga});
+			}
+		)
 	} else {
 		res.redirect('/')
 	}
@@ -129,10 +128,16 @@ module.exports.removerVaga = (req, res) => {
 module.exports.viewEditarVaga = (req, res) => {
 
 	// ID da vaga
-	let ID = req.params.id;
+	let ID = Number(req.params.id);
+
+	console.log(__obterVaga(ID));
+
+	res.send("Vagass");
+
+	//res.render('empregador/editar-vaga', {Vaga});
 
 	// Query para obter a vaga por ID
-	let sql = `SELECT * FROM Vaga WHERE idVaga = ?`;
+	/*let sql = `SELECT * FROM Vaga WHERE idVaga = ?`;
 		sql = db.format(sql, ID);
 
 	db.query(sql, (err, vaga) => {
@@ -150,7 +155,7 @@ module.exports.viewEditarVaga = (req, res) => {
 			res.redirect('/empregador');
 		}
 
-	});
+	});*/
 
 }
 
@@ -158,5 +163,44 @@ module.exports.viewEditarVaga = (req, res) => {
 *	rditarVaga: Esta módulo é responsável por actualizar as informações da vaga na bd
 */
 module.exports.editarVaga = (req, res) => {
-	
+	// Campos do formulário
+	let { cargo, tipoDeContrato, anosDeExperiencia,
+		salario, areaDeActuacao, provincias, descricao,
+		habilidadesNecessarias, quantidadeDeVagas, dataLimite,
+		idiomas, nivelAcademico, ID
+	} = req.body;
+
+	let campos = [cargo, tipoDeContrato, anosDeExperiencia,
+		salario, areaDeActuacao, provincias, descricao,
+		habilidadesNecessarias, quantidadeDeVagas, dataLimite,
+		idiomas, nivelAcademico, ID];
+
+	let sqlUpdate = `UPDATE Vaga SET cargo = ?, tipo_de_contrato = ?, anos_de_experiencia = ?,
+	salario = ?, area_de_actuacao = ?, provincia = ?, descricao = ?, habilidades_necessarias = ?,
+	quantidade_de_vagas = ?, data_limite = ?, idiomas = ?, nivel_academico = ?
+	WHERE idVaga = ?`;
+
+	sqlUpdate = db.format(sqlUpdate, campos);
+	db.query(sqlUpdate, (err, resultado) => {
+		if(err) throw err;
+
+		res.render('empregador/editar-vaga', {
+			Vaga: {
+				cargo: cargo,
+				tipo_de_contrato: tipoDeContrato,
+				anos_de_experiencia: anosDeExperiencia,
+				salario: salario,
+				area_de_actuacao: areaDeActuacao,
+				provincias: provincias,
+				descricao: descricao,
+				habilidades_necessarias: habilidadesNecessarias,
+				quantidade_de_vagas: quantidadeDeVagas,
+				data_limite: dataLimite,
+				idiomas: idiomas,
+				nivel_academico: nivelAcademico,
+				idVaga: ID
+			},
+			notificacao: 'As alterações foram gravadas com sucesso.'
+		})
+	});
 }

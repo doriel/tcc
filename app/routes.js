@@ -74,7 +74,7 @@ module.exports = (app) => {
 	app.post('/empregador/publicar-vaga', Empregador.publicarVaga);
 	app.get('/empregador/remover-vaga/:id', Vagas.removerVaga);
 	app.get('/empregador/editar-vaga/:id', Vagas.viewEditarVaga);
-	app.get('/empregador/editar-vaga/', Vagas.editarVaga);
+	app.post('/empregador/editar-vaga/', Vagas.editarVaga);
 
 	// 404
 	app.get('*', (req, res) => { res.redirect('/'); });
