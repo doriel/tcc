@@ -31,7 +31,9 @@ module.exports = (app) => {
 
 	app.get('/criarconta/sucesso', (req, res) => {
 		if (req.session.email) {
-			res.render('criarconta/sucesso');
+			res.render('criarconta/sucesso', {
+				tipoUtilizador: req.session.tipoUtilizador
+			});
 		} else {
 			res.redirect('/');
 		}
@@ -45,6 +47,7 @@ module.exports = (app) => {
 
 	// Área privada Candidato
 	app.get('/candidato', Candidato.viewHomeAreaCandidato);
+	app.post('/candidato/enviar-candidatura', Candidato.enviarCandidatura);
 
 	// Empregador
 	app.get('/criarconta/empregador', (req, res) => {
