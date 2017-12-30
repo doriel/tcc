@@ -1,4 +1,50 @@
-h1 Olá #{nome}, seja bem vindo à área privada do Candidato
+extends ../layout
 
-a(href="/logout") Terminar a sessão
+block menu
+	nav.menu.col-right
+		ul
+			li
+				a(href="/candidato") CANDIDATURAS
+			li
+				a(href="/candidato/pesquisar-candidatos") PESQUISAR CANDIDATOS
+			li
+				a(href="/candidato/minha-conta") MINHA CONTA
+			li.a-btn
+				a(href="/logout") TERMINAR SESSÃO
+
+block content
+	.pages.wrap
+		if Vagas
+			h1 As suas candidaturas
+			.jb-space
+			.vagas-listing
+				table
+					thead
+						tr
+							td #
+							td Cargo
+							td Data de publicação
+							td Dias restantes
+							td Estado
+							td Opções
+
+					tbody
+						each vaga, i in Vagas
+							tr
+								td #{i+1}
+								td 
+									a(href!="/empregador/vagas/" + vaga.ID) #{vaga.cargo}
+								td #{vaga.dataDePublicacao}
+								td #{vaga.diasRestantes}
+								td #{vaga.estado}
+								td 
+									a(href!="/empregador/editar-vaga/" + vaga.ID) Editar
+									span &nbsp; | &nbsp;
+									a(href!="/empregador/remover-vaga/" + vaga.ID) Remover
+		else
+			h1 Ainda não realizou nenhuma candidatura.
+			.jb-space.single
+
+
+	
 
