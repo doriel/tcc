@@ -55,7 +55,7 @@ module.exports.listarVagas = (req, res) => {
 
 function __obterVaga(ID) { // Query para obter uma vaga
 
-	let sql = `SELECT idVaga, cargo, descricao, data_de_publicacao, provincia, tipo_de_contrato,
+	let sql = `SELECT idVaga, Empregador_idEmpregador, cargo, descricao, data_de_publicacao, provincia, tipo_de_contrato,
 	anos_de_experiencia, Vaga.area_de_actuacao, habilidades_necessarias, salario, quantidade_de_vagas, idiomas,
 	data_limite, nome FROM Vaga, Empregador WHERE idVaga = ? AND Empregador_idEmpregador = idEmpregador`;
 
