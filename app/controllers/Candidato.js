@@ -248,7 +248,8 @@ module.exports.enviarCandidatura = (req, res) => {
 }
 
 /*
-*	minhaConta
+*	minhaConta: Este módulo é responsável por mostrar as informações da conta
+*	do profissional num formulário.
 */
 
 function __minhaConta(ID) {
@@ -276,4 +277,59 @@ module.exports.viewMinhaConta = (req, res) => {
 		}
 	);
 	
+}
+
+/*
+*	viewAlterarPassword: Este módulo é responsável renderizar o form para editar
+* 	a password.
+*/
+
+module.exports.viewAlterarPassword = (req, res) => {
+	res.render('candidato/alterar-password');
+}
+
+/*
+*	alterarPassword: Este módulo é responsável por processar o formulário para
+*	altera a password do candidato
+*/
+
+module.exports.alterarPassword = (req, res) => {
+	// Campos do formulário
+	let { passwordActual, novaPassword } = req.body;
+	const ID = req.session.ID;
+
+	// Consulta para procurar o utilizador
+	let sqlUtilizador = `SELECT password FROM Candidato WHERE idCandidato = ?`;
+	// Preparar a query
+	sqlUtilizador = db.format(sqlUtilizador, ID);
+	db.query(sqlUtilizador, (err, resultado) => {
+
+		if(resultado.length > 0){
+
+			// Compara a password
+			if(bcrypt.compareSync(passwordActual, resultado[0].password) == true) {
+
+				// Encripta e actualiza na base de dados
+				novaPassword = bcrypt.hashSync(novaPassword);
+				// Query para actualizar os campos
+				sqlActualizar = `UPDATE Candidato SET password = ? WHERE idCandidato = ?`;
+				// Formatar a query
+				sqlActualizar = db.format(sqlActualizar, [novaPassword, ID]);
+				// Executar a query
+				db.query(sqlActualizar, (err, data) => {
+					if(err) throw err;
+
+					res.render('candidato/alterar-password', {notificacao: 'Password alterada com sucesso!'});
+				});
+
+			} else {
+				res.render('candidato/alterar-password', {
+					formError: 'A password actual não corresponde com a password desta conta. Tente novamente.'
+				});
+			}
+
+		} else {
+			res.redirect('/candidato');
+		}
+	});
 }
