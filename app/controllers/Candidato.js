@@ -56,8 +56,6 @@ module.exports.criarConta = (req, res) => {
 			db.query(sql, (err, resultado) => {
 				if(err) throw err;
 
-				console.log(email);
-
 				// Enviar o código de confirmação no mail do candidato
 				EnviarMail({
 					email: email,
@@ -101,12 +99,16 @@ module.exports.viewHomeAreaCandidato = (req, res) => {
 	AND Candidatura.idVaga = Vaga.idVaga;`;
 	sql = db.format(sql, req.session.ID);
 	db.query(sql, (err, Candidaturas) => {
-		Candidaturas.map((candidatura) => {
-			candidatura.data_limite = moment(candidatura.data_limite).format('YYYY-MM-DD');
-			candidatura.data_da_candidatura = moment(candidatura.data_da_candidatura).format('YYYY-MM-DD');
-			return candidatura;
-		});
-		res.render('candidato/candidato-home', {Candidaturas});
+		if(Candidaturas){
+			Candidaturas.map((candidatura) => {
+				candidatura.data_limite = moment(candidatura.data_limite).format('YYYY-MM-DD');
+				candidatura.data_da_candidatura = moment(candidatura.data_da_candidatura).format('YYYY-MM-DD');
+				return candidatura;
+			});
+			res.render('candidato/candidato-home', {Candidaturas});
+		} else {
+			res.render('candidato/candidato-home');
+		}
 	});
 }
 
@@ -215,6 +217,7 @@ module.exports.listarCandidatos = (req, res) => {
 *	enviarCandidatura: Este módulo é responsável candidatar o utilizador
 *	numa determinada vaga.
 */
+
 module.exports.enviarCandidatura = (req, res) => {
 
 	// Obter o ID da vaga e o ID do empregador a partir dos campos ocultos
@@ -242,4 +245,35 @@ module.exports.enviarCandidatura = (req, res) => {
 			res.redirect('/candidato');
 		});
 	});
+}
+
+/*
+*	minhaConta
+*/
+
+function __minhaConta(ID) {
+	return new Promise((resolve, reject) => {
+
+		let sql = `SELECT * FROM Candidato WHERE idCandidato = ?`;
+		sql = db.format(sql, ID);
+		db.query(sql, (err, Candidato) => {
+			if (err) {
+				reject(err);
+			}
+			Candidato[0].data_de_nascimento = moment(Candidato[0].data_de_nascimento).format('YYYY-MM-DD');
+			resolve(Candidato[0]);
+		})
+
+	});
+}
+
+module.exports.viewMinhaConta = (req, res) => {
+	
+	__minhaConta(req.session.ID)
+	.then(
+		(Candidato) => {
+			res.render('candidato/minha-conta', {Candidato});
+		}
+	);
+	
 }

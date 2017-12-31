@@ -1,0 +1,123 @@
+extends ../layout
+
+block menu
+	nav.menu.col-right
+		ul
+			li
+				a(href="/candidato") CANDIDATURAS
+			li
+				a(href="/candidato/meu-perfil") MEU PERFIL
+			li
+				a(href="/candidato/minha-conta") MINHA CONTA
+			li.a-btn
+				a(href="/logout") TERMINAR SESSÃO
+
+block content
+	.pages.wrap
+		h1 Minha conta
+		p Use o formulário abaixo para editar as suas informações.
+		.jb-space
+		form(action="/candidato/minha-conta" method="post")
+			.form-inp
+				.col-left
+					label Primeiro nome
+					input(type="text" name="primeiroNome" required value=Candidato.primeiro_nome)
+				.col-left
+					label Último nome
+					input(type="text" name="ultimoNome" required value=Candidato.ultimo_nome)
+			.form-inp
+				.col-left
+					label Data de nascimento
+					input(type="date" name="dataDeNascimento" required value=Candidato.data_de_nascimento)
+
+				.col-left
+					label Gênero
+					select(name="genero" required)
+						option(value=Candidato.genero) #{Candidato.genero} (Actual)
+						option(value="Masculino") Masculino
+						option(value="Feminino") Feminino
+
+			.form-inp
+				.col-left
+					label Nacionalidade
+					select(name="nacionalidade" required)
+						option(value=Candidato.nacionalidade) #{Candidato.nacionalidade} (Actual)
+						include ../include/nacionalidade
+
+				.col-left
+					label Naturalidade
+					input(type="text" name="naturalidade" required value=Candidato.naturalidade)
+
+			.form-inp
+				.col-left
+					label Província onde reside
+					select(name="provinciaOndeReside" required)
+						option(value=Candidato.provincia_onde_reside) #{Candidato.provincia_onde_reside} (Actual)
+						include ../include/onde-reside
+
+				.col-left
+					label Morada
+					input(type="text" name="morada" required value=Candidato.morada)
+
+			.form-inp
+				.col-left(title="Está disposto a se realocar?")
+					label Disposição de realocação
+					select(name="disposicaoDeRealocacao" required)
+						if Candidato.disposicao_de_realocacao
+							option(value=Candidato.disposicao_de_realocacao) #{Candidato.disposicao_de_realocacao} (Actual)
+						option(value="Sim") Sim
+						option(value="Não") Não
+				.col-left
+					label Fotografia
+					input(type="file" name="foto_de_perfil")
+
+			.jb-space.single
+			h2 Informações academicas
+			.jb-space.single
+			
+			.form-inp
+				button.btn Adicionar
+
+			.jb-space.single
+			h2 Informações de contacto
+			.jb-space.single
+
+			.form-inp
+				.col-left
+					label Email
+					input(type="email" name="email" required value=Candidato.email)
+				.col-left
+					label Telefone
+					input(type="number" name="telefone" required value=Candidato.telefone)
+
+			.form-inp
+				.col-left
+					label Telefone alternativo
+					input(type="number" name="telefoneAlternativo" required value=Candidato.telefone_alternativo)
+
+			.jb-space.single
+			h2 Informações profissionais
+			.jb-space.single
+
+			.form-inp
+				.col-left
+					label Anos de experiência
+					input(type="number" min="0" required name="anosDeExperiencia" value=Candidato.anos_de_experiencia)
+
+				.col-left
+					label Área de preferência
+					select(name="areaDePreferencia")
+						if Candidato.area_de_preferencia
+							option(value=Candidato.area_de_preferencia) #{Candidato.area_de_preferencia} (Actual)
+						include ../include/area-de-preferencia
+
+			.form-inp
+				.col-left(title="Faça o upload do seu CV em formato pdf")
+					label Curriculum Vitae (pdf)
+					input(type="file" name="curriculumVitae")
+
+			.form-inp
+				.col-left
+					button.btn Guardar informações
+					button.btn
+						a(href="/candidato/minha-conta/alterar-password") Alterar a password

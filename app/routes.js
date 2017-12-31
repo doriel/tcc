@@ -48,6 +48,7 @@ module.exports = (app) => {
 	// Área privada Candidato
 	app.get('/candidato', Candidato.viewHomeAreaCandidato);
 	app.post('/candidato/enviar-candidatura', Candidato.enviarCandidatura);
+	app.get('/candidato/minha-conta', Candidato.viewMinhaConta);
 
 	// Empregador
 	app.get('/criarconta/empregador', (req, res) => {
