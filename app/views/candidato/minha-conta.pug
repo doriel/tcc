@@ -76,7 +76,8 @@ block content
 			.jb-space.single
 			
 			.form-inp
-				button.btn Adicionar
+				button.btn
+					a(href="/candidato/minha-conta/informacoes-academicas") Adicionar
 
 			.jb-space.single
 			h2 Informações de contacto
@@ -121,3 +122,6 @@ block content
 					button.btn Guardar informações
 					button.btn
 						a(href="/candidato/minha-conta/alterar-password") Alterar a password
+
+block scripts
+	script(src="/js/candidato-minha-conta.js")
