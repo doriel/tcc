@@ -28,7 +28,7 @@ module.exports.criarConta = (req, res) => {
 	dataDeNascimento = moment(dataDeNascimento).format('YYYY-MM-DD');
 
 	// Gerar código de confirmação aleatório segundo o MDN 
-	let codConfirmacao = Math.floor(Math.random() * (999999 - 0) + 0);
+	//let codConfirmacao = Math.floor(Math.random() * (999999 - 0) + 0);
 
 	// Consultar se já existe um utilizador na base de dados
 	let sqlEmail = `SELECT email FROM Candidato WHERE email = ?`;
@@ -92,9 +92,21 @@ module.exports.criarConta = (req, res) => {
 *	viewHomeAreaCandidato: Este módulo é responsável por renderizar a página
 * 	inicial da área do candidato.
 */
-module.exports.viewHomeAreaCandidato = (req, res) => { 
-	res.render('candidato/candidato-home', {
-		nome: req.session.primeiroNome
+module.exports.viewHomeAreaCandidato = (req, res) => {
+
+	// Obter candidaturas
+	let sql = `SELECT cargo, data_limite, data_da_candidatura
+	FROM Candidatura, Vaga
+	WHERE Candidatura.idCandidato = ?
+	AND Candidatura.idVaga = Vaga.idVaga;`;
+	sql = db.format(sql, req.session.ID);
+	db.query(sql, (err, Candidaturas) => {
+		Candidaturas.map((candidatura) => {
+			candidatura.data_limite = moment(candidatura.data_limite).format('YYYY-MM-DD');
+			candidatura.data_da_candidatura = moment(candidatura.data_da_candidatura).format('YYYY-MM-DD');
+			return candidatura;
+		});
+		res.render('candidato/candidato-home', {Candidaturas});
 	});
 }
 
@@ -145,7 +157,7 @@ module.exports.login = (req, res) => {
 	let { email, password } = req.body;
 
 	// Prepara a query sql
-	let sql = `SELECT email, password, primeiro_nome FROM Candidato WHERE email = ?`;
+	let sql = `SELECT idCandidato, email, password, primeiro_nome FROM Candidato WHERE email = ?`;
 	let campos = [email, password];
 	// Formatar os campos e preparar devidamente a query
 	sql = db.format(sql, campos);
@@ -159,6 +171,7 @@ module.exports.login = (req, res) => {
 				req.session.email = email;
 				req.session.nome = resultado[0].primeiro_nome;
 				req.session.tipoUtilizador = 'candidato';
+				req.session.ID = resultado[0].idCandidato;
 				res.redirect('/candidato');
 
 			} else {
@@ -196,4 +209,37 @@ module.exports.listarCandidatos = (req, res) => {
 		res.render('empregador/pesquisar-candidatos', {Candidatos: resultado});
 	});
 
+}
+
+/*
+*	enviarCandidatura: Este módulo é responsável candidatar o utilizador
+*	numa determinada vaga.
+*/
+module.exports.enviarCandidatura = (req, res) => {
+
+	// Obter o ID da vaga e o ID do empregador a partir dos campos ocultos
+	let { idVaga, idEmpregador, quantidadeDeVagas } = req.body;
+
+	let campos = [req.session.ID, idVaga, idEmpregador];
+
+	// Registar uma nova candidatura na base de dados
+	let sql = `INSERT INTO Candidatura 
+	(data_da_candidatura, Candidatura.idCandidato, Candidatura.idVaga, Candidatura.idEmpregador)
+	VALUES (CURDATE(), ?, ?, ?)`;
+	sql = db.format(sql, campos);
+	db.query(sql, (err, resultado) => {
+		if(err) throw err;
+
+		// Decrementa na quantidade de vagas
+		quantidadeDeVagas--;
+
+		// Actualizar quantidades de vagas restantes
+		let sqlVagasRestantes = `UPDATE Vaga SET quantidade_de_vagas = ? WHERE idVaga = ?`;
+		sqlVagasRestantes = db.format(sqlVagasRestantes, [quantidadeDeVagas, idVaga]);
+		db.query(sqlVagasRestantes, (err, resultado) => {
+			if(err) throw err;
+
+			res.redirect('/candidato');
+		});
+	});
 }
