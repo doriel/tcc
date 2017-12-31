@@ -14,7 +14,7 @@ block menu
 
 block content
 	.pages.wrap
-		if Vagas
+		if Candidaturas
 			h1 As suas candidaturas
 			.jb-space
 			.vagas-listing
@@ -23,24 +23,19 @@ block content
 						tr
 							td #
 							td Cargo
-							td Data de publicação
-							td Dias restantes
-							td Estado
-							td Opções
+							td Data da candidatura
+							td Data limite
+							//td Dias restantes
+							//td Estado
+							//td Opções
 
 					tbody
-						each vaga, i in Vagas
+						each candidatura, i in Candidaturas
 							tr
 								td #{i+1}
-								td 
-									a(href!="/empregador/vagas/" + vaga.ID) #{vaga.cargo}
-								td #{vaga.dataDePublicacao}
-								td #{vaga.diasRestantes}
-								td #{vaga.estado}
-								td 
-									a(href!="/empregador/editar-vaga/" + vaga.ID) Editar
-									span &nbsp; | &nbsp;
-									a(href!="/empregador/remover-vaga/" + vaga.ID) Remover
+								td #{candidatura.cargo}
+								td #{candidatura.data_da_candidatura}
+								td #{candidatura.data_limite}
 		else
 			h1 Ainda não realizou nenhuma candidatura.
 			.jb-space.single
