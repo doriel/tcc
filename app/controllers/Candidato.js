@@ -333,3 +333,46 @@ module.exports.alterarPassword = (req, res) => {
 		}
 	});
 }
+
+
+/*
+*	Módulo para rendereizar o formulário para adicionar/editar as informações academicas
+*/
+module.exports.viewInformacoesAcademicas = (req, res) => {
+
+	/*let sql = `SELECT * FROM FormacaoAcademica WHERE Candidato_idCandidato = ?`;
+	sql = db.format(sql, req.session.ID);
+
+	db.query(sql, (err, d))*/
+
+	res.render('candidato/informacoes-academicas');
+}
+
+module.exports.informacoesAcademicas = (req, res) => {
+	
+	let {
+		nomeDaInstituicao,
+		tituloObtido,
+		anoDeInicio,
+		anoDeTermino
+	} = req.body;
+
+	let campos = [nomeDaInstituicao,
+		tituloObtido,
+		anoDeInicio,
+		anoDeTermino,
+		req.session.ID];
+
+	let sql = `INSERT INTO FormacaoAcademica
+	(nome_da_instituicao, titulo_obtido, ano_de_inicio, ano_de_termino, Candidato_idCandidato)
+	VALUES (?, ?, ?, ?, ?)`;
+
+	sql = db.format(sql, campos);
+
+	db.query(sql, (err, resultado) => {
+		if (err) throw err;
+
+		res.redirect('/candidato/minha-conta');
+	});
+
+}

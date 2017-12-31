@@ -49,6 +49,8 @@ module.exports = (app) => {
 	app.get('/candidato', Candidato.viewHomeAreaCandidato);
 	app.post('/candidato/enviar-candidatura', Candidato.enviarCandidatura);
 	app.get('/candidato/minha-conta', Candidato.viewMinhaConta);
+	app.get('/candidato/minha-conta/informacoes-academicas', Candidato.viewInformacoesAcademicas);
+	app.post('/candidato/minha-conta/informacoes-academicas', Candidato.informacoesAcademicas);
 	app.get('/candidato/minha-conta/alterar-password', Candidato.viewAlterarPassword);
 	app.post('/candidato/minha-conta/alterar-password', Candidato.alterarPassword);
 

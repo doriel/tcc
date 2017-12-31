@@ -1,0 +1,55 @@
+extends ../layout
+
+block menu
+	nav.menu.col-right
+		ul
+			li
+				a(href="/candidato") CANDIDATURAS
+			li
+				a(href="/candidato/meu-perfil") MEU PERFIL
+			li
+				a(href="/candidato/minha-conta") MINHA CONTA
+			li.a-btn
+				a(href="/logout") TERMINAR SESSÃO
+
+block content
+	.pages.wrap
+		h1 Informações academicas
+		//p Use o formulário abaixo para editar as suas informações.
+		.jb-space
+		form(action="/candidato/minha-conta/informacoes-academicas" method="post")
+			.form-inp
+				.col-left
+					label Nome da instituição
+					input(type="text" name="nomeDaInstituicao" placeholder="Nome da instituição")
+				
+				.col-left
+					label Titulo obtido
+					input(type="text" name="tituloObtido" placeholder="Titulo obtido")
+
+			.form-inp
+				.col-left
+					label Ano de início
+					- var ano = 1970;
+					- var anoCorrente = new Date().getFullYear();
+					select(name="anoDeInicio" required)
+						option(value="")
+						while anoCorrente > ano
+							option(value=anoCorrente) #{anoCorrente}
+							- anoCorrente--;
+
+				.col-left
+					label Ano de termino
+					- var ano = 1970;
+					- var anoCorrente = 2030
+					select(name="anoDeTermino" required)
+						option(value="")
+						while anoCorrente > ano
+							option(value=anoCorrente) #{anoCorrente}
+							- anoCorrente--;
+			.form-inp
+				.col-left
+					button.btn Guardar
+					
+block scripts
+	script(src="/js/candidato-minha-conta.js")
