@@ -1,0 +1,58 @@
+extends ../layout
+
+block menu
+	nav.menu.col-right
+		ul
+			li
+				a(href="/candidato") CANDIDATURAS
+			li
+				a(href="/candidato/meu-perfil") MEU PERFIL
+			li
+				a(href="/candidato/minha-conta") MINHA CONTA
+			li.a-btn
+				a(href="/logout") TERMINAR SESSÃO
+
+block content
+	.pages.wrap
+		h1 Formação academica
+		//p Use o formulário abaixo para editar as suas informações.
+		.jb-space
+		form(action="/candidato/minha-conta/editar-formacao" method="post")
+			.form-inp
+				.col-left
+					label Nome da instituição
+					input(type="text" required name="nomeDaInstituicao" value=Formacao.nome_da_instituicao)
+				
+				.col-left
+					label Titulo obtido
+					input(type="text" name="tituloObtido" required value=Formacao.titulo_obtido)
+
+			.form-inp
+				.col-left
+					label Ano de início
+					- var ano = 1970;
+					- var anoCorrente = new Date().getFullYear();
+					select(name="anoDeInicio" required)
+						option(value=Formacao.ano_de_inicio) #{Formacao.ano_de_inicio}
+						option(value="")
+						while anoCorrente > ano
+							option(value=anoCorrente) #{anoCorrente}
+							- anoCorrente--;
+
+				.col-left
+					label Ano de termino
+					- var ano = 1970;
+					- var anoCorrente = 2030
+					select(name="anoDeTermino" required)
+						option(value=Formacao.ano_de_termino) #{Formacao.ano_de_termino}
+						option(value="")
+						while anoCorrente > ano
+							option(value=anoCorrente) #{anoCorrente}
+							- anoCorrente--;
+
+			.form-inp
+					input(type="hidden" name="idFormacaoAcademica" value=Formacao.idFormacaoAcademica)
+						
+			.form-inp
+				.col-left
+					button.btn Guardar

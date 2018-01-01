@@ -10,6 +10,7 @@ const Candidato = require(`${CTRL}/Candidato.js`);
 const Empregador = require(`${CTRL}/Empregador.js`);
 const Vagas = require(`${CTRL}/Vagas.js`);
 const Paginas = require(`${CTRL}/Paginas.js`);
+const FormAcademica = require(`${CTRL}/FormacaoAcademica`);
 
 // Outras dependências
 const Validation = require('express-validation');
@@ -49,8 +50,11 @@ module.exports = (app) => {
 	app.get('/candidato', Candidato.viewHomeAreaCandidato);
 	app.post('/candidato/enviar-candidatura', Candidato.enviarCandidatura);
 	app.get('/candidato/minha-conta', Candidato.viewMinhaConta);
-	app.get('/candidato/minha-conta/informacoes-academicas', Candidato.viewInformacoesAcademicas);
-	app.post('/candidato/minha-conta/informacoes-academicas', Candidato.informacoesAcademicas);
+	app.get('/candidato/minha-conta/formacoes-academicas', Candidato.viewFormacoesAcademicas);
+	app.post('/candidato/minha-conta/formacoes-academicas', Candidato.formacoesAcademicas);
+	app.get('/candidato/minha-conta/remover-formacoes-academicas/:idFormacaoAcademica', FormAcademica.Remover);
+	app.get('/candidato/minha-conta/editar-formacao/:idFormacaoAcademica', FormAcademica.viewEditar);
+	app.post('/candidato/minha-conta/editar-formacao', FormAcademica.Editar);
 	app.get('/candidato/minha-conta/alterar-password', Candidato.viewAlterarPassword);
 	app.post('/candidato/minha-conta/alterar-password', Candidato.alterarPassword);
 
