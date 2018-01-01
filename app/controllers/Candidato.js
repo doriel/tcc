@@ -297,7 +297,6 @@ module.exports.viewMinhaConta = (req, res) => {
 				*	Renderiza a view para editar as informações da conta e
 				*	envia os dados do candidato e as suas experiências academicas
 				*/
-				console.log(Institutos);
 				res.render('candidato/minha-conta', {Candidato, Institutos});
 			});
 		}
