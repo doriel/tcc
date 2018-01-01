@@ -4,6 +4,8 @@ const EnviarMail = require('./EnviarMail');
 const moment = require('moment');
 const bcrypt = require('bcrypt-nodejs');
 
+const ExpProfissional = require(`./ExperienciaProfissional`);
+
 /*
 *	CriaConta: É responsável por criar uma nova conta de
 *	utilizador profissional no Portal
@@ -293,11 +295,17 @@ module.exports.viewMinhaConta = (req, res) => {
 
 			// Função que consulta as experiencias academicas do candidato
 			__getFormacaoAcademica(ID).then((Institutos) => {
-				/* 
-				*	Renderiza a view para editar as informações da conta e
-				*	envia os dados do candidato e as suas experiências academicas
-				*/
-				res.render('candidato/minha-conta', {Candidato, Institutos});
+
+				// Módulo responsável por listar as experiências
+				ExpProfissional.listarExperiencias(ID)
+				.then((Experiencias) => {
+					/* 
+					*	Renderiza a view para editar as informações da conta e
+					*	envia os dados do candidato e as suas experiências academicas
+					*/
+					res.render('candidato/minha-conta', {Candidato, Institutos, Experiencias});
+				});
+
 			});
 		}
 	);

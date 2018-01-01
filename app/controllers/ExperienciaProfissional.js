@@ -43,3 +43,22 @@ module.exports.addExpProfissional = (req, res) => {
 		res.redirect('/candidato/minha-conta');
 	});
 }
+
+/*
+*	Este módulo é responsável por listar as experiências profissionais
+*	do candidato através do seu ID.
+*	@params {Number} ID
+*/
+module.exports.listarExperiencias = (ID) => {
+	return new Promise((resolve, reject) => {
+		let sql = `SELECT * FROM ExperienciaProfissional
+		WHERE Candidato_idCandidato = ?`;
+		sql = db.format(sql, ID);
+
+		db.query(sql, (err, Experiencias) => {
+			if(err) { reject(err); }
+
+			resolve(Experiencias);
+		});
+	});
+}

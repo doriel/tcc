@@ -72,7 +72,7 @@ block content
 					input(type="file" name="foto_de_perfil")
 
 			.jb-space.single
-			h2 Formações academicas
+			h2 Formação academica
 			.jb-space.single
 			
 			if Institutos
@@ -106,8 +106,52 @@ block content
 					a(href="/candidato/minha-conta/formacoes-academicas") Adicionar
 
 			.jb-space.single
+			h2 Informações profissionais
+			.jb-space.single
+
+			.form-inp
+				.col-left
+					label Anos de experiência
+					input(type="number" min="0" required name="anosDeExperiencia" value=Candidato.anos_de_experiencia)
+
+				.col-left
+					label Área de preferência
+					select(name="areaDePreferencia")
+						if Candidato.area_de_preferencia
+							option(value=Candidato.area_de_preferencia) #{Candidato.area_de_preferencia} (Actual)
+						include ../include/area-de-preferencia
+
+			.form-inp
+				.col-left(title="Faça o upload do seu CV em formato pdf")
+					label Curriculum Vitae (pdf)
+					input(type="file" name="curriculumVitae")
+
+			.jb-space.single
 			h2 Experiência profissional
 			.jb-space.single
+
+			if Experiencias
+				.vagas-listing
+					table
+						thead
+							tr
+								td Nome da empresa
+								td Função
+								td Data de início
+								td Data de termino
+								td Opções
+
+						tbody
+							each Experiencia, i in Experiencias
+								tr
+									td #{Experiencia.nome_da_empresa}
+									td #{Experiencia.funcao}
+									td #{Experiencia.ano_de_inicio}
+									td #{Experiencia.ano_de_termino}
+									td
+										a(href="/candidato/minha-conta/editar-experiencia/" + Experiencia.idExperienciaProfissional) Editar
+										span &nbsp; | &nbsp;
+										a(href="/candidato/minha-conta/remover-experiencia/" + Experiencia.idExperienciaProfissional) Remover
 
 			.jb-space.single
 			.form-inp
@@ -130,27 +174,6 @@ block content
 				.col-left
 					label Telefone alternativo
 					input(type="number" name="telefoneAlternativo" required value=Candidato.telefone_alternativo)
-
-			.jb-space.single
-			h2 Informações profissionais
-			.jb-space.single
-
-			.form-inp
-				.col-left
-					label Anos de experiência
-					input(type="number" min="0" required name="anosDeExperiencia" value=Candidato.anos_de_experiencia)
-
-				.col-left
-					label Área de preferência
-					select(name="areaDePreferencia")
-						if Candidato.area_de_preferencia
-							option(value=Candidato.area_de_preferencia) #{Candidato.area_de_preferencia} (Actual)
-						include ../include/area-de-preferencia
-
-			.form-inp
-				.col-left(title="Faça o upload do seu CV em formato pdf")
-					label Curriculum Vitae (pdf)
-					input(type="file" name="curriculumVitae")
 
 			.form-inp
 				.col-left
