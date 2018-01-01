@@ -6,7 +6,7 @@ block menu
 			li
 				a(href="/candidato") CANDIDATURAS
 			li
-				a(href="/candidato/pesquisar-candidatos") PESQUISAR CANDIDATOS
+				a(href="/candidato/meu-perfil") MEU PERFIL
 			li
 				a(href="/candidato/minha-conta") MINHA CONTA
 			li.a-btn
@@ -36,6 +36,8 @@ block content
 								td #{candidatura.cargo}
 								td #{candidatura.data_da_candidatura}
 								td #{candidatura.data_limite}
+								//td
+									a(href="")
 		else
 			h1 Ainda não realizou nenhuma candidatura.
 			.jb-space.single
