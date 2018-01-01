@@ -14,18 +14,18 @@ block menu
 
 block content
 	.pages.wrap
-		h1 Informações academicas
+		h1 Formação academica
 		//p Use o formulário abaixo para editar as suas informações.
 		.jb-space
-		form(action="/candidato/minha-conta/informacoes-academicas" method="post")
+		form(action="/candidato/minha-conta/formacoes-academicas" method="post")
 			.form-inp
 				.col-left
 					label Nome da instituição
-					input(type="text" name="nomeDaInstituicao" placeholder="Nome da instituição")
+					input(type="text" required name="nomeDaInstituicao" placeholder="Nome da instituição")
 				
 				.col-left
 					label Titulo obtido
-					input(type="text" name="tituloObtido" placeholder="Titulo obtido")
+					input(type="text" name="tituloObtido" required placeholder="Titulo obtido")
 
 			.form-inp
 				.col-left
