@@ -1,0 +1,58 @@
+extends ../layout
+
+block menu
+	nav.menu.col-right
+		ul
+			li
+				a(href="/candidato") CANDIDATURAS
+			li
+				a(href="/candidato/meu-perfil") MEU PERFIL
+			li
+				a(href="/candidato/minha-conta") MINHA CONTA
+			li.a-btn
+				a(href="/logout") TERMINAR SESSÃO
+
+block content
+	.pages.wrap
+		h1 Experiência profissional
+		//p Use o formulário abaixo para editar as suas informações.
+		.jb-space
+		form(action="/candidato/minha-conta/editar-experiencia" method="post")
+			.form-inp
+				.col-left
+					label Nome da empresa
+					input(type="text" required name="nomeDaEmpresa" value=Experiencia.nome_da_empresa)
+				
+				.col-left
+					label Função
+					input(type="text" name="funcao" required value=Experiencia.funcao)
+
+			.form-inp
+				.col-left
+					label Ano de início
+					- var ano = 1970;
+					- var anoCorrente = new Date().getFullYear();
+					select(name="anoDeInicio" required)
+						option(value=value=Experiencia.ano_de_inicio) #{Experiencia.ano_de_inicio}
+						option(value="")
+						while anoCorrente > ano
+							option(value=anoCorrente) #{anoCorrente}
+							- anoCorrente--;
+
+				.col-left(title="Deixe vazio se ainda trabalha aqui")
+					label Ano de termino
+					- var ano = 1970;
+					- var anoCorrente = 2030
+					select(name="anoDeTermino")
+						option(value=value=Experiencia.ano_de_termino) #{Experiencia.ano_de_termino}
+						option(value="")
+						while anoCorrente > ano
+							option(value=anoCorrente) #{anoCorrente}
+							- anoCorrente--;
+			.form-inp
+				input(type="hidden" name="idExperiencia" value=Experiencia.idExperienciaProfissional)
+			.form-inp
+				.col-left
+					button.btn Guardar
+
+					
