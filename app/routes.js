@@ -11,6 +11,7 @@ const Empregador = require(`${CTRL}/Empregador.js`);
 const Vagas = require(`${CTRL}/Vagas.js`);
 const Paginas = require(`${CTRL}/Paginas.js`);
 const FormAcademica = require(`${CTRL}/FormacaoAcademica`);
+const ExpProfissional = require(`${CTRL}/ExperienciaProfissional`);
 
 // Outras dependências
 const Validation = require('express-validation');
@@ -57,6 +58,9 @@ module.exports = (app) => {
 	app.post('/candidato/minha-conta/editar-formacao', FormAcademica.Editar);
 	app.get('/candidato/minha-conta/alterar-password', Candidato.viewAlterarPassword);
 	app.post('/candidato/minha-conta/alterar-password', Candidato.alterarPassword);
+
+	app.get('/candidato/minha-conta/experiencia-profissional', ExpProfissional.viewAddExpProfissional);
+	app.post('/candidato/minha-conta/experiencia-profissional', ExpProfissional.addExpProfissional);
 
 	// Empregador
 	app.get('/criarconta/empregador', (req, res) => {
