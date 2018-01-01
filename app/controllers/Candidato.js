@@ -252,7 +252,7 @@ module.exports.enviarCandidatura = (req, res) => {
 *	do profissional num formulário.
 */
 
-function __minhaConta(ID) {
+function __getCandidato(ID) {
 	return new Promise((resolve, reject) => {
 
 		let sql = `SELECT * FROM Candidato WHERE idCandidato = ?`;
@@ -268,12 +268,38 @@ function __minhaConta(ID) {
 	});
 }
 
+function __getFormacaoAcademica(idCandidato) {
+	return new Promise((resolve, reject) => {
+		let sql = `SELECT * FROM FormacaoAcademica WHERE Candidato_idCandidato = ?`;
+		sql = db.format(sql, idCandidato);
+
+		db.query(sql, (err, Institutos) => {
+
+			if(err) { reject(err); }
+
+			resolve(Institutos);
+		});
+	});
+}
+
 module.exports.viewMinhaConta = (req, res) => {
 	
-	__minhaConta(req.session.ID)
+	let ID = req.session.ID;
+
+	// Função que obtem as informações do candidato
+	__getCandidato(ID)
 	.then(
 		(Candidato) => {
-			res.render('candidato/minha-conta', {Candidato});
+
+			// Função que consulta as experiencias academicas do candidato
+			__getFormacaoAcademica(ID).then((Institutos) => {
+				/* 
+				*	Renderiza a view para editar as informações da conta e
+				*	envia os dados do candidato e as suas experiências academicas
+				*/
+				console.log(Institutos);
+				res.render('candidato/minha-conta', {Candidato, Institutos});
+			});
 		}
 	);
 	
@@ -338,17 +364,17 @@ module.exports.alterarPassword = (req, res) => {
 /*
 *	Módulo para rendereizar o formulário para adicionar/editar as informações academicas
 */
-module.exports.viewInformacoesAcademicas = (req, res) => {
+module.exports.viewFormacoesAcademicas = (req, res) => {
 
 	/*let sql = `SELECT * FROM FormacaoAcademica WHERE Candidato_idCandidato = ?`;
 	sql = db.format(sql, req.session.ID);
 
 	db.query(sql, (err, d))*/
 
-	res.render('candidato/informacoes-academicas');
+	res.render('candidato/formacoes-academicas');
 }
 
-module.exports.informacoesAcademicas = (req, res) => {
+module.exports.formacoesAcademicas = (req, res) => {
 	
 	let {
 		nomeDaInstituicao,

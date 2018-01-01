@@ -75,9 +75,35 @@ block content
 			h2 Informações academicas
 			.jb-space.single
 			
+			if Institutos
+				.vagas-listing
+					table
+						thead
+							tr
+								td Nome da instituicao
+								td Curso 
+								td Data de início
+								td Data de termino
+								td Opções
+
+						tbody
+							each Instituto, i in Institutos
+								tr
+									td #{Instituto.nome_da_instituicao}
+									td #{Instituto.titulo_obtido}
+									td #{Instituto.ano_de_inicio}
+									td #{Instituto.ano_de_termino}
+									td
+										a(href="/candidato/minha-conta/editar-formacoes/" + Instituto.idFormacaoAcademica) Editar
+										span &nbsp; | &nbsp;
+										a(href="/candidato/minha-conta/remover-formacoes-academicas/" + Instituto.idFormacaoAcademica) Remover
+			else
+				p Adicione as suas informações academicas.
+
+			.jb-space.single
 			.form-inp
 				button.btn
-					a(href="/candidato/minha-conta/informacoes-academicas") Adicionar
+					a(href="/candidato/minha-conta/formacoes-academicas") Adicionar
 
 			.jb-space.single
 			h2 Informações de contacto
