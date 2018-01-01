@@ -30,8 +30,6 @@ module.exports.addExpProfissional = (req, res) => {
 		req.session.ID
 	];
 
-	console.log(campos);
-
 	let sql = `INSERT INTO ExperienciaProfissional
 	(nome_da_empresa, funcao, ano_de_inicio, ano_de_termino, Candidato_idCandidato)
 	VALUES (?, ?, ?, ?, ?)`;
@@ -61,4 +59,71 @@ module.exports.listarExperiencias = (ID) => {
 			resolve(Experiencias);
 		});
 	});
+}
+
+/*
+*	Este módulo é responsável por renderizar a view de edição do experiência
+*	profissional.
+*/
+module.exports.viewEditar = (req, res) => {
+	let sql = `SELECT * FROM ExperienciaProfissional
+	WHERE idExperienciaProfissional = ?`;
+	sql = db.format(sql, req.params.idExperiencia);
+
+	db.query(sql, (err, Experiencia) => {
+		if(err) throw err; 
+
+		res.render('candidato/editar-experiencia', {Experiencia: Experiencia[0]});
+	});
+}
+
+/*
+*	Este módulo é responsável por por processar o formulário de edição da 
+*	experiência profissional.
+*/
+module.exports.Editar = (req, res) => {
+
+	let {
+		nomeDaEmpresa,
+		funcao,
+		anoDeInicio,
+		anoDeTermino,
+		idExperiencia
+	} = req.body;
+
+	let campos = [
+		nomeDaEmpresa,
+		funcao,
+		anoDeInicio ? anoDeInicio : null,
+		anoDeTermino ? anoDeTermino : null,
+		idExperiencia
+	];
+
+	let sql = `UPDATE ExperienciaProfissional
+	SET nome_da_empresa = ?, funcao = ?, ano_de_inicio = ?, ano_de_termino = ?
+	WHERE idExperienciaProfissional = ?`;
+	sql = db.format(sql, campos);
+
+	db.query(sql, (err, info) => {
+		if(err) throw err;
+
+		res.redirect('/candidato/minha-conta');
+	});
+
+}
+
+/*
+*	
+*/
+module.exports.Remover = (req, res) => {
+
+	let sql = `DELETE FROM ExperienciaProfissional WHERE idExperienciaProfissional = ?`;
+	sql = db.format(sql, req.params.idExperiencia);
+
+	db.query(sql, (err, info) => {
+		if(err) throw err;
+
+		res.redirect('/candidato/minha-conta');
+	});
+
 }

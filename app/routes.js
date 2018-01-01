@@ -61,6 +61,9 @@ module.exports = (app) => {
 
 	app.get('/candidato/minha-conta/experiencia-profissional', ExpProfissional.viewAddExpProfissional);
 	app.post('/candidato/minha-conta/experiencia-profissional', ExpProfissional.addExpProfissional);
+	app.get('/candidato/minha-conta/editar-experiencia/:idExperiencia', ExpProfissional.viewEditar);
+	app.post('/candidato/minha-conta/editar-experiencia', ExpProfissional.Editar);
+	app.get('/candidato/minha-conta/remover-experiencia/:idExperiencia', ExpProfissional.Remover);
 
 	// Empregador
 	app.get('/criarconta/empregador', (req, res) => {
