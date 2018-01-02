@@ -50,6 +50,7 @@ module.exports = (app) => {
 	// Área privada Candidato
 	app.get('/candidato', Candidato.viewHomeAreaCandidato);
 	app.post('/candidato/enviar-candidatura', Candidato.enviarCandidatura);
+	app.get('/candidato/cancelar-candidatura/:idCandidatura/:idVaga', Candidato.cancelarCandidatura);
 	app.get('/candidato/minha-conta', Candidato.viewMinhaConta);
 	app.get('/candidato/minha-conta/formacoes-academicas', Candidato.viewFormacoesAcademicas);
 	app.post('/candidato/minha-conta/formacoes-academicas', Candidato.formacoesAcademicas);
