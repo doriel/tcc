@@ -95,7 +95,7 @@ module.exports.criarConta = (req, res) => {
 module.exports.viewHomeAreaCandidato = (req, res) => {
 
 	// Obter candidaturas
-	let sql = `SELECT cargo, data_limite, data_da_candidatura
+	let sql = `SELECT Vaga.idVaga, idCandidatura, cargo, data_limite, data_da_candidatura
 	FROM Candidatura, Vaga
 	WHERE Candidatura.idCandidato = ?
 	AND Candidatura.idVaga = Vaga.idVaga;`;
@@ -246,6 +246,41 @@ module.exports.enviarCandidatura = (req, res) => {
 
 			res.redirect('/candidato');
 		});
+	});
+}
+
+/*
+*	enviarCandidatura: Este módulo é responsável candidatar o utilizador
+*	numa determinada vaga.
+*/
+module.exports.cancelarCandidatura = (req, res) => {
+
+	let sql = `DELETE FROM Candidatura WHERE idCandidatura = ?`;
+	sql = db.format(sql, req.params.idCandidatura);
+
+	// Executa a query para eliminar a candidatura e em seguida actualiza
+	// o valo do campo quantidade de vagas da vaga.
+	db.query(sql, (err, info) => {
+		if(err) throw err;
+
+		// Consulta o valor do campo quantidade de vagas disponíveis
+		let sqlQuantVaga = `SELECT quantidade_de_vagas FROM Vaga
+		WHERE idVaga = ?`;
+		sqlQuantVaga = db.format(sqlQuantVaga, req.params.idVaga);
+		db.query(sqlQuantVaga, (err, vaga) => {
+			
+			// Incrementa 1 a quantidade de vagas restantes visto que o candidato cancelou
+			// a candidatura
+			vaga.quantidade_de_vagas += 1;
+
+			// Executa a query para actualizar o campo quantidade de vagas.
+			let sqlUpdateQuant = `UPDATE Vaga SET quantidade_de_vagas = ? WHERE idVaga = ?`;
+			sqlUpdateQuant = db.format(sqlUpdateQuant, [vaga.quantidade_de_vagas, req.params.idVaga]);
+			db.query(sql, (err, info) => {
+				res.redirect('/candidato');
+			});
+
+		});	
 	});
 }
 
