@@ -113,7 +113,8 @@ module.exports.Editar = (req, res) => {
 }
 
 /*
-*	
+*	Este módulo é responsável por remover uma experiência profissional da tabela
+* 	a partir do id da mesma.
 */
 module.exports.Remover = (req, res) => {
 
