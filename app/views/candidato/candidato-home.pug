@@ -27,17 +27,18 @@ block content
 							td Data limite
 							//td Dias restantes
 							//td Estado
-							//td Opções
+							td Opções
 
 					tbody
 						each candidatura, i in Candidaturas
 							tr
 								td #{i+1}
-								td #{candidatura.cargo}
+								td 
+									a(href="/vaga/" + candidatura.idVaga) #{candidatura.cargo}
 								td #{candidatura.data_da_candidatura}
 								td #{candidatura.data_limite}
-								//td
-									a(href="")
+								td
+									a(href="/candidato/cancelar-candidatura/" + candidatura.idCandidatura + "/" + candidatura.idVaga) Cancelar a candidatura
 		else
 			h1 Ainda não realizou nenhuma candidatura.
 			.jb-space.single
