@@ -176,6 +176,21 @@ block content
 						a(href="/candidato/minha-conta/carregar-cv" title="Faça o upload do seu Curriculum vitae") Carregar
 
 			.jb-space.single
+			h2 Fotografia
+			.jb-space.single
+
+			.form-inp
+				if Candidato.foto_de_perfil
+					button.btn
+						a(target="_blank" href="/uploads/" + Candidato.foto_de_perfil) Ver fotografia
+
+					button.btn
+						a(href="/candidato/minha-conta/carregar-fotografia" title="Faça o upload do seu Curriculum vitae") Actualizar fotografia
+				else
+					button.btn
+						a(href="/candidato/minha-conta/carregar-fotografia" title="Faça o upload do seu Curriculum vitae") Carregar
+
+			.jb-space.single
 			h2 Informações de contacto
 			.jb-space.single
 
