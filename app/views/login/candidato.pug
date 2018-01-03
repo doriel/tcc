@@ -16,11 +16,11 @@ block form
 	form(action="/login/candidato" method="post")
 		.form-inp
 			label Email
-			input(name="email" type="email" required placeholder="Email" value="f.c@gmail.com")
+			input(name="email" minlength="8" maxlenght="45" type="email" required placeholder="Email" value="f.c@gmail.com")
 
 		.form-inp
 			label Password
-			input(type="password" required placeholder="********" name="password" value="123")
+			input(type="password" required placeholder="********" name="password" value="12345678" minlength="8" maxlenght="45")
 
 		.form-inp
 			button Entrar
