@@ -42,17 +42,18 @@ module.exports.homePage = (req, res) => {
 module.exports.procurarVagas = (req, res) => {
 
 	let pesquisa = '%' + req.body.pesquisa + '%';
+	let provincia = '%' + req.body.provincias + '%';
 
 	// Consulta SQL para realizar a busca das vagas
 	let sql = `SELECT idVaga, cargo, data_de_publicacao, provincia, nome
-	FROM Vaga, Empregador WHERE cargo LIKE ? AND estado = 'Activo'
+	FROM Vaga, Empregador WHERE cargo LIKE ?
+	AND provincia LIKE ?
+	AND estado = 'Activo'
 	AND Empregador_idEmpregador = idEmpregador`;
 
-	sql = db.format(sql, pesquisa);
+	sql = db.format(sql, [pesquisa, provincia]);
 
 	db.query(sql, (err, vagas) => {
-
-		console.log(vagas);
 
 		if(err) throw err;
 
@@ -67,9 +68,12 @@ module.exports.procurarVagas = (req, res) => {
 		});
 
 		if(vagas.length > 0){
-			res.render('procurar-vagas', {Vagas: vagas});
+			res.render('procurar-vagas', {Vagas: vagas, termoDaPesquisa: req.body.pesquisa});
 		} else {
-			res.render('procurar-vagas', {semVagas: 'Nenhum resultado encontrado. Tente com outras palavras'});
+			res.render('procurar-vagas', {
+				semVagas: 'Nenhum resultado encontrado. Tente com outras palavras',
+				termoDaPesquisa: req.body.pesquisa
+			});
 		}
 
 	});
