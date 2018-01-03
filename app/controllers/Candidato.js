@@ -457,6 +457,9 @@ module.exports.viewFormacoesAcademicas = (req, res) => {
 	res.render('candidato/formacoes-academicas');
 }
 
+/*
+*	Módulo para processar o formulário de inserção das formações acadêmicas
+*/
 module.exports.formacoesAcademicas = (req, res) => {
 	
 	let {
@@ -483,5 +486,42 @@ module.exports.formacoesAcademicas = (req, res) => {
 
 		res.redirect('/candidato/minha-conta');
 	});
+
+}
+
+/*
+*	Módulo para renderizar a view para carregar o cv do candidato
+*/
+module.exports.viewCarregarCV = (req, res) => {
+
+	let notificacao = req.session.cvNotificacao;
+	// Limpar a notificação da sessão
+	req.session.cvNotificacao = "";
+	res.render('candidato/carregar-cv', {notificacao});
+}
+
+/*
+*	Módulo para processar o formulário de envio do CV do candidato.
+*/
+module.exports.carregarCV = (req, res) => {
+
+	let cv = req.file;
+	
+	if(cv){
+
+		let sql = `UPDATE Candidato SET curriculum_vitae = ? WHERE idCandidato = ?`;
+		sql = db.format(sql, [cv.filename, req.session.ID]);
+		db.query(sql, (err, info) => {
+			if(err) throw err;
+
+			req.session.cvNotificacao = 'O seu curriculum foi carregado com sucesso';
+			res.redirect('/candidato/minha-conta/carregar-cv');
+		});
+
+	} else {
+		res.render('candidato/carregar-cv', {
+			formError: 'O formato do ficheiro não é suportado. Faça upload de ficheiros .pdf'
+		});
+	}
 
 }

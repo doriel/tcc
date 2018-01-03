@@ -12,12 +12,39 @@ const Vagas = require(`${CTRL}/Vagas.js`);
 const Paginas = require(`${CTRL}/Paginas.js`);
 const FormAcademica = require(`${CTRL}/FormacaoAcademica`);
 const ExpProfissional = require(`${CTRL}/ExperienciaProfissional`);
+const path = require('path');
 
 // Outras dependências
 const Validation = require('express-validation');
 
 // Contém os campos dos formulários que serão validados
 const fields = require('./fields');
+
+// Multer é o módulo que cuida dos uploads
+const multer = require('multer');
+let storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, `${__dirname}/public/uploads`);
+	},
+	filename: (req, file, cb) => {
+		let ext = path.extname(file.originalname);
+		cb(null, file.fieldname + '-' + Date.now() + ext);
+	}
+});
+
+let fileFilter = (req, file, cb) => {
+	let ext = path.extname(file.originalname);
+		if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg' && ext !== '.pdf') {
+			cb(null, false);
+		} else {
+			cb(null, true);
+		}
+};
+
+const uploads = multer({
+	storage,
+	fileFilter
+});
 
 // Exporta as rotas da API do portal
 module.exports = (app) => {
@@ -60,7 +87,8 @@ module.exports = (app) => {
 	app.post('/candidato/minha-conta/editar-formacao', FormAcademica.Editar);
 	app.get('/candidato/minha-conta/alterar-password', Candidato.viewAlterarPassword);
 	app.post('/candidato/minha-conta/alterar-password', Candidato.alterarPassword);
-
+	app.get('/candidato/minha-conta/carregar-cv', Candidato.viewCarregarCV);
+	app.post('/candidato/minha-conta/carregar-cv', uploads.single('cv'), Candidato.carregarCV);
 	app.get('/candidato/minha-conta/experiencia-profissional', ExpProfissional.viewAddExpProfissional);
 	app.post('/candidato/minha-conta/experiencia-profissional', ExpProfissional.addExpProfissional);
 	app.get('/candidato/minha-conta/editar-experiencia/:idExperiencia', ExpProfissional.viewEditar);

@@ -1,0 +1,40 @@
+extends ../layout
+
+block menu
+	nav.menu.col-right
+		ul
+			li
+				a(href="/candidato") CANDIDATURAS
+			li
+				a(href="/candidato/meu-perfil") MEU PERFIL
+			li
+				a(href="/candidato/minha-conta") MINHA CONTA
+			li.a-btn
+				a(href="/logout") TERMINAR SESSÃO
+
+block content
+	.pages.wrap
+		h1 Carregar o Curriculum vitae.
+		p Faça o upload do seu curriculum actualizado e aumente as suas chances de ser contratado.
+		.jb-space
+
+		block erro
+			if formError
+				.erro #{formError}
+				.jb-space.single
+
+		block notificacao
+			if notificacao
+				div.notificacao #{notificacao}
+				.jb-space
+					
+		form(action="/candidato/minha-conta/carregar-cv" method="post" enctype="multipart/form-data")
+			.form-inp
+				.col-left
+					label Curriculum vitae (.pdf)
+					input(type="file" name="cv" accept="application/pdf")
+					
+			.form-inp
+				.col-left
+					button.btn Guardar
+					
