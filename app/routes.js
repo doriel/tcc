@@ -71,7 +71,7 @@ module.exports = (app) => {
 	app.get('/confirmarconta', (req, res) => { res.render('criarconta/confirmarconta'); });
 	app.post('/confirmarconta', Candidato.confirmarConta);
 	app.get('/login/candidato', (req, res) => {
-		if(req.session.ID){
+		if(req.session.ID && req.session.tipoUtilizador == 'candidato'){
 			res.redirect('/candidato');
 		} else {
 			res.render('login/candidato');
@@ -111,7 +111,7 @@ module.exports = (app) => {
 
 	app.post('/criarconta/empregador', Validation(fields.empresaCriarConta), Empregador.empregadorCriarConta );
 	app.get('/login/empregador', (req, res) => { 
-		if(req.session.ID){
+		if(req.session.ID && req.session.tipoUtilizador == 'empregador'){
 			res.redirect('/empregador');
 		} else {
 			res.render('login/empregador');
