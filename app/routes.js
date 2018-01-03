@@ -70,7 +70,13 @@ module.exports = (app) => {
 
 	app.get('/confirmarconta', (req, res) => { res.render('criarconta/confirmarconta'); });
 	app.post('/confirmarconta', Candidato.confirmarConta);
-	app.get('/login/candidato', (req, res) => { res.render('login/candidato'); });
+	app.get('/login/candidato', (req, res) => {
+		if(req.session.ID){
+			res.redirect('/candidato');
+		} else {
+			res.render('login/candidato');
+		}
+	});
 	app.post('/login/candidato', Validation(fields.login), Candidato.login);
 	app.get('/logout', Candidato.logout);
 
@@ -105,14 +111,13 @@ module.exports = (app) => {
 
 	app.post('/criarconta/empregador', Validation(fields.empresaCriarConta), Empregador.empregadorCriarConta );
 	app.get('/login/empregador', (req, res) => { 
-		let formLogin = req.session.formLogin;
-		res.render('login/empregador', {formLogin});
+		if(req.session.ID){
+			res.redirect('/empregador');
+		} else {
+			res.render('login/empregador');
+		}
 	});
 	app.post('/login/empregador', Validation(fields.login), Empregador.empregadorLogin);
-	app.get('/empregador', (req, res) => {
-		let nome = req.session.nome;
-		res.render('empregador/empregador-home', {nome: nome});
-	});
 	app.get('/empregador/minha-conta', Empregador.minhaConta);
 	app.post('/empregador/minha-conta', Empregador.actualizarMinhaConta);
 	app.get('/empregador/minha-conta/alterar-password', Empregador.viewAlterarPassword)
