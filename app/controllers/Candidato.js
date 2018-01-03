@@ -3,6 +3,7 @@ const db = require('../models/database');
 const EnviarMail = require('./EnviarMail');
 const moment = require('moment');
 const bcrypt = require('bcrypt-nodejs');
+const fs = require('fs');
 
 const ExpProfissional = require(`./ExperienciaProfissional`);
 
@@ -521,6 +522,43 @@ module.exports.carregarCV = (req, res) => {
 	} else {
 		res.render('candidato/carregar-cv', {
 			formError: 'O formato do ficheiro não é suportado. Faça upload de ficheiros .pdf'
+		});
+	}
+
+}
+
+/*
+*	Módulo para renderizar a view para carregar o cv do candidato
+*/
+module.exports.viewCarregarFotografia = (req, res) => {
+
+	let notificacao = req.session.ftNotificacao;
+	// Limpar a notificação da sessão
+	req.session.ftNotificacao = "";
+	res.render('candidato/carregar-fotografia', {notificacao});
+}
+
+/*
+*	Módulo para processar o formulário de envio do CV do candidato.
+*/
+module.exports.carregarFotografia = (req, res) => {
+
+	let foto = req.file;
+	
+	if(foto){
+
+		let sql = `UPDATE Candidato SET foto_de_perfil = ? WHERE idCandidato = ?`;
+		sql = db.format(sql, [foto.filename, req.session.ID]);
+		db.query(sql, (err, info) => {
+			if(err) throw err;
+
+			req.session.ftNotificacao = 'O sua fotografia foi carregada com sucesso!';
+			res.redirect('/candidato/minha-conta/carregar-fotografia');
+		});
+
+	} else {
+		res.render('candidato/carregar-fotografia', {
+			formError: 'O formato do ficheiro não é suportado. Faça upload de ficheiros .jpg/.png'
 		});
 	}
 

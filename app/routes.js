@@ -34,7 +34,7 @@ let storage = multer.diskStorage({
 
 let fileFilter = (req, file, cb) => {
 	let ext = path.extname(file.originalname);
-		if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg' && ext !== '.pdf') {
+		if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg' && ext !== '.pdf') {
 			cb(null, false);
 		} else {
 			cb(null, true);
@@ -89,6 +89,8 @@ module.exports = (app) => {
 	app.post('/candidato/minha-conta/alterar-password', Candidato.alterarPassword);
 	app.get('/candidato/minha-conta/carregar-cv', Candidato.viewCarregarCV);
 	app.post('/candidato/minha-conta/carregar-cv', uploads.single('cv'), Candidato.carregarCV);
+	app.get('/candidato/minha-conta/carregar-fotografia', Candidato.viewCarregarFotografia);
+	app.post('/candidato/minha-conta/carregar-fotografia', uploads.single('foto'), Candidato.carregarFotografia);
 	app.get('/candidato/minha-conta/experiencia-profissional', ExpProfissional.viewAddExpProfissional);
 	app.post('/candidato/minha-conta/experiencia-profissional', ExpProfissional.addExpProfissional);
 	app.get('/candidato/minha-conta/editar-experiencia/:idExperiencia', ExpProfissional.viewEditar);
