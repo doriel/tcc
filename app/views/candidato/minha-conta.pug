@@ -127,10 +127,6 @@ block content
 							option(value=Candidato.area_de_preferencia) #{Candidato.area_de_preferencia} (Actual)
 						include ../include/area-de-preferencia
 
-			.form-inp
-				.col-left(title="Faça o upload do seu CV em formato pdf")
-					label Curriculum Vitae (pdf)
-					input(type="file" name="curriculumVitae")
 
 			.jb-space.single
 			h2 Experiência profissional
@@ -165,6 +161,21 @@ block content
 					a(href="/candidato/minha-conta/experiencia-profissional") Adicionar
 
 			.jb-space.single
+			h2 Curriculum vitae
+			.jb-space.single
+
+			.form-inp
+				if Candidato.curriculum_vitae
+					button.btn
+						a(target="_blank" href="/uploads/" + Candidato.curriculum_vitae) Abrir CV
+
+					button.btn
+						a(href="/candidato/minha-conta/carregar-cv" title="Faça o upload do seu Curriculum vitae") Actualizar CV
+				else
+					button.btn
+						a(href="/candidato/minha-conta/carregar-cv" title="Faça o upload do seu Curriculum vitae") Carregar
+
+			.jb-space.single
 			h2 Informações de contacto
 			.jb-space.single
 
@@ -181,9 +192,11 @@ block content
 					label Telefone alternativo
 					input(type="number" name="telefoneAlternativo" minlength="9" maxlength="13" required value=Candidato.telefone_alternativo)
 
+			.jb-space.single
+
 			.form-inp
 				.col-left
-					button.btn Guardar informações
+					button.btn Guardar
 					button.btn
 						a(href="/candidato/minha-conta/alterar-password") Alterar a password
 
