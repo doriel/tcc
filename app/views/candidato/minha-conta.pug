@@ -17,14 +17,20 @@ block content
 		h1 Minha conta
 		p Use o formulário abaixo para editar as suas informações.
 		.jb-space
+			
+		block notificacao
+			if notificacao
+				div.notificacao #{notificacao}
+				.jb-space
+
 		form(action="/candidato/minha-conta" method="post")
 			.form-inp
 				.col-left
 					label Primeiro nome
-					input(type="text" name="primeiroNome" required value=Candidato.primeiro_nome)
+					input(type="text" name="primeiroNome" required minlength="3" maxlength="45" value=Candidato.primeiro_nome)
 				.col-left
 					label Último nome
-					input(type="text" name="ultimoNome" required value=Candidato.ultimo_nome)
+					input(type="text" name="ultimoNome" minlength="3" maxlength="45" required value=Candidato.ultimo_nome)
 			.form-inp
 				.col-left
 					label Data de nascimento
@@ -46,7 +52,7 @@ block content
 
 				.col-left
 					label Naturalidade
-					input(type="text" name="naturalidade" required value=Candidato.naturalidade)
+					input(type="text" name="naturalidade" minlength="3" maxlength="45" required value=Candidato.naturalidade)
 
 			.form-inp
 				.col-left
@@ -57,7 +63,7 @@ block content
 
 				.col-left
 					label Morada
-					input(type="text" name="morada" required value=Candidato.morada)
+					input(type="text" name="morada" minlength="3" maxlength="45" required value=Candidato.morada)
 
 			.form-inp
 				.col-left(title="Está disposto a se realocar?")
@@ -112,7 +118,7 @@ block content
 			.form-inp
 				.col-left
 					label Anos de experiência
-					input(type="number" min="0" required name="anosDeExperiencia" value=Candidato.anos_de_experiencia)
+					input(type="number" min="0" max="50" required name="anosDeExperiencia" value=Candidato.anos_de_experiencia)
 
 				.col-left
 					label Área de preferência
@@ -165,15 +171,15 @@ block content
 			.form-inp
 				.col-left
 					label Email
-					input(type="email" name="email" required value=Candidato.email)
+					input(type="email" name="email" min="8" max="45" required value=Candidato.email)
 				.col-left
 					label Telefone
-					input(type="number" name="telefone" required value=Candidato.telefone)
+					input(type="number" name="telefone" min="9" max="13" required value=Candidato.telefone)
 
 			.form-inp
 				.col-left
 					label Telefone alternativo
-					input(type="number" name="telefoneAlternativo" required value=Candidato.telefone_alternativo)
+					input(type="number" name="telefoneAlternativo" minlength="9" maxlength="13" required value=Candidato.telefone_alternativo)
 
 			.form-inp
 				.col-left

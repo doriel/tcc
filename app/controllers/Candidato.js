@@ -101,7 +101,7 @@ module.exports.viewHomeAreaCandidato = (req, res) => {
 	AND Candidatura.idVaga = Vaga.idVaga;`;
 	sql = db.format(sql, req.session.ID);
 	db.query(sql, (err, Candidaturas) => {
-		if(Candidaturas){
+		if(Candidaturas.length > 0){
 			Candidaturas.map((candidatura) => {
 				candidatura.data_limite = moment(candidatura.data_limite).format('YYYY-MM-DD');
 				candidatura.data_da_candidatura = moment(candidatura.data_da_candidatura).format('YYYY-MM-DD');
@@ -338,13 +338,60 @@ module.exports.viewMinhaConta = (req, res) => {
 					*	Renderiza a view para editar as informações da conta e
 					*	envia os dados do candidato e as suas experiências academicas
 					*/
-					res.render('candidato/minha-conta', {Candidato, Institutos, Experiencias});
+					let { notificacao } = req.session;
+					req.session.notificacao = "";
+					res.render('candidato/minha-conta', {
+						Candidato,
+						Institutos,
+						Experiencias,
+						notificacao
+					});
 				});
 
 			});
 		}
 	);
 	
+}
+
+/*
+*	Este módulo é responsável por processar o form para actualizar a conta de utilizador
+*	do candidato.
+*/
+module.exports.actualizarMinhaConta = (req, res) => {
+
+	let {
+		primeiroNome, ultimoNome,
+		dataDeNascimento, genero,
+		nacionalidade, naturalidade,
+		provinciaOndeReside, morada,
+		disposicaoDeRealocacao, anosDeExperiencia,
+		areaDePreferencia, email,
+		telefone, telefoneAlternativo,
+	} = req.body;
+
+	let campos = [primeiroNome, ultimoNome,
+		dataDeNascimento, genero,
+		nacionalidade, naturalidade,
+		provinciaOndeReside, morada,
+		disposicaoDeRealocacao, anosDeExperiencia,
+		areaDePreferencia, email,
+		telefone, telefoneAlternativo,
+		req.session.ID];
+
+	let sql = `UPDATE Candidato
+	SET primeiro_nome = ?, ultimo_nome = ?, data_de_nascimento = ?, genero = ?, nacionalidade = ?,
+	naturalidade= ?, provincia_onde_reside = ?, morada = ?, disposicao_de_realocacao= ?,
+	anos_de_experiencia = ?, area_de_preferencia = ?, email = ?, telefone = ?, telefone_alternativo = ?
+	WHERE idCandidato = ?`;
+
+	sql = db.format(sql, campos);
+	db.query(sql, (err, info) => {
+		if(err) throw err;
+
+		req.session.notificacao = "Informações actualizadas com sucesso!";
+		res.redirect('/candidato/minha-conta');
+	});
 }
 
 /*
@@ -407,12 +454,6 @@ module.exports.alterarPassword = (req, res) => {
 *	Módulo para rendereizar o formulário para adicionar/editar as informações academicas
 */
 module.exports.viewFormacoesAcademicas = (req, res) => {
-
-	/*let sql = `SELECT * FROM FormacaoAcademica WHERE Candidato_idCandidato = ?`;
-	sql = db.format(sql, req.session.ID);
-
-	db.query(sql, (err, d))*/
-
 	res.render('candidato/formacoes-academicas');
 }
 
