@@ -4,10 +4,10 @@ module.exports.Candidatos = (req, res, next) => {
 	// Utilizador autorizado com sessão iniciada
 	let utilizadorAutorizado = req.session.email;
 
-	if (!utilizadorAutorizado) {
-		res.redirect('/login/candidato');
-	} else {
+	if (utilizadorAutorizado && req.session.tipoUtilizador == 'candidato') {
 		next();
+	} else {
+		res.redirect('/login/candidato');
 	}
 
 }
@@ -18,10 +18,10 @@ module.exports.Empregadores = (req, res, next) => {
 	// Utilizador autorizado com sessão iniciada
 	let utilizadorAutorizado = req.session.email;
 
-	if (!utilizadorAutorizado) {
-		res.redirect('/login/empregador');
-	} else {
+	if (utilizadorAutorizado && req.session.tipoUtilizador == 'empregador') {
 		next();
+	} else {
+		res.redirect('/login/empregador');
 	}
 
 }
