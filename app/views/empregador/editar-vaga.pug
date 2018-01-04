@@ -9,6 +9,32 @@ block content
 		p Use o formulário abaixo para públicar uma nova vaga de emprego.
 		.jb-space
 
+		if Candidatos
+			h2 Candidatos à presente vaga
+			.jb-space.single
+			.vagas-listing
+				table
+					thead
+						tr
+							td #
+							td Nome
+							td Email
+							td Telefone
+							td Curriculum vitare
+
+					tbody
+						each Candidato, i in Candidatos
+							tr
+								td #{i+1}
+								td #{Candidato.primeiro_nome} #{Candidato.ultimo_nome}
+								td
+									a(href="mailto:" + Candidato.email) #{Candidato.email}
+								td #{Candidato.telefone}
+								td 
+									i(class="fa fa-file-text" aria-hidden="true")
+									a(target="_blank" href="/uploads/" + Candidato.curriculum_vitae) &nbsp; Abrir CV
+			.jb-space
+			
 		block erro
 			if formError
 				.erro #{formError}
@@ -27,6 +53,8 @@ block content
 				.col-left
 					label(for="") Tipo de contrato
 					select(name="tipoDeContrato")
+						option(value=Vaga.tipo_de_contrato) #{Vaga.tipo_de_contrato} (Actual)
+						option(value="")
 						option(value="Estágio") Estágio
 						option(value="Tempo determinado") Tempo determinado
 						option(value="Tempo indeterminado") Tempo indeterminado
@@ -41,11 +69,16 @@ block content
 			.form-inp
 				.col-left
 					label(for="") Área de actuação
-					include ../include/areaDeActuacao
+					select(name="areaDeActuacao")
+						option(value=Vaga.area_de_actuacao) #{Vaga.area_de_actuacao} (Actual)
+						include ../include/area-de-preferencia
 
 				.col-left
 					label(for="") Província
-					include ../include/provincias
+					select(name="provincias")
+						option(value=Vaga.provincia) #{Vaga.provincia} (Actual)
+						option(value="")
+						include ../include/onde-reside
 
 			.form-inp
 				.col-left 
@@ -58,7 +91,7 @@ block content
 
 			.form-inp
 				.col-left
-					label(for="") Quantidade de vagas disponíveis
+					label(for="") Quantidade de vagas disponíveis (Não editável)
 					input(type="number" disabled value=Vaga.quantidade_de_vagas name="quantidadeDeVagas" placeholder="1" min="1" max="100" required)
 				.col-left
 					label(for="") Data limite
@@ -67,7 +100,8 @@ block content
 				.col-left
 					label(for="") Nível académico
 					select(name="nivelAcademico" required)
-						option(value=Vaga.nivel_academico) (Actual) #{Vaga.nivel_academico}
+						option(value=Vaga.nivel_academico) #{Vaga.nivel_academico} (Actual)
+						option(value="")
 						option(value="Ensino de base") Ensino de base
 						option(value="Técnico médio") Técnico médio
 						option(value="Frequência universitária") Frequência universitária

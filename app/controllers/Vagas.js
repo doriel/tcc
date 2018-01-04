@@ -57,7 +57,10 @@ function __obterVaga(ID) { // Query para obter uma vaga
 
 	let sql = `SELECT idVaga, Empregador_idEmpregador, cargo, descricao, data_de_publicacao, provincia, tipo_de_contrato,
 	anos_de_experiencia, Vaga.area_de_actuacao, habilidades_necessarias, salario, quantidade_de_vagas, idiomas,
-	data_limite, nome FROM Vaga, Empregador WHERE idVaga = ? AND Empregador_idEmpregador = idEmpregador`;
+	data_limite, nome, nivel_academico
+	FROM Vaga, Empregador
+	WHERE idVaga = ?
+	AND Empregador_idEmpregador = idEmpregador`;
 
 	// Preparar a query
 	sql = db.format(sql, ID);
@@ -74,6 +77,22 @@ function __obterVaga(ID) { // Query para obter uma vaga
 
 		});
 
+	});
+}
+
+function __obterCandidatos(ID) {
+	return new Promise((resolve, reject) => {
+		let sql = `SELECT primeiro_nome, ultimo_nome, email, telefone, curriculum_vitae
+		FROM Candidato, Candidatura WHERE Candidatura.idVaga = ?
+		AND Candidatura.idCandidato = Candidato.idCandidato`;
+		sql = db.format(sql, ID);
+
+		db.query(sql, (err, Candidatos) => {
+			if(err) {reject(err);};
+
+			console.log(Candidatos);
+			resolve(Candidatos);
+		});
 	});
 }
 
@@ -135,7 +154,10 @@ module.exports.viewEditarVaga = (req, res) => {
 	.then(
 		(Vaga) => {
 			Vaga.data_limite = moment(Vaga.data_limite).format('YYYY-MM-DD');
-			res.render('empregador/editar-vaga', {Vaga});
+			__obterCandidatos(ID)
+			.then((Candidatos) => {
+				res.render('empregador/editar-vaga', {Vaga, Candidatos});
+			});
 		}
 	);
 
@@ -196,7 +218,7 @@ module.exports.editarVaga = (req, res) => {
 				anos_de_experiencia: anosDeExperiencia,
 				salario: salario,
 				area_de_actuacao: areaDeActuacao,
-				provincias: provincias,
+				provincia: provincias,
 				descricao: descricao,
 				habilidades_necessarias: habilidadesNecessarias,
 				quantidade_de_vagas: quantidadeDeVagas,
