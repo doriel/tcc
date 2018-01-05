@@ -53,6 +53,19 @@ module.exports.listarVagas = (req, res) => {
 * @params {Number} ID
 */
 
+function __checkCandidatura(IDcand, idVaga) {
+	return new Promise((resolve, reject) => {
+		let sql = `SELECT idCandidato FROM Candidatura WHERE idCandidato = ?
+		AND idVaga = ?`;
+		sql = db.format(sql, [IDcand, idVaga]);
+		db.query(sql, (err, idCandidato) => {
+			if(err) {reject(err);}
+			console.log(idCandidato);
+			resolve(idCandidato[0]);
+		});
+	});
+}
+
 function __obterVaga(ID) { // Query para obter uma vaga
 
 	let sql = `SELECT idVaga, Empregador_idEmpregador, cargo, descricao, data_de_publicacao, provincia, tipo_de_contrato,
@@ -89,8 +102,6 @@ function __obterCandidatos(ID) {
 
 		db.query(sql, (err, Candidatos) => {
 			if(err) {reject(err);};
-
-			console.log(Candidatos);
 			resolve(Candidatos);
 		});
 	});
@@ -111,7 +122,15 @@ module.exports.obterVaga = (req, res) => {
 			(Vaga) => {
 				// Formatar o número inteiro
 				Vaga.salario = Vaga.salario.toLocaleString("pt-PT", {style: 'currency', currency: 'AOA'});
-				res.render('vaga', {Vaga});
+				if(req.session.ID && req.session.tipoUtilizador == 'candidato') {
+					/* Invoca a função para verificar se o uitlizador já se candidatou a mesma vaga */
+					__checkCandidatura(req.session.ID, ID)
+					.then((idCandidato) => {
+						res.render('vaga', {Vaga, idCandidato});
+					});
+				} else {
+					res.render('vaga', {Vaga});
+				}
 			}
 		)
 	} else {
