@@ -35,12 +35,16 @@ block content
 						p Quantidade de vagas disponíveis: #{Vaga.quantidade_de_vagas}
 						
 						.jb-space.single
-						form(action="/candidato/enviar-candidatura" method="post")
-							input(type="hidden" name="idVaga" value=Vaga.idVaga)
-							input(type="hidden" name="idEmpregador" value=Vaga.Empregador_idEmpregador)
-							input(type="hidden" name="quantidadeDeVagas" value=Vaga.quantidade_de_vagas)
-							.form-inp
-								button.btn Enviar candidatura
+						if idCandidato
+							button.btn.disabled(disabled) Candidatura efectuada
+							
+						else
+							form(action="/candidato/enviar-candidatura" method="post")
+								input(type="hidden" name="idVaga" value=Vaga.idVaga)
+								input(type="hidden" name="idEmpregador" value=Vaga.Empregador_idEmpregador)
+								input(type="hidden" name="quantidadeDeVagas" value=Vaga.quantidade_de_vagas)
+								.form-inp
+									button.btn Enviar candidatura
 
 		else
 			h1 Nenhum vaga foi encontrada
