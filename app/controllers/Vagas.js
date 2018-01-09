@@ -17,32 +17,35 @@ module.exports.listarVagas = (req, res) => {
 		sql = db.format(sql, ID);
 	db.query(sql, (err, resultado) => {
 
-		if(resultado.length > 0){
+		if(resultado){
+			if(resultado.length > 0){
+				// Gerar um novo array com os dados da vaga
+				var Vagas = resultado.map((vaga) => {
+					
+					/* Dias restantes a partir da data limite e da 
+						data de publicacao
+					 */ 
+					let dataDePublicacao = moment(vaga.data_de_publicacao);
+					let dataLimite = moment(vaga.data_limite);
+					let diasRestantes = dataLimite.from(dataDePublicacao, true);
 
-			// Gerar um novo array com os dados da vaga
-			var Vagas = resultado.map((vaga) => {
-				
-				/* Dias restantes a partir da data limite e da 
-					data de publicacao
-				 */ 
-				let dataDePublicacao = moment(vaga.data_de_publicacao);
-				let dataLimite = moment(vaga.data_limite);
-				let diasRestantes = dataLimite.from(dataDePublicacao, true);
+					return {
+						ID: vaga.idVaga,
+						cargo: vaga.cargo,
+						dataDePublicacao: moment(vaga.data_de_publicacao).format('DD-MM-YYYY'),
+						estado: vaga.estado,
+						diasRestantes: diasRestantes
+					}
 
-				return {
-					ID: vaga.idVaga,
-					cargo: vaga.cargo,
-					dataDePublicacao: moment(vaga.data_de_publicacao).format('DD-MM-YYYY'),
-					estado: vaga.estado,
-					diasRestantes: diasRestantes
-				}
+				});
 
-			});
-
-			res.render('empregador/empregador-home', {Vagas});
+				res.render('empregador/empregador-home', {Vagas});
+			} else {
+				res.render('empregador/empregador-home');	
+			}
 
 		} else {
-			res.render('empregador/empregador-home', {Vagas});
+			res.render('empregador/empregador-home');
 		}
 	});
 
