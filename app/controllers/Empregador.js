@@ -26,14 +26,11 @@ module.exports.empregadorCriarConta = (req, res)=>{
 
 		if (err) throw err;
 
-		console.log(resultado.length);
-
 		if (resultado.length === 0) {
 
 			// Encriptar a password
 			password = bcrypt.hashSync(password);
-			console.log(password);
-
+			
 			// Salvar os dados do novo candidato na base de dados
 			let campos = [nome, nomeDoResponsavel, areaDeActuacao,
 			anoDeFundacao, emailDoResponsavel, password];
