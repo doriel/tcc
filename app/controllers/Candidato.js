@@ -31,7 +31,7 @@ module.exports.criarConta = (req, res) => {
 	dataDeNascimento = moment(dataDeNascimento).format('YYYY-MM-DD');
 
 	// Gerar código de confirmação aleatório segundo o MDN 
-	//let codConfirmacao = Math.floor(Math.random() * (999999 - 0) + 0);
+	let codConfirmacao = Math.floor(Math.random() * (999999 - 0) + 0);
 
 	// Consultar se já existe um utilizador na base de dados
 	let sqlEmail = `SELECT email FROM Candidato WHERE email = ?`;
@@ -60,7 +60,7 @@ module.exports.criarConta = (req, res) => {
 				if(err) throw err;
 
 				// Enviar o código de confirmação no mail do candidato
-				EnviarMail({
+				/*EnviarMail({
 					email: email,
 					titulo: 'Código de confirmação - Portal Jobz',
 					mensagem: `
@@ -70,7 +70,7 @@ module.exports.criarConta = (req, res) => {
 
 						Portal Jobz
 					`
-				});
+				});*/
 
 				// Salva os dados da sessão
 				req.session.email = email;
@@ -83,7 +83,7 @@ module.exports.criarConta = (req, res) => {
 			/*res.json({
 				message: 'Já existe um candidato registrado com esta conta de email'
 			});*/
-			res.render('criarconta', {erro: `Já existe um candidato registrado com esta conta de email: ${email}.`});
+			res.render('criarconta/candidato', {erro: `Já existe um candidato registrado com esta conta de email: ${email}.`});
 		}
 	});
 
@@ -102,17 +102,41 @@ module.exports.viewHomeAreaCandidato = (req, res) => {
 	AND Candidatura.idVaga = Vaga.idVaga;`;
 	sql = db.format(sql, req.session.ID);
 	db.query(sql, (err, Candidaturas) => {
-		if(Candidaturas.length > 0){
-			Candidaturas.map((candidatura) => {
-				candidatura.data_limite = moment(candidatura.data_limite).format('YYYY-MM-DD');
-				candidatura.data_da_candidatura = moment(candidatura.data_da_candidatura).format('YYYY-MM-DD');
-				return candidatura;
-			});
-			res.render('candidato/candidato-home', {Candidaturas});
+		if(Candidaturas){
+			if(Candidaturas.length > 0){
+				Candidaturas.map((candidatura) => {
+					candidatura.data_limite = moment(candidatura.data_limite).format('YYYY-MM-DD');
+					candidatura.data_da_candidatura = moment(candidatura.data_da_candidatura).format('YYYY-MM-DD');
+					return candidatura;
+				});
+				res.render('candidato/candidato-home', {Candidaturas});
+			} else {
+				res.render('candidato/candidato-home');
+			}
 		} else {
 			res.render('candidato/candidato-home');
 		}
 	});
+}
+
+/*
+*	viewMeuPerfil: Este módulo é responsável por renderizar a página
+* 	meu perfil do candidato.
+*/
+module.exports.viewMeuPerfil = (req, res) => {
+
+	let { ID } = req.session;
+
+	// Consultar o candidato candidato
+	__getCandidato(ID).then((Candidato) => {
+
+		__getFormacaoAcademica(ID)
+		.then((Formacao) => {
+			res.render('candidato/meu-perfil', {Candidato, Formacao})
+		});
+
+	});
+	
 }
 
 /*
