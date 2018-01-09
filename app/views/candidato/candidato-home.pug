@@ -5,7 +5,7 @@ block menu
 		ul
 			li
 				a(href="/candidato") CANDIDATURAS
-			li
+			//li
 				a(href="/candidato/meu-perfil") MEU PERFIL
 			li
 				a(href="/candidato/minha-conta") MINHA CONTA
@@ -24,7 +24,7 @@ block content
 							td #
 							td Cargo
 							td Data da candidatura
-							td Data limite
+							//td Data limite
 							//td Dias restantes
 							//td Estado
 							td Opções
@@ -36,7 +36,7 @@ block content
 								td 
 									a(href="/vaga/" + candidatura.idVaga) #{candidatura.cargo}
 								td #{candidatura.data_da_candidatura}
-								td #{candidatura.data_limite}
+								//td #{candidatura.data_limite}
 								td
 									a(href="/candidato/cancelar-candidatura/" + candidatura.idCandidatura + "/" + candidatura.idVaga) Cancelar a candidatura
 		else
