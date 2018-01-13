@@ -132,7 +132,16 @@ module.exports.viewMeuPerfil = (req, res) => {
 
 		__getFormacaoAcademica(ID)
 		.then((Formacao) => {
-			res.render('candidato/meu-perfil', {Candidato, Formacao})
+			console.log(Formacao);
+			ExpProfissional.listarExperiencias(ID)
+			.then((Experiencias) => {
+				res.render('candidato/meu-perfil', {
+					Candidato,
+					Formacao,
+					Experiencias
+				});
+			});
+
 		});
 
 	});
