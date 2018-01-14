@@ -5,8 +5,80 @@ block title
 
 block content
 	.pages.wrap
-		h1 #{Candidato.primeiro_nome} #{Candidato.ultimo_nome}
-		p Use o formulário abaixo para editar as suas informações.
-		.jb-space
+		.jb-space.single
+
+		.profile
+			.photo
+				img(src="/uploads/" + Candidato.foto_de_perfil, alt=Candidato.primeiro_nome)
+			.jb-space.single
+			h1 #{Candidato.primeiro_nome} #{Candidato.ultimo_nome}
+			span <i class="fa fa-map-marker" aria-hidden="true"></i> #{Candidato.provincia_onde_reside}, #{Candidato.morada}
 			
-		
+			.jb-space.single
+			span Nascido em: #{Candidato.data_de_nascimento}
+
+			.jb-space.single
+			span Natural de: #{Candidato.naturalidade}
+			br
+			span Nacionalidade: #{Candidato.nacionalidade}
+			.jb-space.single
+			span Genêro: #{Candidato.genero}
+
+			.jb-space.single
+			span Sobre: #{Candidato.biografia}
+			
+			.jb-space.single
+			span Disposição de realocação: #{Candidato.disposicao_de_realocacao}
+
+		.other-info
+			h1 Formação acadêmica
+			.jb-space.single
+			if Formacao
+				.vagas-listing
+					table
+						thead
+							tr
+								td Nome da instituicao
+								td Curso 
+								td Data de início
+								td Data de termino
+						tbody
+							each Instituto, i in Formacao
+								tr
+									td #{Instituto.nome_da_instituicao}
+									td #{Instituto.titulo_obtido}
+									td #{Instituto.ano_de_inicio}
+									td #{Instituto.ano_de_termino}
+			else
+				p O candidato ainda não adicionou nenhuma informação acadêmica
+			.jb-space
+
+			h1 Experiência profissional
+			.jb-space.single
+			if Experiencias
+				.vagas-listing
+					table
+						thead
+							tr
+								td Nome da empresa
+								td Função
+								td Data de início
+								td Data de termino
+						tbody
+							each Experiencia, i in Experiencias
+								tr
+									td #{Experiencia.nome_da_empresa}
+									td #{Experiencia.funcao}
+									td #{Experiencia.ano_de_inicio}
+									td #{Experiencia.ano_de_termino}
+			else
+				p O candidato ainda não adicionou nenhuma informação sobre a experiência profissional.
+			.jb-space
+
+			h1 Curriculum Vitae
+			.jb-space.single
+			if Candidato.curriculum_vitae
+				button.btn
+					a(target="_blank" href="/uploads/" + Candidato.curriculum_vitae) Abrir curriculum
+			else
+				p O candidato ainda não carregou o seu curriculum no seu perfil.
