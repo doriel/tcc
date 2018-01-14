@@ -52,10 +52,11 @@ module.exports.listarVagas = (req, res) => {
 }
 
 /*
-* removerVaga: Esta função é responsável por obter uma vaga com base num id
-* @params {Number} ID
+* __checkCandidatura: Esta função é responsável verificar se o utilizador já efectuou a 
+* candidatura sobre uma determinada vaga.
+* @params {Number} IDcand
+* @params {Number} idVaga
 */
-
 function __checkCandidatura(IDcand, idVaga) {
 	return new Promise((resolve, reject) => {
 		let sql = `SELECT idCandidato FROM Candidatura WHERE idCandidato = ?
@@ -69,6 +70,10 @@ function __checkCandidatura(IDcand, idVaga) {
 	});
 }
 
+/*
+* __obterVaga: Esta função é responsável por consultar uma vaga na base de dados
+* @params {Number} ID
+*/
 function __obterVaga(ID) { // Query para obter uma vaga
 
 	let sql = `SELECT idVaga, Empregador_idEmpregador, cargo, descricao, data_de_publicacao, provincia, tipo_de_contrato,
@@ -96,6 +101,11 @@ function __obterVaga(ID) { // Query para obter uma vaga
 	});
 }
 
+/*
+* __obterCandidatos: Esta função é responsável por obter os candidatos de uma determinada
+* vaga.
+* @params {Number} ID
+*/
 function __obterCandidatos(ID) {
 	return new Promise((resolve, reject) => {
 		let sql = `SELECT primeiro_nome, ultimo_nome, email, telefone, curriculum_vitae
