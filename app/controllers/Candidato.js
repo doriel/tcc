@@ -125,7 +125,11 @@ module.exports.viewHomeAreaCandidato = (req, res) => {
 */
 module.exports.viewMeuPerfil = (req, res) => {
 
-	let { ID } = req.session;
+	if (req.session.tipoUtilizador == "candidato") {
+		let { ID } = req.session;
+	}else {
+		let { ID } = req.params.id
+	}
 
 	// Consultar o candidato candidato
 	__getCandidato(ID).then((Candidato) => {
