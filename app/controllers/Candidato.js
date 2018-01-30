@@ -125,7 +125,32 @@ module.exports.viewHomeAreaCandidato = (req, res) => {
 */
 module.exports.viewMeuPerfil = (req, res) => {
 
-	let ID = req.session.ID; /*|| req.params.id;*/
+	let ID = req.session.ID
+
+	// Consultar o candidato candidato
+	__getCandidato(ID).then((Candidato) => {
+
+		__getFormacaoAcademica(ID)
+		.then((Formacao) => {
+			console.log(Formacao);
+			ExpProfissional.listarExperiencias(ID)
+			.then((Experiencias) => {
+				res.render('candidato/meu-perfil', {
+					Candidato,
+					Formacao,
+					Experiencias
+				});
+			});
+
+		});
+
+	});
+	
+}
+
+module.exports.viewMeuPerfilCandidato = (req, res) => {
+
+	let ID = req.params.ID
 
 	// Consultar o candidato candidato
 	__getCandidato(ID).then((Candidato) => {
@@ -594,5 +619,32 @@ module.exports.carregarFotografia = (req, res) => {
 			formError: 'O formato do ficheiro não é suportado. Faça upload de ficheiros .jpg/.png'
 		});
 	}
+
+}
+
+/*
+* Módulo para processar o formulário de pesquisa de candidatos
+*/
+module.exports.pesquisarCandidatos = (req, res) => {
+
+	// Filtros
+	let nacionalidade = '%' + req.body.nacionalidade + '%';
+	let	provincia = '%' + req.body.provincias + '%';
+	let	areaDePreferencia = '%' + req.body.areaDePreferencia + '%';
+
+	let campos = [nacionalidade, provincia, areaDePreferencia];
+	let sql = `SELECT * FROM Candidato WHERE
+	nacionalidade LIKE ? AND provincia_onde_reside LIKE ? AND area_de_preferencia LIKE ?`;
+	sql = db.format(sql, campos);
+	db.query(sql, (err, Candidatos) => {
+		if(err) throw err;
+		if(Candidatos.length > 0){
+			res.render('empregador/resultados-pesquisa', {Candidatos});
+		} else {
+			res.render('empregador/resultados-pesquisa', {
+				semVagas: 'Nenhum candidato encontrado.'
+			});
+		}
+	});
 
 }

@@ -124,6 +124,8 @@ module.exports = (app) => {
 	app.get('/empregador/minha-conta/alterar-password', Empregador.viewAlterarPassword)
 	app.post('/empregador/minha-conta/alterar-password', Empregador.alterarPassword)
 	app.get('/empregador/pesquisar-candidatos', Candidato.listarCandidatos);
+	app.post('/empregador/pesquisar-candidatos', Candidato.pesquisarCandidatos);
+	app.get('/empregador/candidato/:ID', Candidato.viewMeuPerfilCandidato);
 
 	// Vagas
 	app.get('/vaga/:idVaga', Vagas.obterVaga)
