@@ -64,9 +64,9 @@ block content
 							option(value=Candidato.disposicao_de_realocacao) #{Candidato.disposicao_de_realocacao} (Actual)
 						option(value="Sim") Sim
 						option(value="Não") Não
-				.col-left
-					label Fotografia
-					input(type="file" name="foto_de_perfil")
+				//.col-left
+					label Área de preferência
+					input(type="file" name="area")
 
 			.jb-space.single
 			h2 Formação academica
@@ -188,7 +188,7 @@ block content
 			.form-inp
 				.col-left
 					label Email
-					input(type="email" name="email" min="8" max="45" required value=Candidato.email)
+					input(type="email" name="email" disabled min="8" max="45" required value=Candidato.email)
 				.col-left
 					label Telefone
 					input(type="number" name="telefone" minlength="9" maxlength="13" required value=Candidato.telefone)
