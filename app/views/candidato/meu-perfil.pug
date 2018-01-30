@@ -9,7 +9,10 @@ block content
 
 		.profile
 			.photo
-				img(src="/uploads/" + Candidato.foto_de_perfil, alt=Candidato.primeiro_nome)
+				if Candidato.foto_de_perfil
+					img(src="/uploads/" + Candidato.foto_de_perfil, alt=Candidato.primeiro_nome)
+				else
+					img(src="/img/default.jpg", alt=Candidato.primeiro_nome)
 			.jb-space.single
 			h1 #{Candidato.primeiro_nome} #{Candidato.ultimo_nome}
 			span <i class="fa fa-map-marker" aria-hidden="true"></i> #{Candidato.provincia_onde_reside}, #{Candidato.morada}
@@ -34,7 +37,8 @@ block content
 			span Telefone alternativo: #{Candidato.telefone_alternativo}
 
 			.jb-space.single
-			span Email: #{Candidato.email}
+			span Email: 
+				a(href='mailto:' + Candidato.email) #{Candidato.email}
 
 		.other-info
 			h1 Formação acadêmica
