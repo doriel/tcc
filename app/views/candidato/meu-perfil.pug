@@ -25,10 +25,16 @@ block content
 			span Genêro: #{Candidato.genero}
 
 			.jb-space.single
-			span Sobre: #{Candidato.biografia}
-			
-			.jb-space.single
 			span Disposição de realocação: #{Candidato.disposicao_de_realocacao}
+
+			.jb-space.single
+			span Telefone: #{Candidato.telefone}
+
+			.jb-space.single
+			span Telefone alternativo: #{Candidato.telefone_alternativo}
+
+			.jb-space.single
+			span Email: #{Candidato.email}
 
 		.other-info
 			h1 Formação acadêmica
@@ -82,3 +88,10 @@ block content
 					a(target="_blank" href="/uploads/" + Candidato.curriculum_vitae) Abrir curriculum
 			else
 				p O candidato ainda não carregou o seu curriculum no seu perfil.
+
+			.jb-space
+			.jb-space
+
+			h1 Sobre o candidato
+			.jb-space.single
+			div #{Candidato.biografia}
