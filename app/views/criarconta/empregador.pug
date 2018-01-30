@@ -18,10 +18,10 @@ block form
 		.form-inp
 			.col-left
 				label Nome da empresa
-				input(type="text" name="nome" required placeholder="Nome da empresa")
+				input(type="text" name="nome" required placeholder="Nome da empresa" minlength="3" maxlength="45")
 			.col-left
 				label Nome do responsável
-				input(type="text" name="nomeDoResponsavel" required placeholder="Nome do responsável")
+				input(type="text" name="nomeDoResponsavel" required placeholder="Nome do responsável" minlength="3" maxlength="45")
 		.form-inp
 			.col-left
 				label Ano de fundação
@@ -38,9 +38,9 @@ block form
 		.form-inp
 			.col-left
 				label Email
-				input(type="email" name="emailDoResponsavel" required placeholder="Email")
+				input(type="email" name="emailDoResponsavel" required placeholder="Email" minlength="3" maxlength="45")
 			.col-left
 				label Password
-				input(type="password" name="password" required placeholder="*********")
+				input(type="password" name="password" required placeholder="*********" minlength="8" maxlength="20")
 		.form-inp
 			button Criar conta

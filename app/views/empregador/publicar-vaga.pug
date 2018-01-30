@@ -14,10 +14,10 @@ block content
 			.form-inp
 				.col-left
 					label(for="") Cargo
-					input(type="text" name="cargo" required placeholder="Cargo")
+					input(type="text" name="cargo" required placeholder="Cargo" minlength="3" maxlength="45")
 				.col-left
 					label(for="") Tipo de contrato
-					select(name="tipoDeContrato")
+					select(name="tipoDeContrato" required)
 						option(value="Estágio") Estágio
 						option(value="Tempo determinado") Tempo determinado
 						option(value="Tempo indeterminado") Tempo indeterminado
@@ -25,14 +25,14 @@ block content
 			.form-inp
 				.col-left
 					label(for="") Anos de experiência
-					input(type="number" name="anosDeExperiencia" required placeholder="Anos de experiência")
+					input(type="number" name="anosDeExperiencia" required placeholder="Anos de experiência" min="0" max="30")
 				.col-left
 					label(for="") Salário
-					input(type="number" name="salario" placeholder="130.000 KZ")
+					input(type="number" name="salario" placeholder="130.000 KZ" min="0" max="3000000")
 			.form-inp
 				.col-left
 					label(for="") Área de actuação
-					select(name="areaDeActuacao")
+					select(name="areaDeActuacao" required)
 						include ../include/area-de-preferencia
 
 				.col-left
@@ -42,7 +42,7 @@ block content
 			.form-inp
 				.col-left 
 					label(for="") Descrição da função
-					textarea(name="descricao", cols="30", rows="10" maxlength="1000" placeholder="Descrição da função")
+					textarea(name="descricao", cols="30", rows="10" required maxlength="1000" placeholder="Descrição da função")
 
 				.col-left 
 					label(for="") Habilidades necessárias (PHP, MySQL, Word, Excel, Photoshop)

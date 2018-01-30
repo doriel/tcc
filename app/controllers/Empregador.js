@@ -56,10 +56,10 @@ module.exports.empregadorCriarConta = (req, res)=>{
 				});
 
 				// Gravar os dados na sessão
-				req.session.email = emailDoResponsavel;
-				req.session.nome = nomeDoResponsavel;
+				//req.session.email = emailDoResponsavel;
+				//req.session.nome = nomeDoResponsavel;
 				req.session.tipoUtilizador = 'empregador';
-				res.redirect('/empregador');
+				res.redirect('/criarconta/sucesso');
 			});
 		} else {
 			res.render('criarconta/empregador', {

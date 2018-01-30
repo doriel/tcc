@@ -59,7 +59,7 @@ module.exports = (app) => {
 	app.post('/criarconta/candidato', Validation(fields.criarConta), Candidato.criarConta);
 
 	app.get('/criarconta/sucesso', (req, res) => {
-		if (req.session.email) {
+		if (req.session.tipoUtilizador) {
 			res.render('criarconta/sucesso', {
 				tipoUtilizador: req.session.tipoUtilizador
 			});
@@ -136,6 +136,6 @@ module.exports = (app) => {
 	app.post('/empregador/editar-vaga/', Vagas.editarVaga);
 
 	// 404
-	app.get('*', (req, res) => { res.redirect('/'); });
+	app.get('*', (req, res) => { res.render('404'); });
 
 }

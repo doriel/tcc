@@ -16,10 +16,10 @@ block form
 		.form-inp
 			.col-left
 				label Primeiro nome
-				input(type="text" name="primeiroNome" required placeholder="Primeiro nome" class="jbz-inp")
+				input(type="text" name="primeiroNome" required placeholder="Primeiro nome" class="jbz-inp" minlength="3" maxlength="45")
 			.col-left
 				label Último nome
-				input(type="text" name="ultimoNome" required placeholder="Último nome" class="jbz-inp")
+				input(type="text" name="ultimoNome" required placeholder="Último nome" class="jbz-inp" minlength="3" maxlength="45")
 
 		.form-inp
 			.col-left
@@ -38,16 +38,17 @@ block form
 
 			.col-left
 				label Naturalidade
-				input(type="text" name="naturalidade" required placeholder="Naturalidade" class="jbz-inp")
+				input(type="text" name="naturalidade" required placeholder="Naturalidade" class="jbz-inp" minlength="3" maxlength="45")
 			
 		.form-inp
 			.col-left
 				label Província onde reside
-				input(type="text" name="provinciaOndeReside" required placeholder="Província onde reside" class="jbz-inp")
-
+				select(name="provinciaOndeReside" required)
+					include ../include/pronvicia-onde-reside
+				
 			.col-left
 				label Morada
-				input(type="text" name="morada" required placeholder="Morada")
+				input(type="text" name="morada" required placeholder="Morada" minlength="3" maxlength="45")
 
 		.form-title
 			h2 Informações de contacto
@@ -55,19 +56,20 @@ block form
 		.form-inp
 			.col-left
 				label Telefone
-				input(type="number" name="telefone" placeholder="Telefone")
+				input(type="number" name="telefone" placeholder="Telefone" minlength="9" maxlength="13")
 
 			.col-left
 				label Telefone alternativo
-				input(type="number" name="telefoneAlternativo" placeholder="Telefone alternativo")
+				input(type="number" name="telefoneAlternativo" placeholder="Telefone alternativo" minlength="9" maxlength="13")
 
 		.form-inp
-			label Email
-			input(type="email" required name="email" placeholder="Email" class="jbz-inp")
+			.col-left
+				label Email
+				input(type="email" required name="email" placeholder="Email" class="jbz-inp" minlength="3" maxlength="45")
 
-		.form-inp
-			label Password
-			input(type="password" required name="password" placeholder="*********" class="jbz-inp")
+			.col-left
+				label Password
+				input(type="password" required name="password" placeholder="*********" class="jbz-inp" minlength="8" maxlength="20")
 				
 		.form-inp
-			button CRIAR CONTA
+			button Criar conta

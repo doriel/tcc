@@ -73,8 +73,8 @@ module.exports.criarConta = (req, res) => {
 				});*/
 
 				// Salva os dados da sessão
-				req.session.email = email;
-				req.session.primeiroNome = primeiroNome;
+				//req.session.email = email;
+				//req.session.primeiroNome = primeiroNome;
 				req.session.tipoUtilizador = 'candidato';
 				res.redirect('/criarconta/sucesso');
 			});
@@ -153,23 +153,25 @@ module.exports.viewMeuPerfilCandidato = (req, res) => {
 	let ID = req.params.ID
 
 	// Consultar o candidato candidato
-	__getCandidato(ID).then((Candidato) => {
-
-		__getFormacaoAcademica(ID)
-		.then((Formacao) => {
-			console.log(Formacao);
-			ExpProfissional.listarExperiencias(ID)
-			.then((Experiencias) => {
-				res.render('candidato/meu-perfil', {
-					Candidato,
-					Formacao,
-					Experiencias
+	__getCandidato(ID).then(
+		(Candidato) => {
+			__getFormacaoAcademica(ID)
+			.then((Formacao) => {
+				console.log(Formacao);
+				ExpProfissional.listarExperiencias(ID)
+				.then((Experiencias) => {
+					res.render('candidato/meu-perfil', {
+						Candidato,
+						Formacao,
+						Experiencias
+					});
 				});
 			});
-
-		});
-
-	});
+		},
+		(err) => {
+			res.render('404');
+		}
+	);
 	
 }
 
@@ -357,8 +359,12 @@ function __getCandidato(ID) {
 			if (err) {
 				reject(err);
 			}
-			Candidato[0].data_de_nascimento = moment(Candidato[0].data_de_nascimento).format('YYYY-MM-DD');
-			resolve(Candidato[0]);
+			if(Candidato.length > 0){
+				Candidato[0].data_de_nascimento = moment(Candidato[0].data_de_nascimento).format('YYYY-MM-DD');
+				resolve(Candidato[0]);
+			} else {
+				reject()
+			}
 		})
 
 	});

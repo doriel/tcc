@@ -23,7 +23,7 @@ block content
 			.form-inp
 				.col-left
 					label Nome
-					input(type="text" name="nome" placeholder="Nome" value!=""+Empregador.nome required)
+					input(type="text" name="nome" placeholder="Nome" value!=""+Empregador.nome required minlength="3" maxlength="45")
 
 				.col-left
 					label Ano de fundação
@@ -37,7 +37,7 @@ block content
 			.form-inp
 				.col-left
 					label Número de funcionários
-					input(type="number" name="numeroDeFuncionarios" required min="0" value!=""+Empregador.numero_de_funcionarios)
+					input(type="number" min="1" max="5000" name="numeroDeFuncionarios" required min="0" value!=""+Empregador.numero_de_funcionarios)
 
 				.col-left
 					label Área de actuação
@@ -57,20 +57,20 @@ block content
 			.form-inp
 				.col-left
 					label Nome do responsável
-					input(type="text" name="nomeDoResponsavel" required value!=""+Empregador.nome_do_responsavel)
+					input(type="text" name="nomeDoResponsavel" minlength="3" maxlength="45" required value!=""+Empregador.nome_do_responsavel)
 
 				.col-left
 					label Email do responsável
-					input(type="email" name="emailDoResponsavel" required value!=""+Empregador.email_do_responsavel)
+					input(type="email" name="emailDoResponsavel" minlength="3" maxlength="45" required value!=""+Empregador.email_do_responsavel)
 
 			.form-inp
 				.col-left
 					label Email da empresa
-					input(type="email" name="email" required value!=""+Empregador.email)
+					input(type="email" name="email" minlength="3" maxlength="45" required value!=""+Empregador.email)
 
 				.col-left
 					label Contacto
-					input(type="number" name="contacto" required value!=""+Empregador.contacto)
+					input(type="number" name="contacto" min="9" max="13" required value!=""+Empregador.contacto)
 
 			.form-inp.links
 				.form-inp
@@ -84,7 +84,7 @@ block content
 
 					.col-left
 						label Endereço
-						input(type="text" name="link" placeholder="Link")
+						input(type="text" name="link" minlength="3" maxlength="45" placeholder="Link")
 
 
 			.form-inp

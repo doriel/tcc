@@ -92,9 +92,14 @@ function __obterVaga(ID) { // Query para obter uma vaga
 		db.query(sql, (err, vaga) => {
 
 			if(err) { reject(err); }
-			// Formatar campo data de publicação
-			vaga[0].data_de_publicacao = moment(vaga[0].data_de_publicacao).format('DD-MM-YYYY');
-			resolve(vaga[0]);
+
+			if(vaga.length > 0){
+				// Formatar campo data de publicação
+				vaga[0].data_de_publicacao = moment(vaga[0].data_de_publicacao).format('DD-MM-YYYY');
+				resolve(vaga[0]);
+			} else {
+				reject();
+			}
 
 		});
 
@@ -144,6 +149,9 @@ module.exports.obterVaga = (req, res) => {
 				} else {
 					res.render('vaga', {Vaga});
 				}
+			},
+			(err) => {
+				res.render('404');
 			}
 		)
 	} else {
@@ -187,9 +195,14 @@ module.exports.viewEditarVaga = (req, res) => {
 		(Vaga) => {
 			Vaga.data_limite = moment(Vaga.data_limite).format('YYYY-MM-DD');
 			__obterCandidatos(ID)
-			.then((Candidatos) => {
-				res.render('empregador/editar-vaga', {Vaga, Candidatos});
-			});
+			.then(
+				(Candidatos) => {
+					res.render('empregador/editar-vaga', {Vaga, Candidatos});
+				}
+			);
+		},
+		(err) => {
+			res.render('404');
 		}
 	);
 
