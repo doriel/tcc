@@ -20,19 +20,23 @@ block content
 							td Nome
 							td Email
 							td Telefone
-							td Curriculum vitare
+							td Curriculum vitae
 
 					tbody
 						each Candidato, i in Candidatos
 							tr
 								td #{i+1}
-								td #{Candidato.primeiro_nome} #{Candidato.ultimo_nome}
+								td 
+									a(href="/empregador/candidato/" + Candidato.idCandidato) #{Candidato.primeiro_nome} #{Candidato.ultimo_nome}
 								td
 									a(href="mailto:" + Candidato.email) #{Candidato.email}
 								td #{Candidato.telefone}
 								td 
-									i(class="fa fa-file-text" aria-hidden="true")
-									a(target="_blank" href="/uploads/" + Candidato.curriculum_vitae) &nbsp; Abrir CV
+									if Candidato.curriculum_vitae
+										i(class="fa fa-file-text" aria-hidden="true")
+										a(target="_blank" href="/uploads/" + Candidato.curriculum_vitae) &nbsp; Abrir CV
+									else 
+										span CV indisponível
 			.jb-space
 			
 		block erro

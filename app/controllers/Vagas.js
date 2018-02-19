@@ -113,8 +113,7 @@ function __obterVaga(ID) { // Query para obter uma vaga
 */
 function __obterCandidatos(ID) {
 	return new Promise((resolve, reject) => {
-		let sql = `SELECT primeiro_nome, ultimo_nome, email, telefone, curriculum_vitae
-		FROM Candidato, Candidatura WHERE Candidatura.idVaga = ?
+		let sql = `SELECT * FROM Candidato, Candidatura WHERE Candidatura.idVaga = ?
 		AND Candidatura.idCandidato = Candidato.idCandidato`;
 		sql = db.format(sql, ID);
 
